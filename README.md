@@ -5,26 +5,27 @@ TrailSage AI is an Android-only offline-first GPS audio tour guide: **Your priva
 ## Build
 
 ```powershell
+$env:JAVA_HOME="H:\TrailSage-AI\.jdk\jdk-21.0.11+10" # or any JDK 21
 .\gradlew.bat testDebugUnitTest assembleDebug
 adb -s 37220DLJG001ML install -r app\build\outputs\apk\debug\app-debug.apk
 ```
 
-The normal debug build needs no secret. Place an untracked `app/google-services.json` only when connecting Firebase. Large AI, voice, native runtime, and PMTiles assets are manifest-driven external downloads and are not committed.
+The normal debug build needs no secret. Place an untracked `app/google-services.json` only when connecting Firebase locally. The app uses Kotlin 2.2, JDK 21 for the build JVM, Android SDK 36, and Java 17 Android source compatibility.
 
 ## Included
 
 - Compose Material 3 setup gate and Stitch-derived screens
+- Room database, Hilt graph, ViewModels, WorkManager, DataStore, Flow, Navigation Compose
 - SHA-256 asset manifests and resumable WorkManager downloader
-- RAG-first local AI abstraction with compile-safe LiteRT-LM adapter
-- Neural-first TTS selection with opt-in Android TTS fallback
+- Real LiteRT-LM Android SDK with Gemma 4 E2B model lifecycle
+- Bundled Sherpa-ONNX Android `v1.13.2` runtime with neural-first VITS/Piper voice playback
 - GPS radius and bearing trigger engine
-- Public-source Adirondack High Peaks Loop demo pack
+- Public-source Adirondack High Peaks Loop pack with verified OSM-derived PMTiles extract
 - Python Wikimedia/OSM tour-pack builder
 - Firebase Spark-compatible SDK dependencies and setup documentation
 
 See [`docs/`](docs), [`PRIVACY.md`](PRIVACY.md), and [`ATTRIBUTION.md`](ATTRIBUTION.md). No paid API or API-key-required content service is used.
 
-## Known Limitations
+## Production Asset Notes
 
-The checked-in PMTiles file and runtime adapters are explicit demo placeholders. A production build must package the Sherpa Android native runtime, wire the current LiteRT-LM Android binding, download verified model assets, and build a real local OSM PMTiles extract.
-
+Gemma and the LibriTTS neural voice archive are too large to commit and are downloaded through exact manifests with SHA-256 verification. Setup remains locked until required production assets verify. The debug APK includes the Sherpa native runtime and a real Adirondack PMTiles extract.

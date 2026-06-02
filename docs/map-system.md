@@ -1,2 +1,2 @@
 # Map System
-Production packs contain local PMTiles built from OSM-derived extracts and displayed with MapLibre Native Android. The current UI exposes a route and POI list fallback when valid PMTiles rendering is unavailable.
+Production packs contain local PMTiles built from OSM-derived extracts and displayed with MapLibre Native Android. The bundled Adirondack sample map was extracted from the public Protomaps OSM-derived `20260602.pmtiles` build with `go-pmtiles v1.30.3`, verified locally, and is rendered through a `pmtiles://file://` MapLibre style when valid. The route/POI list fallback is used only when a pack has no valid local tile archive.

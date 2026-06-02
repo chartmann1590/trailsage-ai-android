@@ -1,5 +1,6 @@
 package com.charles.trailsage.ui
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -9,24 +10,35 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.preferencesDataStore
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 private val Forest = Color(0xFF1B3022)
 private val Sandstone = Color(0xFFD9C5B2)
 private val Gold = Color(0xFFFFB84D)
 private val Blue = Color(0xFF4A90E2)
 private val OffWhite = Color(0xFFFBF9F4)
+private val Context.trailSageDataStore by preferencesDataStore("trailsage_settings")
+private val SetupCompleteKey = booleanPreferencesKey("setup_complete")
 
 @Composable fun TrailSageApp() {
-    var setupComplete by remember { mutableStateOf(false) }
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val setupComplete by context.trailSageDataStore.data.map { it[SetupCompleteKey] ?: false }.collectAsState(initial = false)
+    val saveSetup: (Boolean) -> Unit = { value -> scope.launch { context.trailSageDataStore.edit { it[SetupCompleteKey] = value } } }
     MaterialTheme(colorScheme = lightColorScheme(primary = Forest, secondary = Sandstone, tertiary = Gold, background = OffWhite)) {
         Surface(Modifier.fillMaxSize(), color = OffWhite) {
-            if (setupComplete) MainNavGraph { setupComplete = false } else SetupNavGraph { setupComplete = true }
+            if (setupComplete) MainNavGraph { saveSetup(false) } else SetupNavGraph { saveSetup(true) }
         }
     }
 }

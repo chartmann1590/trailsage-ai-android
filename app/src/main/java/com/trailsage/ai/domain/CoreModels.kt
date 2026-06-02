@@ -50,6 +50,6 @@ object ProductionAssets {
     const val GEMMA_REVISION = "7fa1d78473894f7e736a21d920c3aa80f950c0db"
     const val GEMMA_SIZE_BYTES = 2_583_085_056L
     const val GEMMA_SHA256 = "ab7838cdfc8f77e54d8ca45eadceb20452d9f01e4bfade03e5dce27911b27e42"
-    const val GEMMA_URL = "https://huggingface.co/litert-community/gemma-4-E2B-it-litert-lm/resolve/$GEMMA_REVISION/model.task"
+    const val GEMMA_URL = "https://huggingface.co/litert-community/gemma-4-E2B-it-litert-lm/resolve/$GEMMA_REVISION/gemma-4-E2B-it.litertlm"
     const val SHERPA_ONNX_VERSION = "1.13.2"
 }

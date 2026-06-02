@@ -7,6 +7,7 @@ import com.charles.trailsage.downloads.AssetVerificationManager
 import com.charles.trailsage.gps.BearingCalculator
 import com.charles.trailsage.gps.StoryTriggerEngine
 import com.charles.trailsage.tts.*
+import com.charles.trailsage.tour.TourPackValidator
 import org.junit.Assert.*
 import org.junit.Test
 import java.io.ByteArrayInputStream
@@ -31,9 +32,19 @@ class CoreLogicTest {
         assertEquals("a", SimpleKeywordRagRetriever(chunks).retrieve("Tell me about Cascade Lakes").first().id)
     }
     @Test fun ttsUsesNeuralBeforeExplicitFallback() {
-        val android = AndroidSystemTtsFallbackEngine(true)
+        val android = object : TtsEngine { override val id = "android-system"; override val isNeural = false; override fun available() = true; override fun speak(text: String) = true }
         assertNull(TtsManager(listOf(android), allowAndroidFallback = false).select())
         assertEquals("android-system", TtsManager(listOf(android), allowAndroidFallback = true).select()?.id)
         assertEquals("sherpa-onnx", TtsManager(listOf(android, SherpaOnnxTtsEngine(true)), allowAndroidFallback = true).select()?.id)
+    }
+    @Test fun tourPackValidatorFindsMissingFiles() {
+        val dir = kotlin.io.path.createTempDirectory().toFile()
+        assertFalse(TourPackValidator.isValid(dir))
+        assertTrue(TourPackValidator.missingFiles(dir).contains("manifest.json"))
+    }
+    @Test fun setupRejectsDemoPlaceholderMap() {
+        val assets = listOf(AssetType.GEMMA_MODEL, AssetType.LITERT_ASSET, AssetType.TTS_ENGINE, AssetType.VOICE_PACK, AssetType.TOUR_PACK, AssetType.MAP_PACK, AssetType.RAG_PACK).map(::asset)
+        val demoMap = assets.map { if (it.type == AssetType.MAP_PACK) it.copy(verified = false) else it }
+        assertFalse(SetupGate.canComplete(demoMap, listOf(VoicePack("voice", "Natural", "sherpa-onnx", true, true))))
     }
 }

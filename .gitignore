@@ -8,4 +8,6 @@ google-services.json
 *.jks
 *.keystore
 tourpack-cache/
-
+.jdk/
+tools/pmtiles/
+.kotlin/

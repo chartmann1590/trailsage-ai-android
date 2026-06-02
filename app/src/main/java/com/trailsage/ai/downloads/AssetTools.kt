@@ -3,6 +3,12 @@ package com.charles.trailsage.downloads
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import androidx.hilt.work.HiltWorker
+import androidx.work.workDataOf
+import com.charles.trailsage.data.local.DownloadEntity
+import com.charles.trailsage.data.local.TrailSageDao
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import com.charles.trailsage.domain.AssetType
 import com.charles.trailsage.domain.RequiredAsset
 import org.json.JSONArray
@@ -47,8 +53,14 @@ object AssetManifestParser {
     }
 }
 
-class DownloadWorker(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
+@HiltWorker
+class DownloadWorker @AssistedInject constructor(
+    @Assisted context: Context,
+    @Assisted params: WorkerParameters,
+    private val dao: TrailSageDao
+) : CoroutineWorker(context, params) {
     override suspend fun doWork(): Result {
+        val assetId = inputData.getString("assetId") ?: return Result.failure()
         val url = inputData.getString("url") ?: return Result.failure()
         val relativePath = inputData.getString("localPath") ?: return Result.failure()
         val checksum = inputData.getString("sha256") ?: return Result.failure()
@@ -59,11 +71,29 @@ class DownloadWorker(context: Context, params: WorkerParameters) : CoroutineWork
         if (offset > 0) connection.setRequestProperty("Range", "bytes=$offset-")
         connection.connect()
         if (connection.responseCode !in listOf(200, 206)) return Result.retry()
+        dao.upsertDownload(DownloadEntity(assetId, assetId, "DOWNLOADING", offset, connection.contentLengthLong + offset, id.toString()))
         FileOutputStream(partial, offset > 0 && connection.responseCode == 206).buffered().use { output ->
-            connection.inputStream.use { it.copyTo(output) }
+            connection.inputStream.use { input ->
+                val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+                var total = offset
+                while (true) {
+                    val count = input.read(buffer)
+                    if (count < 0) break
+                    output.write(buffer, 0, count)
+                    total += count
+                    setProgress(workDataOf("bytesDownloaded" to total))
+                    dao.upsertDownload(DownloadEntity(assetId, assetId, "DOWNLOADING", total, connection.contentLengthLong + offset, id.toString()))
+                }
+            }
         }
-        if (!AssetVerificationManager.verify(partial, checksum)) return Result.failure()
+        if (!AssetVerificationManager.verify(partial, checksum)) {
+            dao.upsertDownload(DownloadEntity(assetId, assetId, "FAILED", error = "SHA-256 verification failed"))
+            return Result.failure()
+        }
         if (!partial.renameTo(target)) return Result.failure()
+        if (assetId == "en-us-libritts-r-medium") ArchiveExtractor.extractTarBz2(target, File(applicationContext.filesDir, "voices/en-us-libritts-r-medium"))
+        dao.markAsset(assetId, installed = true, verified = true)
+        dao.upsertDownload(DownloadEntity(assetId, assetId, "COMPLETE", target.length(), target.length(), id.toString()))
         return Result.success()
     }
 }

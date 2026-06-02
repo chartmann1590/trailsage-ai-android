@@ -1,0 +1,10 @@
+<defaultsMap>
+    <entry><key>required_setup_enabled</key><value>true</value></entry>
+    <entry><key>minimum_free_storage_mb</key><value>4096</value></entry>
+    <entry><key>allow_android_tts_fallback</key><value>false</value></entry>
+    <entry><key>enable_neural_tts</key><value>true</value></entry>
+    <entry><key>default_narration_style</key><value>friendly</value></entry>
+    <entry><key>max_ai_response_tokens</key><value>512</value></entry>
+    <entry><key>gps_trigger_radius_meters</key><value>180</value></entry>
+    <entry><key>download_wifi_only_default</key><value>true</value></entry>
+</defaultsMap>

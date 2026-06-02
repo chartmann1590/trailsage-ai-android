@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TrailSage AI - Explore</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary": "#ffffff",
+                        "on-background": "#1b1c19",
+                        "secondary-fixed": "#f4dfcb",
+                        "surface-container-low": "#f5f3ee",
+                        "tertiary-container": "#3f2700",
+                        "secondary-container": "#f4dfcb",
+                        "primary-fixed": "#d0e9d4",
+                        "primary-fixed-dim": "#b4cdb8",
+                        "on-primary-fixed": "#0b2013",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#c3c8c1",
+                        "background": "#fbf9f4",
+                        "primary-container": "#1b3022",
+                        "surface-bright": "#fbf9f4",
+                        "on-tertiary-container": "#c5871d",
+                        "error": "#ba1a1a",
+                        "inverse-on-surface": "#f2f1ec",
+                        "tertiary-fixed": "#ffddb3",
+                        "on-tertiary-fixed-variant": "#633f00",
+                        "on-surface": "#1b1c19",
+                        "on-primary-fixed-variant": "#364c3c",
+                        "primary": "#061b0e",
+                        "outline": "#737973",
+                        "on-surface-variant": "#434843",
+                        "on-secondary": "#ffffff",
+                        "surface-container-highest": "#e4e2dd",
+                        "on-tertiary-fixed": "#291800",
+                        "on-secondary-fixed-variant": "#524436",
+                        "tertiary": "#241400",
+                        "surface": "#fbf9f4",
+                        "tertiary-fixed-dim": "#ffb951",
+                        "error-container": "#ffdad6",
+                        "surface-dim": "#dbdad5",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#819986",
+                        "secondary-fixed-dim": "#d7c3b0",
+                        "on-secondary-fixed": "#241a0e",
+                        "inverse-primary": "#b4cdb8",
+                        "surface-container": "#f0eee9",
+                        "secondary": "#6b5c4c",
+                        "inverse-surface": "#30312e",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "surface-container-high": "#eae8e3",
+                        "on-secondary-container": "#716252",
+                        "surface-variant": "#e4e2dd",
+                        "surface-tint": "#4d6453"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding-mobile": "20px",
+                        "unit": "8px",
+                        "safe-area-bottom": "32px",
+                        "gutter": "16px",
+                        "touch-target-min": "48px",
+                        "container-padding-desktop": "40px"
+                    },
+                    "fontFamily": {
+                        "label-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "title-lg": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen pb-[100px] font-body-md">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-container-padding-mobile h-touch-target-min backdrop-blur-xl bg-white/70 dark:bg-black/70">
+<button class="flex items-center justify-center w-[48px] h-[48px] text-primary hover:opacity-80 scale-95 duration-200 transition-all">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">signal_cellular_alt</span>
+</button>
+<div class="font-headline-md text-headline-md font-bold text-primary">TrailSage AI</div>
+<button class="flex items-center justify-center w-[48px] h-[48px] text-primary hover:opacity-80 scale-95 duration-200 transition-all">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">offline_pin</span>
+</button>
+</header>
+<main class="pt-[80px] px-container-padding-mobile md:px-container-padding-desktop max-w-7xl mx-auto space-y-[32px]">
+<!-- Hero Section -->
+<section class="space-y-[24px]">
+<div>
+<h1 class="font-display-lg text-display-lg text-primary mb-[8px]">Where are you driving?</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Find audio tours along your route.</p>
+</div>
+<!-- Search Bar -->
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 flex items-center pl-[16px] pointer-events-none">
+<span class="material-symbols-outlined text-outline">search</span>
+</div>
+<input class="w-full bg-surface-container-high border-2 border-transparent focus:border-primary rounded-full py-[16px] pl-[48px] pr-[24px] font-body-lg text-body-lg text-on-surface focus:ring-0 transition-colors shadow-sm outline-none placeholder:text-outline-variant" placeholder="Search routes, parks, or destinations..." type="text"/>
+<button class="absolute inset-y-0 right-[8px] flex items-center justify-center w-[40px] h-[40px] my-auto bg-primary text-on-primary rounded-full hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">mic</span>
+</button>
+</div>
+<!-- System Status Indicator -->
+<div class="flex flex-wrap gap-[16px] items-center p-[12px] bg-surface border border-outline-variant/30 rounded-xl max-w-max backdrop-blur-md">
+<div class="flex items-center gap-[6px]">
+<span class="w-[8px] h-[8px] rounded-full bg-primary-fixed"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">AI Ready</span>
+</div>
+<div class="w-[1px] h-[12px] bg-outline-variant/50"></div>
+<div class="flex items-center gap-[6px]">
+<span class="w-[8px] h-[8px] rounded-full bg-primary-fixed"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Voice Ready</span>
+</div>
+<div class="w-[1px] h-[12px] bg-outline-variant/50"></div>
+<div class="flex items-center gap-[6px]">
+<span class="w-[8px] h-[8px] rounded-full bg-primary-fixed"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Offline Mode</span>
+</div>
+</div>
+</section>
+<!-- Featured Destinations -->
+<section class="space-y-[16px]">
+<div class="flex justify-between items-end">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Curated Collections</h2>
+</div>
+<div class="flex gap-[16px] overflow-x-auto no-scrollbar pb-[16px] -mx-container-padding-mobile px-container-padding-mobile md:mx-0 md:px-0">
+<!-- Card 1 -->
+<div class="relative min-w-[280px] md:min-w-[340px] h-[380px] rounded-2xl overflow-hidden shadow-[0_4px_12px_rgba(6,27,14,0.1)] flex-shrink-0 group cursor-pointer border border-outline-variant/20">
+<img alt="Scenic mountain road during sunset" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="A breathtaking view of a winding road cutting through majestic, pine-covered mountains during golden hour. The sunlight casts a warm, ethereal glow over the rugged terrain, highlighting the deep greens of the forest and the rich amber hues of the sky. The scene is shot from a slight elevation, emphasizing the vastness of the natural landscape and the spirit of an epic road trip adventure. The overall aesthetic is cinematic and high-resolution, perfectly aligning with a premium outdoor travel UI in light mode." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBB41iWKr9p-YxbP9GEPp5iyhMwe5yLW6A68vg_AfNnkASP2Jxdz42XilQ0R3lRMmeCmXH9Bwl5cvN_wrmJZ_nm3s8W1CN8gL7nnCtIlS_uFT40Im6t8rK8cxFbW8zlrnckPNi0JmBylDA-09-wLHKx5HdcrkHVroPDuLQ1e1azRGdCJzfP7YBVFighHNAFa8AJywMnpwECbXO040-JWS0T8O8VMNFN0_iF1f6kNWryf9TqP6EUyrT3wxidmAbHI9Vjzp0uu21zv2g"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-[24px] w-full">
+<div class="flex items-center gap-[8px] mb-[8px]">
+<span class="material-symbols-outlined text-tertiary-fixed-dim" style="font-variation-settings: 'FILL' 1;">park</span>
+<span class="font-label-sm text-label-sm text-tertiary-fixed-dim uppercase tracking-widest">National Parks</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-white mb-[4px]">The Grand Loop</h3>
+<p class="font-body-md text-body-md text-white/80 line-clamp-2">Explore the majesty of Yellowstone with AI-guided storytelling tailored to your route.</p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="relative min-w-[280px] md:min-w-[340px] h-[380px] rounded-2xl overflow-hidden shadow-[0_4px_12px_rgba(6,27,14,0.1)] flex-shrink-0 group cursor-pointer border border-outline-variant/20">
+<img alt="Coastal highway drive" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="A stunning aerial view of a dramatic coastal highway hugging a jagged cliffside. The deep blue ocean crashes against the rocky shore, while a sleek ribbon of asphalt curves gently along the edge. The lighting is bright and clear, indicative of a perfect mid-morning drive. The composition exudes a sense of freedom and exploration, tailored for a premium travel application with a light, modern naturalist aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-qqOwH_uS7ZQa3Vik6vevLmvbsGfmlV5lKfLVmMsVUf896yKwiSGmU43jC_NxEYsHpbwsOjlWhE0NBkL_pCtm2psVEoJnqRLGx9wYvTcCga29ArZ7CmLlUrJSms8jZspBTu_dJ4HDN33uagihai5oiDymB4zeo_ntDGnIgB2Wiun4zrPLXje6Z8vGoLrbgj7ac5oVvpg4vtYL2BcKsdOqtrRcNPM-iETeOznyZ48XtrQm20zSKSEMf7xxqeHqEAv8GglI_YqUJxQ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-[24px] w-full">
+<div class="flex items-center gap-[8px] mb-[8px]">
+<span class="material-symbols-outlined text-tertiary-fixed-dim" style="font-variation-settings: 'FILL' 1;">route</span>
+<span class="font-label-sm text-label-sm text-tertiary-fixed-dim uppercase tracking-widest">Scenic Byways</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-white mb-[4px]">Pacific Coast Highway</h3>
+<p class="font-body-md text-body-md text-white/80 line-clamp-2">A breathtaking 400-mile journey detailing maritime history and coastal ecology.</p>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="relative min-w-[280px] md:min-w-[340px] h-[380px] rounded-2xl overflow-hidden shadow-[0_4px_12px_rgba(6,27,14,0.1)] flex-shrink-0 group cursor-pointer border border-outline-variant/20">
+<img alt="Desert rock formation" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="An awe-inspiring perspective of massive red sandstone formations rising from a flat desert landscape. The rich terracotta colors of the rock contrast beautifully with a clear, vibrant blue sky. Sunlight highlights the intricate textures and geological layers of the formations, evoking a sense of ancient history and arid beauty. The image is crisp, high-contrast, and fits seamlessly into a modern, adventure-focused design system." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1PTQsZwKTZcJ76unxsw9QwlCqZCiwsbJXEV_u828xjW6bSmLARysN8Y_0-FjZbX_WRhPN9JTlvKL1zndWR1Hy-rwtbSCKEEcLcCiGgf7q5J_vHY4yu1yNweeprOpOcn-ngo-fmr7Xa3v7CjMpCiz334n1I3qlxhvNbxz9BqGVaFVWIQBnJNFrgN-dldJllEYkYjLtIDY0KOtDlFz-5ng0YktkSA6gcAbusuhZ_iRl6yRw7s4oVyf54ruFG2xAhxK7be3gz12X8l0"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-[24px] w-full">
+<div class="flex items-center gap-[8px] mb-[8px]">
+<span class="material-symbols-outlined text-tertiary-fixed-dim" style="font-variation-settings: 'FILL' 1;">landscape</span>
+<span class="font-label-sm text-label-sm text-tertiary-fixed-dim uppercase tracking-widest">Hidden Gems</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-white mb-[4px]">Red Rock Secrets</h3>
+<p class="font-body-md text-body-md text-white/80 line-clamp-2">Discover the untold geological history of the Southwest's lesser-known canyons.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Nearby Stories (Offline Available) -->
+<section class="space-y-[16px]">
+<div class="flex justify-between items-center">
+<h2 class="font-title-lg text-title-lg text-on-surface">Nearby Stories</h2>
+<button class="font-label-lg text-label-lg text-primary hover:underline">View Map</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-[16px]">
+<!-- Story Item -->
+<div class="flex items-center gap-[16px] p-[12px] bg-surface rounded-xl border border-outline-variant/30 hover:border-primary/50 transition-colors cursor-pointer group">
+<div class="w-[64px] h-[64px] rounded-lg overflow-hidden flex-shrink-0 relative">
+<img alt="Old wooden bridge" class="w-full h-full object-cover" data-alt="A close-up shot of an ancient, weathered wooden covered bridge surrounded by dense, misty autumn foliage. The rich reds and yellows of the leaves contrast with the dark, aged wood of the structure. The mood is slightly mysterious yet inviting, emphasizing local history and folklore. The lighting is soft and diffused, fitting a high-end travel UI aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdvcKrRwvTEBbX9C4shfL_6roHc6ws6VnRqYDfjFvQSVMyOprWi2es_EXtY8AgCM-YLn-vwOPOgvnrGLkNSqO6Jcaewwt3iJqj5podEozjzhDkVC3fpgMCYCFsTWiRmW6sRmlGMTncOeL-Z2-oMw09kn5scsxNE6WfD8YHjo9ch2UAI5k23UQUTSJy_cASiv-EArOdgRR1sLBTxfD6SMjS-lv6dYM0RgI08zXry-xJCEwi3zVDbkVh9z7zo4VZuH0kD6BEniE_e2g"/>
+<div class="absolute inset-0 bg-black/20 flex items-center justify-center group-hover:bg-black/10 transition-colors">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="font-label-lg text-label-lg text-on-surface truncate">The Legend of the Covered Bridge</h4>
+<div class="flex items-center gap-[8px] mt-[4px]">
+<span class="font-body-sm text-[12px] text-on-surface-variant">4 mins</span>
+<span class="w-[4px] h-[4px] rounded-full bg-outline-variant"></span>
+<span class="font-body-sm text-[12px] text-on-surface-variant flex items-center gap-[4px]">
+<span class="material-symbols-outlined text-[14px]">download_done</span> Offline
+                            </span>
+</div>
+</div>
+</div>
+<!-- Story Item -->
+<div class="flex items-center gap-[16px] p-[12px] bg-surface rounded-xl border border-outline-variant/30 hover:border-primary/50 transition-colors cursor-pointer group">
+<div class="w-[64px] h-[64px] rounded-lg overflow-hidden flex-shrink-0 relative">
+<img alt="Mountain peak" class="w-full h-full object-cover" data-alt="A striking view of a sharp, snow-capped mountain peak towering over a rugged valley. The sky is an intense, clear blue, and the lighting is harsh alpine sun, creating dramatic shadows on the rock face. The scene conveys a sense of high-altitude adventure and natural wonder, tailored for a premium outdoor exploration app." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAD6VCD0LjM4XgiObMcmdSs4Mc_KzohUxy5K_on2py0WCYOJMZl6TCd25CT3Pb-iS5K2E4D0DCF9zziri-cLynoK83tK1kUpLFpVDfnU_jR-h4WQ4Q7ayB5pGUxIv3dwMd28ixx1DLYMjBZvNmoiMT-HI0nBoRh3pWh7g4E08k-WifRpuosLk1_N13uCZK0ycUZ1qx4N6S1559tC-Lg7rYJVn1qQ0ARf75qmaC2jMyzVuLmz2qwzMln-zDOgLnHtn2L2nWbnxz1Xrg"/>
+<div class="absolute inset-0 bg-black/20 flex items-center justify-center group-hover:bg-black/10 transition-colors">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="font-label-lg text-label-lg text-on-surface truncate">Geology of the High Peaks</h4>
+<div class="flex items-center gap-[8px] mt-[4px]">
+<span class="font-body-sm text-[12px] text-on-surface-variant">12 mins</span>
+<span class="w-[4px] h-[4px] rounded-full bg-outline-variant"></span>
+<span class="font-body-sm text-[12px] text-on-surface-variant flex items-center gap-[4px]">
+<span class="material-symbols-outlined text-[14px]">download_done</span> Offline
+                            </span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 flex justify-around items-center px-gutter pb-safe-area-bottom pt-2 bg-surface dark:bg-surface-container rounded-t-xl shadow-[0_-4px_12px_rgba(6,27,14,0.1)]">
+<!-- Active: Explore -->
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 scale-90 active:scale-95 duration-150">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">explore</span>
+<span class="font-label-sm text-label-sm mt-1">Explore</span>
+</button>
+<!-- Inactive: Map -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors scale-90 active:scale-95 duration-150">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">map</span>
+<span class="font-label-sm text-label-sm mt-1">Map</span>
+</button>
+<!-- Inactive: Downloads -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors scale-90 active:scale-95 duration-150">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">download_for_offline</span>
+<span class="font-label-sm text-label-sm mt-1">Downloads</span>
+</button>
+<!-- Inactive: Guide -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors scale-90 active:scale-95 duration-150">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">psychology</span>
+<span class="font-label-sm text-label-sm mt-1">Guide</span>
+</button>
+<!-- Inactive: Settings -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors scale-90 active:scale-95 duration-150">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">settings</span>
+<span class="font-label-sm text-label-sm mt-1">Settings</span>
+</button>
+</nav>
+<!-- Desktop Navigation Cluster (TopAppBar extension for md+) -->
+<div class="hidden md:flex fixed top-[12px] right-[container-padding-desktop] z-[51] items-center gap-[24px]">
+<button class="font-label-lg text-label-lg text-primary bg-primary-container px-[16px] py-[8px] rounded-full">Explore</button>
+<button class="font-label-lg text-label-lg text-on-surface-variant hover:text-primary transition-colors">Map</button>
+<button class="font-label-lg text-label-lg text-on-surface-variant hover:text-primary transition-colors">Downloads</button>
+<button class="font-label-lg text-label-lg text-on-surface-variant hover:text-primary transition-colors">Guide</button>
+<button class="font-label-lg text-label-lg text-on-surface-variant hover:text-primary transition-colors">Settings</button>
+</div>
+</body></html>

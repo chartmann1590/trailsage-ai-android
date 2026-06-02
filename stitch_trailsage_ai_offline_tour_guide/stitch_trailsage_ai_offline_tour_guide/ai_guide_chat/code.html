@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Guide Chat - TrailSage AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary": "#ffffff",
+                        "on-background": "#1b1c19",
+                        "secondary-fixed": "#f4dfcb",
+                        "surface-container-low": "#f5f3ee",
+                        "tertiary-container": "#3f2700",
+                        "secondary-container": "#f4dfcb",
+                        "primary-fixed": "#d0e9d4",
+                        "primary-fixed-dim": "#b4cdb8",
+                        "on-primary-fixed": "#0b2013",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#c3c8c1",
+                        "background": "#fbf9f4",
+                        "primary-container": "#1b3022",
+                        "surface-bright": "#fbf9f4",
+                        "on-tertiary-container": "#c5871d",
+                        "error": "#ba1a1a",
+                        "inverse-on-surface": "#f2f1ec",
+                        "tertiary-fixed": "#ffddb3",
+                        "on-tertiary-fixed-variant": "#633f00",
+                        "on-surface": "#1b1c19",
+                        "on-primary-fixed-variant": "#364c3c",
+                        "primary": "#061b0e",
+                        "outline": "#737973",
+                        "on-surface-variant": "#434843",
+                        "on-secondary": "#ffffff",
+                        "surface-container-highest": "#e4e2dd",
+                        "on-tertiary-fixed": "#291800",
+                        "on-secondary-fixed-variant": "#524436",
+                        "tertiary": "#241400",
+                        "surface": "#fbf9f4",
+                        "tertiary-fixed-dim": "#ffb951",
+                        "error-container": "#ffdad6",
+                        "surface-dim": "#dbdad5",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#819986",
+                        "secondary-fixed-dim": "#d7c3b0",
+                        "on-secondary-fixed": "#241a0e",
+                        "inverse-primary": "#b4cdb8",
+                        "surface-container": "#f0eee9",
+                        "secondary": "#6b5c4c",
+                        "inverse-surface": "#30312e",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "surface-container-high": "#eae8e3",
+                        "on-secondary-container": "#716252",
+                        "surface-variant": "#e4e2dd",
+                        "surface-tint": "#4d6453"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding-mobile": "20px",
+                        "unit": "8px",
+                        "safe-area-bottom": "32px",
+                        "gutter": "16px",
+                        "touch-target-min": "48px",
+                        "container-padding-desktop": "40px"
+                    },
+                    "fontFamily": {
+                        "label-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "title-lg": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-image: url('data:image/svg+xml,%3Csvg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z" fill="%23d0e9d4" fill-opacity="0.2" fill-rule="evenodd"/%3E%3C/svg%3E');
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md h-screen flex flex-col antialiased">
+<!-- TopAppBar Semantic Shell -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-container-padding-mobile h-touch-target-min backdrop-blur-xl bg-white/70 dark:bg-black/70 border-b border-surface-variant shadow-sm">
+<button class="text-primary hover:opacity-80 scale-95 duration-200 p-2 -ml-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="arrow_back" data-weight="regular">arrow_back</span>
+</button>
+<h1 class="font-title-lg text-title-lg font-bold text-primary flex-1 text-center">Ask Your TrailSage Guide</h1>
+<button class="text-primary hover:opacity-80 scale-95 duration-200 p-2 -mr-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="more_vert" data-weight="regular">more_vert</span>
+</button>
+</header>
+<!-- Main Chat Canvas -->
+<main class="flex-1 overflow-y-auto pt-[calc(var(--spacing-touch-target-min)+var(--spacing-gutter))] pb-[140px] px-container-padding-mobile flex flex-col gap-6 w-full max-w-3xl mx-auto">
+<!-- Welcome Message -->
+<div class="flex flex-col items-center justify-center py-8 opacity-70">
+<div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center mb-4 shadow-sm border border-surface-variant">
+<span class="material-symbols-outlined text-3xl text-primary" data-icon="psychology" data-weight="fill" style="font-variation-settings: 'FILL' 1;">psychology</span>
+</div>
+<p class="font-body-md text-on-surface-variant text-center max-w-xs">I'm your TrailSage AI. Ask me about landmarks, history, or nature around you.</p>
+</div>
+<!-- User Bubble -->
+<div class="flex justify-end w-full animate-[fadeIn_0.3s_ease-out]">
+<div class="bg-primary text-on-primary rounded-2xl rounded-tr-sm px-4 py-3 max-w-[85%] shadow-sm">
+<p class="font-body-md">What's the history of that old stone bridge?</p>
+</div>
+</div>
+<!-- AI Response Bubble -->
+<div class="flex flex-col gap-2 w-full animate-[fadeIn_0.5s_ease-out]">
+<div class="flex items-end gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex-shrink-0 flex items-center justify-center border border-surface-variant">
+<span class="material-symbols-outlined text-sm text-primary" data-icon="psychology" data-weight="fill" style="font-variation-settings: 'FILL' 1;">psychology</span>
+</div>
+<div class="bg-surface-container-lowest border border-[#D9C5B2] text-on-surface rounded-2xl rounded-tl-sm px-5 py-4 max-w-[85%] shadow-[0_4px_12px_rgba(6,27,14,0.05)] relative overflow-hidden">
+<!-- Glassmorphism subtle highlight -->
+<div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/40 to-transparent pointer-events-none rounded-2xl rounded-tl-sm"></div>
+<div class="relative z-10 flex flex-col gap-3">
+<p class="font-body-md text-on-surface leading-relaxed">
+                            That’s the <strong class="font-semibold text-primary">Miller's Crossing Bridge</strong>, built in 1892. It was constructed by local stonemasons using granite quarried just two miles upstream. 
+                        </p>
+<p class="font-body-md text-on-surface leading-relaxed">
+                            Originally designed for horse-drawn timber wagons, it survived the Great Flood of 1927 when most other wooden structures in the valley were washed away. It’s considered a prime example of late 19th-century rusticated stone arch construction.
+                        </p>
+<!-- Action Row within bubble -->
+<div class="flex items-center justify-between mt-2 pt-3 border-t border-surface-variant/50">
+<!-- Sources & Confidence -->
+<div class="flex flex-wrap gap-2 items-center">
+<span class="inline-flex items-center gap-1 bg-surface-container text-on-surface-variant px-2 py-1 rounded-md text-[10px] font-label-sm border border-outline-variant/30 uppercase tracking-wider">
+<span class="material-symbols-outlined text-[12px]" data-icon="check_circle" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                    High Confidence
+                                </span>
+<span class="inline-flex items-center gap-1 bg-surface-variant text-on-surface-variant px-2 py-1 rounded-md text-[10px] font-label-sm border border-outline-variant/30">
+                                    Wikipedia
+                                </span>
+<span class="inline-flex items-center gap-1 bg-surface-variant text-on-surface-variant px-2 py-1 rounded-md text-[10px] font-label-sm border border-outline-variant/30">
+                                    Local Archives
+                                </span>
+</div>
+<!-- Read Aloud -->
+<button class="flex items-center justify-center w-8 h-8 rounded-full bg-primary-fixed text-on-primary-fixed hover:bg-primary-fixed-dim transition-colors shadow-sm ml-2 shrink-0">
+<span class="material-symbols-outlined text-[18px]" data-icon="volume_up" data-weight="regular">volume_up</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Typing Indicator (Simulated) -->
+<div class="flex items-end gap-3 opacity-60">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex-shrink-0 flex items-center justify-center border border-surface-variant">
+<span class="material-symbols-outlined text-sm text-primary" data-icon="psychology" data-weight="fill" style="font-variation-settings: 'FILL' 1;">psychology</span>
+</div>
+<div class="bg-surface-container-lowest border border-surface-variant rounded-2xl rounded-tl-sm px-4 py-3 flex gap-1 items-center shadow-sm">
+<div class="w-2 h-2 rounded-full bg-outline-variant animate-pulse"></div>
+<div class="w-2 h-2 rounded-full bg-outline-variant animate-pulse delay-75"></div>
+<div class="w-2 h-2 rounded-full bg-outline-variant animate-pulse delay-150"></div>
+</div>
+</div>
+</main>
+<!-- Input Area (Fixed Bottom) -->
+<div class="fixed bottom-0 w-full z-40 bg-surface/90 backdrop-blur-xl border-t border-surface-variant px-container-padding-mobile pb-safe-area-bottom pt-4 shadow-[0_-4px_24px_rgba(6,27,14,0.05)]">
+<div class="max-w-3xl mx-auto flex flex-col gap-2">
+<div class="flex items-center gap-3">
+<!-- Text Input -->
+<div class="relative flex-1">
+<input class="w-full bg-surface-container-highest border-2 border-transparent focus:border-primary text-on-surface placeholder:text-on-surface-variant/60 rounded-full py-3 pl-5 pr-12 font-body-md transition-all shadow-inner focus:outline-none focus:ring-0" placeholder="Ask about this area..." type="text"/>
+<button class="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-primary hover:text-primary-container transition-colors rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]" data-icon="send" data-weight="fill" style="font-variation-settings: 'FILL' 1;">send</span>
+</button>
+</div>
+<!-- Voice Input Mic (Oversized for outdoor use) -->
+<button class="w-14 h-14 shrink-0 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-[0_4px_12px_rgba(6,27,14,0.15)] hover:scale-105 active:scale-95 transition-all duration-200">
+<span class="material-symbols-outlined text-[28px]" data-icon="mic" data-weight="fill" style="font-variation-settings: 'FILL' 1;">mic</span>
+</button>
+</div>
+<!-- Safety/Context Warning -->
+<div class="flex items-center justify-center gap-1 mt-1 opacity-70">
+<span class="material-symbols-outlined text-[14px] text-outline" data-icon="info" data-weight="regular">info</span>
+<p class="font-label-sm text-label-sm text-outline text-center">AI answers are generated on-device from public sources.</p>
+</div>
+</div>
+</div>
+<!-- Navigation suppressed as this is a focused task/chat view with a back button -->
+<style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</body></html>

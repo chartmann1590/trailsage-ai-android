@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TrailSage AI - Verification</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#434843",
+                        "on-tertiary-fixed-variant": "#633f00",
+                        "on-tertiary-container": "#c5871d",
+                        "surface-tint": "#4d6453",
+                        "inverse-on-surface": "#f2f1ec",
+                        "primary": "#061b0e",
+                        "tertiary-container": "#3f2700",
+                        "surface-container": "#f0eee9",
+                        "primary-fixed": "#d0e9d4",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#1b3022",
+                        "tertiary": "#241400",
+                        "error": "#ba1a1a",
+                        "inverse-primary": "#b4cdb8",
+                        "secondary-fixed-dim": "#d7c3b0",
+                        "on-primary-fixed-variant": "#364c3c",
+                        "outline": "#737973",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#291800",
+                        "on-primary-fixed": "#0b2013",
+                        "on-error-container": "#93000a",
+                        "inverse-surface": "#30312e",
+                        "tertiary-fixed": "#ffddb3",
+                        "surface-variant": "#e4e2dd",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#241a0e",
+                        "surface-bright": "#fbf9f4",
+                        "surface-container-low": "#f5f3ee",
+                        "outline-variant": "#c3c8c1",
+                        "primary-fixed-dim": "#b4cdb8",
+                        "on-surface": "#1b1c19",
+                        "surface-container-highest": "#e4e2dd",
+                        "secondary-fixed": "#f4dfcb",
+                        "tertiary-fixed-dim": "#ffb951",
+                        "surface-container-high": "#eae8e3",
+                        "on-secondary-fixed-variant": "#524436",
+                        "on-primary-container": "#819986",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-dim": "#dbdad5",
+                        "surface": "#fbf9f4",
+                        "secondary-container": "#f4dfcb",
+                        "on-secondary": "#ffffff",
+                        "secondary": "#6b5c4c",
+                        "on-secondary-container": "#716252",
+                        "on-tertiary": "#ffffff",
+                        "on-background": "#1b1c19",
+                        "background": "#fbf9f4"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding-mobile": "20px",
+                        "unit": "8px",
+                        "touch-target-min": "48px",
+                        "safe-area-bottom": "32px",
+                        "gutter": "16px",
+                        "container-padding-desktop": "40px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "display-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "title-lg": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .check-item {
+            opacity: 0.3;
+            transform: translateY(10px);
+            transition: all 0.5s ease-out;
+        }
+        .check-item.verified {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .check-icon {
+            transform: scale(0);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .check-item.verified .check-icon {
+            transform: scale(1);
+        }
+        
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            80% { transform: scale(1.5); opacity: 0; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+        .animate-pulse-ring {
+            animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body-md antialiased min-h-screen relative overflow-x-hidden selection:bg-primary/20">
+<!-- Blurred Map Background for Context -->
+<div class="fixed inset-0 z-0 opacity-40 pointer-events-none">
+<div class="absolute inset-0 bg-cover bg-center backdrop-blur-3xl" data-alt="A softly blurred, high-altitude topographical map view of a vast forest and mountain range. The colors are muted, relying on the Modern Naturalist palette of off-whites, sandstone tans, and deep forest greens. The lighting is diffuse and ambient, creating a calm, reliable backdrop that suggests outdoor exploration without distracting from the foreground UI." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCiTRWlg_ne1FhHab6qwiZHTSgBHai3nS9cnU-fz5tCR-sDVZ_B3-sCuqTbnyg9AhSU5nM6Ehy_heRKqI4RXIcG1GPoxKjQ8Ug6Md0YXM2IKwQohhQ3yC6WMmQouhwcqHEiFCqf77i4cEtDWhyg-x7YeF6cRbV1NykyUYN0pm_QtVPwLopjT6YqS3_1v4DJXqhL-JVam4KdStYxi8mzppZYAMkeblMX5GXltKc7_54leEAA9Bn8alszyFYciFGM5kwz0A1O3ez_9FU');">
+</div>
+<div class="absolute inset-0 bg-gradient-to-b from-surface/80 via-surface/90 to-surface"></div>
+</div>
+<!-- TopAppBar Component (from JSON) -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-container-padding-mobile h-touch-target-min backdrop-blur-xl bg-white/70 dark:bg-black/70">
+<div class="flex items-center gap-unit text-primary hover:opacity-80 scale-95 duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">signal_cellular_alt</span>
+</div>
+<div class="font-headline-md text-headline-md font-bold text-primary">
+            TrailSage AI
+        </div>
+<div class="flex items-center gap-unit text-primary hover:opacity-80 scale-95 duration-200">
+<span class="material-symbols-outlined">offline_pin</span>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="relative z-10 flex flex-col items-center justify-center min-h-screen px-container-padding-mobile pt-[80px] pb-safe-area-bottom max-w-2xl mx-auto w-full">
+<!-- Verification Graphic Placeholder -->
+<div class="relative w-32 h-32 mb-12 flex items-center justify-center">
+<div class="absolute inset-0 rounded-full border-4 border-primary/20 animate-pulse-ring"></div>
+<div class="absolute inset-0 rounded-full border-4 border-primary/10 animate-pulse-ring" style="animation-delay: 0.5s;"></div>
+<div class="relative w-20 h-20 bg-primary-container rounded-full flex items-center justify-center shadow-[0_4px_12px_rgba(6,27,14,0.1)] z-10">
+<span class="material-symbols-outlined text-on-primary-container text-4xl" style="font-variation-settings: 'FILL' 1;">psychology</span>
+</div>
+<!-- Success checkmark that appears at the end -->
+<div class="absolute -bottom-2 -right-2 bg-primary text-on-primary rounded-full p-1 shadow-lg opacity-0 transform scale-50 transition-all duration-500 z-20" id="final-success-badge">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+<!-- Headline -->
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-center text-primary mb-8 tracking-tight">
+            Verifying offline guide
+        </h1>
+<!-- Checklist Canvas (Glassmorphism) -->
+<div class="w-full bg-white/60 backdrop-blur-2xl border border-white/40 rounded-xl p-gutter shadow-[0_8px_32px_rgba(6,27,14,0.05)] mb-12">
+<ul class="space-y-4" id="verification-list">
+<li class="check-item flex items-center gap-4">
+<div class="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-[18px] check-icon" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<span class="font-body-lg text-body-lg text-on-surface">Gemma model verified</span>
+</li>
+<li class="check-item flex items-center gap-4">
+<div class="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-[18px] check-icon" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<span class="font-body-lg text-body-lg text-on-surface">LiteRT assets verified</span>
+</li>
+<li class="check-item flex items-center gap-4">
+<div class="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-[18px] check-icon" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<span class="font-body-lg text-body-lg text-on-surface">Natural voice verified</span>
+</li>
+<li class="check-item flex items-center gap-4">
+<div class="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-[18px] check-icon" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<span class="font-body-lg text-body-lg text-on-surface">Sample tour verified</span>
+</li>
+<li class="check-item flex items-center gap-4">
+<div class="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-[18px] check-icon" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<span class="font-body-lg text-body-lg text-on-surface">Map pack verified</span>
+</li>
+<li class="check-item flex items-center gap-4">
+<div class="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-[18px] check-icon" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<span class="font-body-lg text-body-lg text-on-surface text-on-surface-variant">Source attribution verified</span>
+</li>
+</ul>
+</div>
+<!-- Action Area -->
+<div class="w-full flex justify-center h-touch-target-min">
+<button class="opacity-0 translate-y-4 pointer-events-none transition-all duration-500 ease-out bg-primary text-on-primary font-label-lg text-label-lg rounded-full px-8 py-4 w-full md:w-auto shadow-[0_4px_12px_rgba(6,27,14,0.15)] hover:shadow-[0_6px_16px_rgba(6,27,14,0.2)] active:scale-95 flex items-center justify-center gap-2" id="start-btn">
+                Start Exploring
+                <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</main>
+<!-- Navigation Suppressed intentionally per rules for setup/transactional screens -->
+<script>
+        // Simple JS to orchestrate the verification animation sequence
+        document.addEventListener('DOMContentLoaded', () => {
+            const items = document.querySelectorAll('.check-item');
+            const startBtn = document.getElementById('start-btn');
+            const finalBadge = document.getElementById('final-success-badge');
+            const title = document.querySelector('h1');
+            
+            let delay = 600; // Initial delay
+            
+            items.forEach((item, index) => {
+                setTimeout(() => {
+                    item.classList.add('verified');
+                    
+                    // If it's the last item, trigger the completion state
+                    if (index === items.length - 1) {
+                        setTimeout(() => {
+                            // Stop pulse animations
+                            document.querySelectorAll('.animate-pulse-ring').forEach(el => {
+                                el.style.animation = 'none';
+                                el.style.opacity = '0';
+                            });
+                            
+                            // Show final badge
+                            finalBadge.classList.remove('opacity-0', 'scale-50');
+                            finalBadge.classList.add('opacity-100', 'scale-100');
+                            
+                            // Update title text slightly for completion
+                            title.textContent = "Ready for the trail";
+                            
+                            // Reveal button
+                            startBtn.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
+                        }, 800);
+                    }
+                }, delay);
+                
+                // Stagger the timing slightly randomly for realism
+                delay += 400 + Math.random() * 300; 
+            });
+        });
+    </script>
+</body></html>

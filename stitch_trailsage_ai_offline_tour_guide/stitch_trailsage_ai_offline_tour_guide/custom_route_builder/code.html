@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TrailSage AI - Custom Route Builder</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#1b1c19",
+                        "surface-container-highest": "#e4e2dd",
+                        "secondary-fixed": "#f4dfcb",
+                        "on-secondary-fixed-variant": "#524436",
+                        "tertiary-fixed-dim": "#ffb951",
+                        "surface-container-high": "#eae8e3",
+                        "on-primary-container": "#819986",
+                        "surface-bright": "#fbf9f4",
+                        "on-secondary-fixed": "#241a0e",
+                        "outline-variant": "#c3c8c1",
+                        "surface-container-low": "#f5f3ee",
+                        "primary-fixed-dim": "#b4cdb8",
+                        "secondary": "#6b5c4c",
+                        "on-secondary-container": "#716252",
+                        "secondary-container": "#f4dfcb",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-background": "#1b1c19",
+                        "background": "#fbf9f4",
+                        "surface-dim": "#dbdad5",
+                        "surface": "#fbf9f4",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-tint": "#4d6453",
+                        "on-tertiary-container": "#c5871d",
+                        "inverse-on-surface": "#f2f1ec",
+                        "on-surface-variant": "#434843",
+                        "on-tertiary-fixed-variant": "#633f00",
+                        "inverse-primary": "#b4cdb8",
+                        "on-primary-fixed-variant": "#364c3c",
+                        "secondary-fixed-dim": "#d7c3b0",
+                        "on-tertiary-fixed": "#291800",
+                        "on-primary-fixed": "#0b2013",
+                        "on-error-container": "#93000a",
+                        "inverse-surface": "#30312e",
+                        "outline": "#737973",
+                        "error-container": "#ffdad6",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed": "#ffddb3",
+                        "surface-variant": "#e4e2dd",
+                        "tertiary-container": "#3f2700",
+                        "primary": "#061b0e",
+                        "surface-container": "#f0eee9",
+                        "primary-fixed": "#d0e9d4",
+                        "on-primary": "#ffffff",
+                        "tertiary": "#241400",
+                        "error": "#ba1a1a",
+                        "primary-container": "#1b3022"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding-mobile": "20px",
+                        "unit": "8px",
+                        "touch-target-min": "48px",
+                        "safe-area-bottom": "32px",
+                        "gutter": "16px",
+                        "container-padding-desktop": "40px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "title-lg": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1;
+        }
+        /* Hide scrollbar for clean bento scrolling */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body-md antialiased min-h-screen flex flex-col relative pb-[140px]">
+<!-- Shared Component: TopAppBar -->
+<!-- Applying style commands directly from JSON -->
+<header class="w-full top-0 sticky bg-surface-bright shadow-sm z-50 flex justify-between items-center px-container-padding-mobile h-touch-target-min transition-colors duration-200">
+<button class="text-on-surface-variant hover:bg-surface-container-high rounded-full p-2 transition-colors duration-200 flex items-center justify-center">
+<span class="material-symbols-outlined">signal_disconnected</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">TrailSage AI</h1>
+<button class="text-on-surface-variant hover:bg-surface-container-high rounded-full p-2 transition-colors duration-200 flex items-center justify-center">
+<span class="material-symbols-outlined">location_on</span>
+</button>
+</header>
+<main class="flex-1 px-container-padding-mobile md:px-container-padding-desktop max-w-4xl mx-auto w-full pt-6">
+<!-- Route Setup Inputs -->
+<section class="mb-8 relative bg-surface-container-lowest p-4 rounded-2xl border border-surface-variant shadow-sm">
+<div class="relative z-10 flex flex-col gap-4">
+<!-- Start Point -->
+<div class="relative group">
+<div class="absolute left-4 top-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none">
+<span class="material-symbols-outlined text-primary text-[20px]">my_location</span>
+</div>
+<input class="w-full h-[52px] pl-12 pr-4 bg-surface border border-outline-variant rounded-xl font-body-lg text-body-lg text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm" placeholder="Start Point" type="text" value="Current Location"/>
+</div>
+<!-- Visual Connector -->
+<div class="absolute left-[35px] top-[48px] w-[2px] h-[32px] bg-outline-variant z-0 border-l-2 border-dashed border-outline-variant"></div>
+<!-- Destination -->
+<div class="relative group mt-2">
+<div class="absolute left-4 top-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none">
+<span class="material-symbols-outlined text-tertiary-fixed-dim text-[20px]" data-weight="fill">flag</span>
+</div>
+<input class="w-full h-[52px] pl-12 pr-4 bg-surface border border-outline-variant rounded-xl font-body-lg text-body-lg text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm" placeholder="Destination" type="text" value="Yosemite National Park"/>
+</div>
+</div>
+</section>
+<!-- Empty State / Inspiration Card -->
+<!-- Acts as a high-end bento grid piece prompting user action -->
+<section class="mb-10 rounded-3xl overflow-hidden relative min-h-[220px] flex flex-col justify-end p-6 border border-surface-variant shadow-sm group">
+<div class="absolute inset-0 bg-cover bg-center z-0 transition-transform duration-700 group-hover:scale-105" data-alt="A sweeping, wide-angle landscape photograph of an endless dirt road stretching toward distant, majestic mountains under a clear blue sky. The lighting is bright and natural, casting soft shadows that emphasize the vastness of the natural world. The style embodies a modern naturalist aesthetic, utilizing organic earth tones, crisp whites, and vibrant atmospheric blues to inspire a sense of open-ended adventure." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDMsLMjmQ1n0-BFXNDfS24L78POJKJgbJRppEkCcRqpwUvzlLPELmckmZVHKqcihlToTaeB8F-k1YF0E_DLzxF8UdSKa9m32EXuASmmtYg0znfzfRetxF_zoy4hcz6rBiN5vXkbApvj_cSrRkuxcXVLrOGlAd-aBoL-f0RryJocvr0U8GZ8ikOV6J-zLds6rfxdLycIZrhvlIsV_oFQWrZKmm9ZzC8PbiZDzfml0Etb-8b1dXFfXuSmb6OI0gwXjc1mCayTeTKGc4k')">
+</div>
+<!-- Scrim for text readability -->
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-surface/80 to-transparent z-10"></div>
+<div class="relative z-20 max-w-sm">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-2">Where will your curiosity take you?</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Drag and drop stops below, or browse AI-curated suggestions to build your perfect offline route.</p>
+</div>
+</section>
+<!-- Added Stops (Draggable List) -->
+<section class="mb-10">
+<h3 class="font-title-lg text-title-lg text-on-surface mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">route</span> 
+                Added Stops
+            </h3>
+<div class="space-y-3" id="sortable-list">
+<!-- Active Stop -->
+<div class="group flex items-center gap-4 bg-surface-container-lowest border border-surface-variant rounded-2xl p-4 shadow-sm hover:shadow-md hover:border-outline-variant transition-all cursor-grab active:cursor-grabbing">
+<div class="flex flex-col items-center justify-center text-outline-variant group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined">drag_indicator</span>
+</div>
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center flex-shrink-0">
+<span class="font-label-lg text-label-lg font-bold">1</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-label-lg text-label-lg text-on-surface truncate">Tunnel View Overlook</p>
+<p class="font-body-md text-[14px] text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[14px]">schedule</span> 
+                            Est. 45 min dwell
+                        </p>
+</div>
+<button class="p-2 rounded-full text-outline hover:text-error hover:bg-error-container/20 transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Drop Zone Empty State Indicator -->
+<div class="border-2 border-dashed border-surface-variant rounded-2xl p-6 flex flex-col items-center justify-center text-on-surface-variant bg-surface-container-low/30 hover:bg-surface-container-low/60 transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-[32px] mb-2 opacity-50">add_circle</span>
+<span class="font-label-lg text-label-lg">Drop a stop here</span>
+</div>
+</div>
+</section>
+<!-- Suggested Story Stops (Bento Style) -->
+<section class="mb-8">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-title-lg text-title-lg text-on-surface">Suggested Story Stops</h3>
+<button class="font-label-lg text-label-lg text-primary hover:underline px-2 py-1">See All</button>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<!-- Suggestion Card 1 -->
+<div class="bg-surface-container-lowest border border-surface-variant rounded-2xl p-3 flex gap-4 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="w-24 h-28 rounded-xl flex-shrink-0 bg-cover bg-center overflow-hidden relative" data-alt="A close-up, high-quality photograph of a giant Sequoia tree trunk in a dense forest, focusing on the deeply textured, rugged reddish-brown bark. The lighting is soft and natural, filtering through a high green canopy to create dappled shadows. The mood is serene, ancient, and majestic, fitting perfectly within a modern naturalist, outdoor-exploration visual identity." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAwf34Vnv6FYYYN8AYmA-7sY9VFf3oCKJmbb1ldNgyuQLh37lUOupiWKbgn_6COLJGdnpnqZ7gQdGxzDugOKBC_3P6wtw8nRuJcoGjZoZlTUZrn-5uA6JcwaAJu6OOut0Ow0Re3Jqt_ebxyot67rJRNesrq-V9_lFlBaAVwXM6MGGVypDutiA7kRCYsuLaTKrGYzB-Zfyu2YxlyEkTHkKdbMdHfScAHY55dj0zSNl8jPbmFwfusB7swZPXSItAfhcQZTbN24RMPOEw')">
+<!-- Subtle glassmorphism play overlay indicating audio content -->
+<div class="absolute bottom-2 left-2 w-6 h-6 rounded-full bg-surface/80 backdrop-blur-sm flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined text-[14px]" data-weight="fill">play_arrow</span>
+</div>
+</div>
+<div class="flex flex-col justify-between flex-1 py-1">
+<div>
+<h4 class="font-label-lg text-label-lg text-on-surface line-clamp-1 group-hover:text-primary transition-colors">Mariposa Grove</h4>
+<p class="font-body-md text-[13px] leading-[18px] text-on-surface-variant line-clamp-2 mt-1">Discover the ancient giants and listen to the history of early conservationists.</p>
+</div>
+<div class="flex items-end justify-between mt-2">
+<!-- Attribution Badge -->
+<div class="inline-flex items-center gap-1.5 bg-surface-variant/40 px-2.5 py-1 rounded-full border border-surface-variant/50">
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant">public</span>
+<span class="font-label-sm text-[10px] uppercase tracking-wider text-on-surface-variant">Wikipedia</span>
+</div>
+<button class="w-9 h-9 rounded-full bg-surface-container-high text-primary flex items-center justify-center hover:bg-primary hover:text-on-primary transition-all shadow-sm active:scale-90">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Suggestion Card 2 -->
+<div class="bg-surface-container-lowest border border-surface-variant rounded-2xl p-3 flex gap-4 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="w-24 h-28 rounded-xl flex-shrink-0 bg-cover bg-center overflow-hidden relative" data-alt="A bright, clear photograph of a cascading waterfall plunging over sheer granite cliffs in Yosemite. The sunlight catches the mist, creating a delicate rainbow effect against the stark, grey stone and vibrant green pines. The composition is clean and vertical, embodying a sense of refreshing outdoor discovery within a high-contrast, modern aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBRlVflfIXFLuoOUj8Y7S9z3bXufS-VIFLwdVUshlZotO-WOseHsSHMDDJZbjXHCKxSwvp9D-DdgkcL9sV9esEWCL6AYiJ4o1FTu4E1VwVKrnFZTHHGJ9izTPLFYD_hN_o5Rwxbym1gtFNDBdOpqTUDrLcW_1oaY_JII-hDYSePPcdd2rbigm-ScxmTP7c_8C7e_czcmUD-XtNtb0Aa2rCyLDuxuYzim2Hc6qbdmRMPZ-vXcU_Rj4g4RsO3PEpWf3XM-uEuUzwgLrw')">
+<div class="absolute bottom-2 left-2 w-6 h-6 rounded-full bg-surface/80 backdrop-blur-sm flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined text-[14px]" data-weight="fill">play_arrow</span>
+</div>
+</div>
+<div class="flex flex-col justify-between flex-1 py-1">
+<div>
+<h4 class="font-label-lg text-label-lg text-on-surface line-clamp-1 group-hover:text-primary transition-colors">Bridalveil Fall</h4>
+<p class="font-body-md text-[13px] leading-[18px] text-on-surface-variant line-clamp-2 mt-1">Hear the Ahwahneechee legends surrounding this iconic valley entrance.</p>
+</div>
+<div class="flex items-end justify-between mt-2">
+<!-- Attribution Badge -->
+<div class="inline-flex items-center gap-1.5 bg-surface-variant/40 px-2.5 py-1 rounded-full border border-surface-variant/50">
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant">map</span>
+<span class="font-label-sm text-[10px] uppercase tracking-wider text-on-surface-variant">OpenStreetMap</span>
+</div>
+<button class="w-9 h-9 rounded-full bg-surface-container-high text-primary flex items-center justify-center hover:bg-primary hover:text-on-primary transition-all shadow-sm active:scale-90">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Fixed Action Bar (Level 2 Floating) -->
+<!-- Replaces BottomNavBar as this is a task-focused, transactional screen -->
+<div class="fixed bottom-0 left-0 w-full px-container-padding-mobile pb-safe-area-bottom pt-4 bg-surface/90 backdrop-blur-md border-t border-surface-variant z-50 shadow-[0_-8px_24px_rgba(6,27,14,0.05)]">
+<div class="max-w-4xl mx-auto w-full">
+<button class="w-full h-[56px] bg-primary text-on-primary font-title-lg text-title-lg rounded-full flex items-center justify-center gap-3 shadow-lg hover:bg-primary-container hover:text-on-primary-container active:scale-[0.98] transition-all duration-200">
+<span class="material-symbols-outlined">download</span>
+                Build Offline Pack
+            </button>
+<p class="text-center mt-2 font-label-sm text-label-sm text-on-surface-variant">Est. size: 45MB • Includes maps &amp; audio</p>
+</div>
+</div>
+<script>
+        // Simple script to handle input focus styles dynamically if needed, 
+        // though standard CSS handles most requirements. 
+        // Added to fulfill the 'vanilla JavaScript for micro-interactions' encouragement.
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.classList.add('scale-[1.01]');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.classList.remove('scale-[1.01]');
+            });
+        });
+    </script>
+</body></html>

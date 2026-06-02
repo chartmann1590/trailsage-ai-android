@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Natural voice setup screen for TrailSage AI.</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface-variant": "#434843",
+                    "on-tertiary-fixed-variant": "#633f00",
+                    "on-tertiary-container": "#c5871d",
+                    "surface-tint": "#4d6453",
+                    "inverse-on-surface": "#f2f1ec",
+                    "primary": "#061b0e",
+                    "tertiary-container": "#3f2700",
+                    "surface-container": "#f0eee9",
+                    "primary-fixed": "#d0e9d4",
+                    "on-primary": "#ffffff",
+                    "primary-container": "#1b3022",
+                    "tertiary": "#241400",
+                    "error": "#ba1a1a",
+                    "inverse-primary": "#b4cdb8",
+                    "secondary-fixed-dim": "#d7c3b0",
+                    "on-primary-fixed-variant": "#364c3c",
+                    "outline": "#737973",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed": "#291800",
+                    "on-primary-fixed": "#0b2013",
+                    "on-error-container": "#93000a",
+                    "inverse-surface": "#30312e",
+                    "tertiary-fixed": "#ffddb3",
+                    "surface-variant": "#e4e2dd",
+                    "on-error": "#ffffff",
+                    "on-secondary-fixed": "#241a0e",
+                    "surface-bright": "#fbf9f4",
+                    "surface-container-low": "#f5f3ee",
+                    "outline-variant": "#c3c8c1",
+                    "primary-fixed-dim": "#b4cdb8",
+                    "on-surface": "#1b1c19",
+                    "surface-container-highest": "#e4e2dd",
+                    "secondary-fixed": "#f4dfcb",
+                    "tertiary-fixed-dim": "#ffb951",
+                    "surface-container-high": "#eae8e3",
+                    "on-secondary-fixed-variant": "#524436",
+                    "on-primary-container": "#819986",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-dim": "#dbdad5",
+                    "surface": "#fbf9f4",
+                    "secondary-container": "#f4dfcb",
+                    "on-secondary": "#ffffff",
+                    "secondary": "#6b5c4c",
+                    "on-secondary-container": "#716252",
+                    "on-tertiary": "#ffffff",
+                    "on-background": "#1b1c19",
+                    "background": "#fbf9f4"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-padding-mobile": "20px",
+                    "unit": "8px",
+                    "touch-target-min": "48px",
+                    "safe-area-bottom": "32px",
+                    "gutter": "16px",
+                    "container-padding-desktop": "40px"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": ["Inter"],
+                    "title-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-lg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "display-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                    "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-sm": ["11px", {"lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body {
+            -webkit-tap-highlight-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        .radio-custom:checked + div {
+            border-color: #061b0e;
+            background-color: #f0eee9;
+        }
+        .radio-custom:checked + div .check-icon {
+            opacity: 1;
+            transform: scale(1);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col relative pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-container-padding-mobile h-touch-target-min backdrop-blur-xl bg-white/70 dark:bg-black/70 flat no shadows">
+<button class="flex items-center justify-center w-touch-target-min h-touch-target-min hover:opacity-80 scale-95 duration-200 text-primary">
+<span class="material-symbols-outlined" data-icon="signal_cellular_alt">signal_cellular_alt</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">TrailSage AI</h1>
+<button class="flex items-center justify-center w-touch-target-min h-touch-target-min hover:opacity-80 scale-95 duration-200 text-primary">
+<span class="material-symbols-outlined" data-icon="offline_pin">offline_pin</span>
+</button>
+</header>
+<!-- Main Content -->
+<main class="flex-grow px-container-padding-mobile pt-24 pb-8 max-w-2xl mx-auto w-full">
+<!-- Header Section -->
+<div class="mb-8">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mb-2">Choose your natural guide voice</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">TrailSage uses downloaded offline neural voices for smooth narration.</p>
+</div>
+<!-- Voice Selection List -->
+<div aria-label="Voice Selection" class="space-y-4 mb-8" role="radiogroup">
+<!-- Voice 1: Warm Guide (Recommended, Downloaded) -->
+<label class="block relative cursor-pointer group">
+<input checked="" class="radio-custom sr-only peer" name="voice_selection" type="radio" value="warm_guide"/>
+<div class="border-2 border-outline-variant rounded-xl p-4 transition-all duration-200 hover:border-outline bg-surface">
+<div class="flex items-start justify-between gap-4">
+<div class="flex-grow">
+<div class="flex items-center gap-2 mb-1">
+<h3 class="font-title-lg text-title-lg text-primary">Warm Guide</h3>
+<span class="bg-primary-container text-on-primary-container text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">Recommended</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-3">Style: Friendly &amp; Clear</p>
+<div class="flex items-center gap-3">
+<span class="inline-flex items-center gap-1 bg-surface-container-high text-on-surface-variant text-label-sm font-label-sm px-2 py-1 rounded-md">
+<span class="material-symbols-outlined text-[14px]">psychology</span>
+                                    Natural Voice
+                                </span>
+<span class="text-label-sm font-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-primary">check_circle</span>
+                                    Downloaded (45MB)
+                                </span>
+</div>
+</div>
+<div class="flex flex-col items-end gap-3">
+<div class="check-icon w-6 h-6 rounded-full border-2 border-primary flex items-center justify-center bg-primary text-on-primary opacity-100 transition-all duration-200">
+<span class="material-symbols-outlined text-[16px] fill">check</span>
+</div>
+<button aria-label="Preview Warm Guide Voice" class="mt-auto flex items-center justify-center w-10 h-10 rounded-full bg-surface-container hover:bg-surface-container-high transition-colors text-primary" onclick="event.preventDefault();" type="button">
+<span class="material-symbols-outlined fill">play_arrow</span>
+</button>
+</div>
+</div>
+</div>
+</label>
+<!-- Voice 2: Calm Narrator -->
+<label class="block relative cursor-pointer group">
+<input class="radio-custom sr-only peer" name="voice_selection" type="radio" value="calm_narrator"/>
+<div class="border-2 border-outline-variant rounded-xl p-4 transition-all duration-200 hover:border-outline bg-surface">
+<div class="flex items-start justify-between gap-4">
+<div class="flex-grow">
+<h3 class="font-title-lg text-title-lg text-primary mb-1">Calm Narrator</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-3">Style: Deep &amp; Steady</p>
+<div class="flex items-center gap-3">
+<span class="inline-flex items-center gap-1 bg-surface-container-high text-on-surface-variant text-label-sm font-label-sm px-2 py-1 rounded-md">
+<span class="material-symbols-outlined text-[14px]">psychology</span>
+                                    Natural Voice
+                                </span>
+<span class="text-label-sm font-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">cloud_download</span>
+                                    42MB
+                                </span>
+</div>
+</div>
+<div class="flex flex-col items-end gap-3">
+<div class="check-icon w-6 h-6 rounded-full border-2 border-outline-variant flex items-center justify-center text-transparent opacity-0 scale-50 transition-all duration-200">
+<span class="material-symbols-outlined text-[16px] fill">check</span>
+</div>
+<button aria-label="Preview Calm Narrator Voice" class="mt-auto flex items-center justify-center w-10 h-10 rounded-full bg-surface-container hover:bg-surface-container-high transition-colors text-primary" onclick="event.preventDefault();" type="button">
+<span class="material-symbols-outlined fill">play_arrow</span>
+</button>
+</div>
+</div>
+</div>
+</label>
+<!-- Voice 3: Family Explorer -->
+<label class="block relative cursor-pointer group">
+<input class="radio-custom sr-only peer" name="voice_selection" type="radio" value="family_explorer"/>
+<div class="border-2 border-outline-variant rounded-xl p-4 transition-all duration-200 hover:border-outline bg-surface">
+<div class="flex items-start justify-between gap-4">
+<div class="flex-grow">
+<h3 class="font-title-lg text-title-lg text-primary mb-1">Family Explorer</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-3">Style: Energetic &amp; Fun</p>
+<div class="flex items-center gap-3">
+<span class="inline-flex items-center gap-1 bg-surface-container-high text-on-surface-variant text-label-sm font-label-sm px-2 py-1 rounded-md">
+<span class="material-symbols-outlined text-[14px]">psychology</span>
+                                    Natural Voice
+                                </span>
+<span class="text-label-sm font-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">cloud_download</span>
+                                    48MB
+                                </span>
+</div>
+</div>
+<div class="flex flex-col items-end gap-3">
+<div class="check-icon w-6 h-6 rounded-full border-2 border-outline-variant flex items-center justify-center text-transparent opacity-0 scale-50 transition-all duration-200">
+<span class="material-symbols-outlined text-[16px] fill">check</span>
+</div>
+<button aria-label="Preview Family Explorer Voice" class="mt-auto flex items-center justify-center w-10 h-10 rounded-full bg-surface-container hover:bg-surface-container-high transition-colors text-primary" onclick="event.preventDefault();" type="button">
+<span class="material-symbols-outlined fill">play_arrow</span>
+</button>
+</div>
+</div>
+</div>
+</label>
+<!-- Voice 4: Storyteller -->
+<label class="block relative cursor-pointer group">
+<input class="radio-custom sr-only peer" name="voice_selection" type="radio" value="storyteller"/>
+<div class="border-2 border-outline-variant rounded-xl p-4 transition-all duration-200 hover:border-outline bg-surface">
+<div class="flex items-start justify-between gap-4">
+<div class="flex-grow">
+<h3 class="font-title-lg text-title-lg text-primary mb-1">Storyteller</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-3">Style: Dramatic &amp; Immersive</p>
+<div class="flex items-center gap-3">
+<span class="inline-flex items-center gap-1 bg-surface-container-high text-on-surface-variant text-label-sm font-label-sm px-2 py-1 rounded-md">
+<span class="material-symbols-outlined text-[14px]">psychology</span>
+                                    Natural Voice
+                                </span>
+<span class="text-label-sm font-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">cloud_download</span>
+                                    52MB
+                                </span>
+</div>
+</div>
+<div class="flex flex-col items-end gap-3">
+<div class="check-icon w-6 h-6 rounded-full border-2 border-outline-variant flex items-center justify-center text-transparent opacity-0 scale-50 transition-all duration-200">
+<span class="material-symbols-outlined text-[16px] fill">check</span>
+</div>
+<button aria-label="Preview Storyteller Voice" class="mt-auto flex items-center justify-center w-10 h-10 rounded-full bg-surface-container hover:bg-surface-container-high transition-colors text-primary" onclick="event.preventDefault();" type="button">
+<span class="material-symbols-outlined fill">play_arrow</span>
+</button>
+</div>
+</div>
+</div>
+</label>
+</div>
+<!-- Required Notice -->
+<div class="flex items-start gap-3 p-4 bg-surface-container-low rounded-xl mb-6 border border-surface-container-highest">
+<span class="material-symbols-outlined text-primary mt-0.5" data-icon="info">info</span>
+<p class="font-body-md text-body-md text-on-surface">At least one natural offline voice must be installed.</p>
+</div>
+<!-- Emergency Fallback (Collapsed) -->
+<details class="group bg-surface rounded-xl border border-outline-variant overflow-hidden mb-8">
+<summary class="flex items-center justify-between p-4 cursor-pointer font-label-lg text-label-lg text-on-surface select-none hover:bg-surface-container-lowest transition-colors">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-outline" data-icon="settings_voice">settings_voice</span>
+                    System Fallback Settings
+                </div>
+<span class="material-symbols-outlined transition-transform duration-200 group-open:rotate-180" data-icon="expand_more">expand_more</span>
+</summary>
+<div class="p-4 pt-0 text-on-surface-variant font-body-md text-body-md border-t border-outline-variant mt-2 bg-surface-container-lowest">
+<p class="mt-2">Android system voice will only be used if natural offline voices fail to load or are corrupted during an adventure.</p>
+</div>
+</details>
+</main>
+<!-- Bottom Action Area -->
+<div class="fixed bottom-0 left-0 w-full bg-surface/90 backdrop-blur-md border-t border-surface-container-highest p-4 pb-safe-area-bottom z-40">
+<div class="max-w-2xl mx-auto">
+<button class="w-full bg-primary text-on-primary font-label-lg text-label-lg py-4 px-6 rounded-full flex items-center justify-center gap-2 hover:bg-primary-container hover:text-on-primary-container transition-colors active:scale-95 duration-150 shadow-[0_4px_12px_rgba(6,27,14,0.1)]">
+<span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
+                Use This Voice
+            </button>
+</div>
+</div>
+<script>
+        // Simple script to handle button text change based on selection state
+        document.addEventListener('DOMContentLoaded', () => {
+            const radioButtons = document.querySelectorAll('input[name="voice_selection"]');
+            const actionButton = document.querySelector('.fixed.bottom-0 button');
+            const actionIcon = actionButton.querySelector('.material-symbols-outlined');
+            
+            // Initial state (Warm Guide is checked and downloaded)
+            
+            radioButtons.forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    // In a real app, this would check actual download status
+                    // For this mock, only 'warm_guide' is considered downloaded
+                    if (e.target.value === 'warm_guide') {
+                        actionButton.childNodes[2].textContent = ' Use This Voice';
+                        actionIcon.textContent = 'check_circle';
+                        actionIcon.setAttribute('data-icon', 'check_circle');
+                    } else {
+                        actionButton.childNodes[2].textContent = ' Download Selected Voice';
+                        actionIcon.textContent = 'download';
+                        actionIcon.setAttribute('data-icon', 'download');
+                    }
+                });
+            });
+        });
+    </script>
+</body></html>

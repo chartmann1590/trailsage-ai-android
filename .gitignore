@@ -1,0 +1,11 @@
+Prompt.txt
+plan.txt
+.gradle/
+.idea/
+local.properties
+**/build/
+google-services.json
+*.jks
+*.keystore
+tourpack-cache/
+

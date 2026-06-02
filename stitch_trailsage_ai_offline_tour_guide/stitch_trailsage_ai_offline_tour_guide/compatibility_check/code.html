@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TrailSage AI - Device Compatibility</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#1b1c19",
+                        "secondary-container": "#f4dfcb",
+                        "background": "#fbf9f4",
+                        "on-secondary-fixed": "#241a0e",
+                        "on-tertiary-fixed": "#291800",
+                        "secondary-fixed": "#f4dfcb",
+                        "on-tertiary-container": "#c5871d",
+                        "on-tertiary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "primary": "#061b0e",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#d0e9d4",
+                        "inverse-surface": "#30312e",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#dbdad5",
+                        "tertiary-fixed": "#ffddb3",
+                        "on-secondary": "#ffffff",
+                        "surface": "#fbf9f4",
+                        "error-container": "#ffdad6",
+                        "surface-tint": "#4d6453",
+                        "primary-container": "#1b3022",
+                        "outline": "#737973",
+                        "surface-container-highest": "#e4e2dd",
+                        "inverse-on-surface": "#f2f1ec",
+                        "tertiary": "#241400",
+                        "secondary-fixed-dim": "#d7c3b0",
+                        "on-primary-container": "#819986",
+                        "tertiary-container": "#3f2700",
+                        "on-primary-fixed": "#0b2013",
+                        "on-secondary-fixed-variant": "#524436",
+                        "secondary": "#6b5c4c",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface-variant": "#434843",
+                        "tertiary-fixed-dim": "#ffb951",
+                        "on-secondary-container": "#716252",
+                        "primary-fixed-dim": "#b4cdb8",
+                        "on-background": "#1b1c19",
+                        "outline-variant": "#c3c8c1",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed-variant": "#364c3c",
+                        "on-tertiary-fixed-variant": "#633f00",
+                        "surface-variant": "#e4e2dd",
+                        "surface-container-high": "#eae8e3",
+                        "surface-bright": "#fbf9f4",
+                        "inverse-primary": "#b4cdb8",
+                        "surface-container-low": "#f5f3ee",
+                        "surface-container": "#f0eee9"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "8px",
+                        "container-padding-desktop": "40px",
+                        "touch-target-min": "48px",
+                        "gutter": "16px",
+                        "container-padding-mobile": "20px",
+                        "safe-area-bottom": "32px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "headline-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "title-lg": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .check-anim {
+            opacity: 0;
+            transform: translateY(10px);
+            animation: slideUpFadeIn 0.5s ease forwards;
+        }
+        @keyframes slideUpFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+        .delay-6 { animation-delay: 0.6s; }
+        .delay-7 { animation-delay: 0.7s; }
+        .delay-btn { animation-delay: 1.0s; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md antialiased overflow-x-hidden">
+<!-- Content Canvas -->
+<main class="flex-grow flex flex-col items-center justify-center p-container-padding-mobile md:p-container-padding-desktop">
+<div class="w-full max-w-md">
+<div class="text-center mb-8">
+<span class="material-symbols-outlined text-primary text-6xl mb-4" style="font-variation-settings: 'FILL' 0;">smartphone</span>
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mb-2">System Check</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Verifying device capabilities for optimal offline AI guidance.</p>
+</div>
+<div class="bg-surface-container-lowest rounded-xl border border-surface-variant shadow-sm overflow-hidden mb-8 relative">
+<!-- Background Map Element for tech feel -->
+<div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: radial-gradient(circle at 50% 50%, var(--tw-colors-primary) 1px, transparent 1px); background-size: 20px 20px;"></div>
+<div class="p-6 relative z-10 space-y-4">
+<!-- Item 1: OS Version -->
+<div class="flex items-center justify-between check-anim delay-1">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-container bg-primary-fixed rounded-full p-1 text-sm">android</span>
+<span class="font-label-lg text-label-lg text-on-surface">Android Version</span>
+</div>
+<div class="flex items-center gap-2 text-primary-container">
+<span class="font-label-sm text-label-sm">Supported</span>
+<span class="material-symbols-outlined text-xl">check_circle</span>
+</div>
+</div>
+<!-- Item 2: Storage -->
+<div class="flex items-center justify-between check-anim delay-2">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-container bg-primary-fixed rounded-full p-1 text-sm">storage</span>
+<span class="font-label-lg text-label-lg text-on-surface">Storage (3GB req)</span>
+</div>
+<div class="flex items-center gap-2 text-primary-container">
+<span class="font-label-sm text-label-sm">12GB Free</span>
+<span class="material-symbols-outlined text-xl">check_circle</span>
+</div>
+</div>
+<!-- Item 3: Network -->
+<div class="flex items-center justify-between check-anim delay-3">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-container bg-primary-fixed rounded-full p-1 text-sm">wifi</span>
+<span class="font-label-lg text-label-lg text-on-surface">Network Connectivity</span>
+</div>
+<div class="flex items-center gap-2 text-primary-container">
+<span class="font-label-sm text-label-sm">Stable</span>
+<span class="material-symbols-outlined text-xl">check_circle</span>
+</div>
+</div>
+<!-- Item 4: Gemma Model -->
+<div class="flex items-center justify-between check-anim delay-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-container bg-primary-fixed rounded-full p-1 text-sm">memory</span>
+<span class="font-label-lg text-label-lg text-on-surface">Gemma NPU Support</span>
+</div>
+<div class="flex items-center gap-2 text-primary-container">
+<span class="font-label-sm text-label-sm">Hardware Accel</span>
+<span class="material-symbols-outlined text-xl">check_circle</span>
+</div>
+</div>
+<!-- Item 5: Offline TTS -->
+<div class="flex items-center justify-between check-anim delay-5">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-container bg-primary-fixed rounded-full p-1 text-sm">record_voice_over</span>
+<span class="font-label-lg text-label-lg text-on-surface">Offline Voice Engine</span>
+</div>
+<div class="flex items-center gap-2 text-primary-container">
+<span class="font-label-sm text-label-sm">Installed</span>
+<span class="material-symbols-outlined text-xl">check_circle</span>
+</div>
+</div>
+<!-- Item 6: Location -->
+<div class="flex items-center justify-between check-anim delay-6">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-container bg-primary-fixed rounded-full p-1 text-sm">my_location</span>
+<span class="font-label-lg text-label-lg text-on-surface">GPS Access</span>
+</div>
+<div class="flex items-center gap-2 text-primary-container">
+<span class="font-label-sm text-label-sm">Granted</span>
+<span class="material-symbols-outlined text-xl">check_circle</span>
+</div>
+</div>
+<!-- Item 7: Notifications -->
+<div class="flex items-center justify-between check-anim delay-7">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-container bg-primary-fixed rounded-full p-1 text-sm">notifications</span>
+<span class="font-label-lg text-label-lg text-on-surface">Background Alerts</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<!-- Showing a warning state for variety, per prompt spec -->
+<span class="font-label-sm text-label-sm">Limited</span>
+<span class="material-symbols-outlined text-xl text-outline">warning</span>
+</div>
+</div>
+</div>
+<!-- Warning Notice -->
+<div class="bg-surface-container p-4 border-t border-surface-variant check-anim delay-7 flex items-start gap-3">
+<span class="material-symbols-outlined text-on-surface-variant text-sm mt-0.5">info</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Due to background alert settings, limited offline guide mode may be used. Ensure app stays open for full audio cues.</p>
+</div>
+</div>
+<!-- Primary Action -->
+<button class="w-full bg-primary text-on-primary py-4 rounded-full font-label-lg text-label-lg flex items-center justify-center gap-2 hover:opacity-90 transition-opacity check-anim delay-btn shadow-md active:scale-95 duration-150">
+                Continue to Downloads
+                <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</main>
+</body></html>

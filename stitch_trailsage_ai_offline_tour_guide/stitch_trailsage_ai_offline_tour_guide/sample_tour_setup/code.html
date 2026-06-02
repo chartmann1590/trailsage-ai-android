@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Download Your First Tour - TrailSage AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#434843",
+                        "on-tertiary-fixed-variant": "#633f00",
+                        "on-tertiary-container": "#c5871d",
+                        "surface-tint": "#4d6453",
+                        "inverse-on-surface": "#f2f1ec",
+                        "primary": "#061b0e",
+                        "tertiary-container": "#3f2700",
+                        "surface-container": "#f0eee9",
+                        "primary-fixed": "#d0e9d4",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#1b3022",
+                        "tertiary": "#241400",
+                        "error": "#ba1a1a",
+                        "inverse-primary": "#b4cdb8",
+                        "secondary-fixed-dim": "#d7c3b0",
+                        "on-primary-fixed-variant": "#364c3c",
+                        "outline": "#737973",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#291800",
+                        "on-primary-fixed": "#0b2013",
+                        "on-error-container": "#93000a",
+                        "inverse-surface": "#30312e",
+                        "tertiary-fixed": "#ffddb3",
+                        "surface-variant": "#e4e2dd",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#241a0e",
+                        "surface-bright": "#fbf9f4",
+                        "surface-container-low": "#f5f3ee",
+                        "outline-variant": "#c3c8c1",
+                        "primary-fixed-dim": "#b4cdb8",
+                        "on-surface": "#1b1c19",
+                        "surface-container-highest": "#e4e2dd",
+                        "secondary-fixed": "#f4dfcb",
+                        "tertiary-fixed-dim": "#ffb951",
+                        "surface-container-high": "#eae8e3",
+                        "on-secondary-fixed-variant": "#524436",
+                        "on-primary-container": "#819986",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-dim": "#dbdad5",
+                        "surface": "#fbf9f4",
+                        "secondary-container": "#f4dfcb",
+                        "on-secondary": "#ffffff",
+                        "secondary": "#6b5c4c",
+                        "on-secondary-container": "#716252",
+                        "on-tertiary": "#ffffff",
+                        "on-background": "#1b1c19",
+                        "background": "#fbf9f4"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding-mobile": "20px",
+                        "unit": "8px",
+                        "touch-target-min": "48px",
+                        "safe-area-bottom": "32px",
+                        "gutter": "16px",
+                        "container-padding-desktop": "40px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "display-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "title-lg": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Base styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+        
+        /* Map background effect */
+        .map-bg {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" opacity="0.05"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="%23061b0e" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)" /></svg>');
+            background-size: cover;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+        }
+
+        /* Glassmorphism utility */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Progress Bar Animation */
+        @keyframes fillProgress {
+            0% { width: 0%; }
+            25% { width: 45%; }
+            50% { width: 75%; }
+            75% { width: 90%; }
+            100% { width: 100%; }
+        }
+
+        .animate-progress {
+            animation: fillProgress 4s ease-in-out forwards;
+        }
+
+        /* Hide TopAppBar on mobile, hide TopAppBar text links on mobile */
+        @media (max-width: 767px) {
+            .desktop-nav-links { display: none !important; }
+        }
+        
+        /* Hide BottomNavBar on desktop */
+        @media (min-width: 768px) {
+            .mobile-bottom-nav { display: none !important; }
+            .content-padding { padding-bottom: 2rem !important; }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="h-full flex flex-col relative antialiased selection:bg-primary-container selection:text-on-primary-container">
+<div class="map-bg pointer-events-none"></div>
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-container-padding-mobile h-touch-target-min backdrop-blur-xl bg-white/70 dark:bg-black/70 border-none shadow-none md:px-container-padding-desktop">
+<div class="flex items-center gap-2 text-primary hover:opacity-80 scale-95 duration-200 transition-all cursor-pointer">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">signal_cellular_alt</span>
+</div>
+<div class="font-headline-md text-headline-md font-bold text-primary truncate absolute left-1/2 -translate-x-1/2">
+            TrailSage AI
+        </div>
+<div class="flex items-center gap-2 text-primary hover:opacity-80 scale-95 duration-200 transition-all cursor-pointer">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">offline_pin</span>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-grow flex flex-col items-center justify-center px-container-padding-mobile md:px-container-padding-desktop pt-24 pb-32 content-padding">
+<div class="w-full max-w-2xl flex flex-col gap-unit-6">
+<!-- Header Section -->
+<div class="text-center flex flex-col gap-unit-2 mb-unit-4">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-primary">
+                    Download your first tour
+                </h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-lg mx-auto">
+                    The sample tour shows how maps, GPS triggers, and AI narration work together.
+                </p>
+</div>
+<!-- Featured Card (Bento/Glass style) -->
+<div class="relative w-full rounded-xl overflow-hidden glass-panel shadow-[0_4px_12px_rgba(6,27,14,0.1)] flex flex-col group transition-transform duration-300 hover:shadow-[0_8px_24px_rgba(6,27,14,0.15)]">
+<!-- Hero Image Area -->
+<div class="relative w-full h-48 md:h-64 bg-surface-container overflow-hidden">
+<img alt="Scenic road winding through a verdant, sunlit forest." class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A highly detailed, professional photograph of a scenic, winding road cutting through a dense, lush green forest during a bright, sunny day. The lighting is natural and vibrant, creating a 'Modern Naturalist' aesthetic with crisp shadows and vivid colors. The mood is adventurous and inviting, perfect for a high-end travel application. The composition emphasizes depth and the journey ahead." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7BODiLKlFIiphwzqyGsjDR8KI3SQrm3yY7AYOPnZS68EtVnqYkTqHdfOiNDYbgNmskPkMyNyd5zj_KbP4dQJGKl0gWu619utCskhW4OeRKO2FkvSHo46XU-DOX3iiCq3W7XfE5IdvslBG2F6b4IJC_J3VDQlaM46jUeb9tPqivkOUDHE4F1axtbq6NvFgla693zpBKnVZMTu1xwj2PrM154OTwSUocXgTume37k6U43_8g2z5uRpnZHl0c8NgswUoDXgzXbZfylI"/>
+<!-- Scrim for text readability -->
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/30 to-transparent"></div>
+<!-- Title Over Image -->
+<div class="absolute bottom-4 left-4 right-4">
+<h2 class="font-title-lg text-title-lg text-on-primary mb-1 shadow-sm">
+                            Schenectady &amp; Mohawk River Sample Drive
+                        </h2>
+<div class="flex items-center gap-2 text-on-primary/90 font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+<span>45 min drive</span>
+<span>•</span>
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+<span>12 story stops</span>
+<span>•</span>
+<span class="material-symbols-outlined text-[16px]">sd_storage</span>
+<span>180 MB</span>
+</div>
+</div>
+</div>
+<!-- Card Content/Details -->
+<div class="p-unit-4 flex flex-col gap-unit-4 bg-surface/80 backdrop-blur-md">
+<h3 class="font-label-lg text-label-lg text-primary">Includes:</h3>
+<ul class="grid grid-cols-1 md:grid-cols-2 gap-unit-3">
+<li class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined text-[18px]">map</span>
+</div>
+<span class="font-body-md text-body-md text-on-surface">Offline Map</span>
+</li>
+<li class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined text-[18px]">place</span>
+</div>
+<span class="font-body-md text-body-md text-on-surface">POI Pack</span>
+</li>
+<li class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined text-[18px]">graphic_eq</span>
+</div>
+<span class="font-body-md text-body-md text-on-surface">Story Triggers</span>
+</li>
+<li class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined text-[18px]">database</span>
+</div>
+<span class="font-body-md text-body-md text-on-surface">Source Data</span>
+</li>
+</ul>
+<!-- Download Action Area -->
+<div class="mt-unit-4 flex flex-col gap-unit-3" id="download-section">
+<button class="w-full min-h-[56px] rounded-full bg-primary text-on-primary font-label-lg text-label-lg flex items-center justify-center gap-2 hover:bg-primary/90 active:scale-95 transition-all shadow-[0_4px_12px_rgba(6,27,14,0.2)]" id="start-download-btn">
+<span class="material-symbols-outlined">download</span>
+                            Download Tour
+                        </button>
+</div>
+<!-- Progress Area (Hidden initially) -->
+<div class="mt-unit-4 flex-col gap-unit-2 hidden" id="progress-section">
+<div class="flex justify-between items-center font-label-sm text-label-sm text-on-surface-variant mb-1">
+<span>Downloading assets...</span>
+<span id="progress-text">0%</span>
+</div>
+<!-- Dual-layered progress bar -->
+<div class="w-full h-2 bg-secondary-fixed-dim rounded-full overflow-hidden">
+<div class="h-full bg-primary w-0 rounded-full transition-all duration-300 ease-out" id="progress-bar"></div>
+</div>
+<p class="font-label-sm text-label-sm text-outline mt-1 text-center" id="progress-detail">Fetching Offline Map...</p>
+</div>
+<!-- Success Area (Hidden initially) -->
+<div class="mt-unit-4 flex-col gap-unit-3 hidden" id="success-section">
+<div class="flex items-center justify-center gap-2 text-primary font-label-lg text-label-lg mb-2">
+<span class="material-symbols-outlined text-green-600">check_circle</span>
+<span>Download Complete</span>
+</div>
+<button class="w-full min-h-[56px] rounded-full bg-primary-container text-on-primary-container font-label-lg text-label-lg flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all">
+<span>Continue</span>
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<!-- Note: Following semantic shell mandate, this is technically a transactional/onboarding page, 
+         so nav could be suppressed. However, to fulfill the prompt requirements for UI demonstration 
+         while maintaining logic, we will show it but none are 'active' since we are in a transactional flow. -->
+<nav class="mobile-bottom-nav fixed bottom-0 w-full z-50 flex justify-around items-center px-gutter pb-safe-area-bottom pt-2 bg-surface dark:bg-surface-container rounded-t-xl shadow-[0_-4px_12px_rgba(6,27,14,0.1)] border-none">
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors scale-90 active:scale-95 duration-150 cursor-pointer">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-label-sm text-label-sm mt-1">Explore</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors scale-90 active:scale-95 duration-150 cursor-pointer">
+<span class="material-symbols-outlined">map</span>
+<span class="font-label-sm text-label-sm mt-1">Map</span>
+</div>
+<!-- Active state applied to Downloads as it's the closest context, even in transactional flow -->
+<div class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 scale-90 active:scale-95 duration-150 cursor-pointer">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">download_for_offline</span>
+<span class="font-label-sm text-label-sm mt-1">Downloads</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors scale-90 active:scale-95 duration-150 cursor-pointer">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-label-sm text-label-sm mt-1">Guide</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors scale-90 active:scale-95 duration-150 cursor-pointer">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-sm text-label-sm mt-1">Settings</span>
+</div>
+</nav>
+<script>
+        // Simple JS to handle the fake download interaction
+        document.addEventListener('DOMContentLoaded', () => {
+            const downloadBtn = document.getElementById('start-download-btn');
+            const downloadSection = document.getElementById('download-section');
+            const progressSection = document.getElementById('progress-section');
+            const successSection = document.getElementById('success-section');
+            const progressBar = document.getElementById('progress-bar');
+            const progressText = document.getElementById('progress-text');
+            const progressDetail = document.getElementById('progress-detail');
+
+            if(downloadBtn) {
+                downloadBtn.addEventListener('click', () => {
+                    // Hide button, show progress
+                    downloadSection.classList.add('hidden');
+                    progressSection.classList.remove('hidden');
+                    progressSection.classList.add('flex');
+
+                    // Simulate download steps
+                    let progress = 0;
+                    const interval = setInterval(() => {
+                        progress += Math.floor(Math.random() * 15) + 5;
+                        if (progress > 100) progress = 100;
+                        
+                        progressBar.style.width = `${progress}%`;
+                        progressText.textContent = `${progress}%`;
+
+                        if (progress < 30) {
+                            progressDetail.textContent = "Fetching Offline Map...";
+                        } else if (progress < 60) {
+                            progressDetail.textContent = "Downloading POI Pack...";
+                        } else if (progress < 90) {
+                            progressDetail.textContent = "Syncing Story Triggers...";
+                        } else {
+                            progressDetail.textContent = "Finalizing Source Data...";
+                        }
+
+                        if (progress === 100) {
+                            clearInterval(interval);
+                            setTimeout(() => {
+                                progressSection.classList.add('hidden');
+                                progressSection.classList.remove('flex');
+                                successSection.classList.remove('hidden');
+                                successSection.classList.add('flex');
+                            }, 500);
+                        }
+                    }, 400);
+                });
+            }
+        });
+    </script>
+</body></html>

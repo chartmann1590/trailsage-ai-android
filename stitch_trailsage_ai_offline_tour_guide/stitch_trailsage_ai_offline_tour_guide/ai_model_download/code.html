@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TrailSage AI - Model Download</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-surface": "#1b1c19",
+                      "secondary-container": "#f4dfcb",
+                      "background": "#fbf9f4",
+                      "on-secondary-fixed": "#241a0e",
+                      "on-tertiary-fixed": "#291800",
+                      "secondary-fixed": "#f4dfcb",
+                      "on-tertiary-container": "#c5871d",
+                      "on-tertiary": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "primary": "#061b0e",
+                      "on-error": "#ffffff",
+                      "primary-fixed": "#d0e9d4",
+                      "inverse-surface": "#30312e",
+                      "error": "#ba1a1a",
+                      "surface-dim": "#dbdad5",
+                      "tertiary-fixed": "#ffddb3",
+                      "on-secondary": "#ffffff",
+                      "surface": "#fbf9f4",
+                      "error-container": "#ffdad6",
+                      "surface-tint": "#4d6453",
+                      "primary-container": "#1b3022",
+                      "outline": "#737973",
+                      "surface-container-highest": "#e4e2dd",
+                      "inverse-on-surface": "#f2f1ec",
+                      "tertiary": "#241400",
+                      "secondary-fixed-dim": "#d7c3b0",
+                      "on-primary-container": "#819986",
+                      "tertiary-container": "#3f2700",
+                      "on-primary-fixed": "#0b2013",
+                      "on-secondary-fixed-variant": "#524436",
+                      "secondary": "#6b5c4c",
+                      "surface-container-lowest": "#ffffff",
+                      "on-surface-variant": "#434843",
+                      "tertiary-fixed-dim": "#ffb951",
+                      "on-secondary-container": "#716252",
+                      "primary-fixed-dim": "#b4cdb8",
+                      "on-background": "#1b1c19",
+                      "outline-variant": "#c3c8c1",
+                      "on-error-container": "#93000a",
+                      "on-primary-fixed-variant": "#364c3c",
+                      "on-tertiary-fixed-variant": "#633f00",
+                      "surface-variant": "#e4e2dd",
+                      "surface-container-high": "#eae8e3",
+                      "surface-bright": "#fbf9f4",
+                      "inverse-primary": "#b4cdb8",
+                      "surface-container-low": "#f5f3ee",
+                      "surface-container": "#f0eee9"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "unit": "8px",
+                      "container-padding-desktop": "40px",
+                      "touch-target-min": "48px",
+                      "gutter": "16px",
+                      "container-padding-mobile": "20px",
+                      "safe-area-bottom": "32px"
+              },
+              "fontFamily": {
+                      "label-sm": [
+                              "Inter"
+                      ],
+                      "label-lg": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "title-lg": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "label-sm": [
+                              "11px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.5px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "label-lg": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0.1px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "title-lg": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+            },
+          },
+        }
+      </script>
+<style>
+        .progress-bar-fill {
+            transition: width 0.3s ease-out;
+        }
+      </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-container-padding-mobile h-touch-target-min backdrop-blur-xl bg-white/70 dark:bg-black/70 md:px-container-padding-desktop">
+<div class="flex items-center gap-2 cursor-pointer hover:opacity-80 scale-95 duration-200">
+<span class="material-symbols-outlined text-primary" data-weight="fill" style="font-variation-settings: 'FILL' 1;">signal_cellular_alt</span>
+</div>
+<div class="font-headline-md text-headline-md font-bold text-primary">TrailSage AI</div>
+<div class="flex items-center gap-2 cursor-pointer hover:opacity-80 scale-95 duration-200">
+<span class="material-symbols-outlined text-primary" data-weight="fill" style="font-variation-settings: 'FILL' 1;">offline_pin</span>
+</div>
+</header>
+<!-- Main Canvas (Intent: Linear/Transactional - Sub-page, no bottom nav) -->
+<main class="pt-[calc(48px+24px)] pb-safe-area-bottom px-container-padding-mobile md:px-container-padding-desktop max-w-4xl mx-auto min-h-screen flex flex-col">
+<!-- Back Action -->
+<button class="flex items-center gap-unit text-primary font-label-lg text-label-lg mb-gutter hover:opacity-80 transition-opacity self-start">
+<span class="material-symbols-outlined">arrow_back</span>
+            Back to Downloads
+        </button>
+<!-- Glassmorphism Container -->
+<div class="flex-1 flex flex-col justify-center relative z-10">
+<div class="bg-white/40 backdrop-blur-3xl border border-white/50 rounded-[32px] p-6 md:p-12 shadow-2xl shadow-primary/5 flex flex-col md:flex-row gap-8 md:gap-16 items-center">
+<!-- Visual Left / Top -->
+<div class="w-48 h-48 md:w-64 md:h-64 rounded-full bg-gradient-to-tr from-primary-container/20 to-surface-bright border-4 border-white/60 shadow-inner flex items-center justify-center flex-shrink-0 relative overflow-hidden">
+<!-- Background texture/image representing AI/Chip -->
+<div class="absolute inset-0 bg-cover bg-center opacity-80" data-alt="A highly detailed, macro photograph of a modern microprocessor chip glowing with subtle internal light. The aesthetic is clean, technological, and sophisticated, using a palette of soft whites, silvers, and deep forest green accents. The lighting is bright and modern, creating a sense of advanced capability within a naturalistic, light-mode interface." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAj392dJyek39M-4u5IwSLltofCcJGYBrRBsaSzFLRdvIgmje0fxgjY1_gZAbFIDfqesJFjzsP05vEyjVuezEVW0g24OOz-l8foUi1l4WNmwl-fojdkrjTZJXzRWnVDwPRPEx50vVCT3PLbCDSSyq8ZbC4QKKuPDCtOoDjARxPXgsU38lWFCtFX1ikhBY1-D6uci9lWR5N3hM_j4q3ujcvi_vjxfSUXkgtbL6ORsJOxsAC_yWO0vf0iOyS0bNfxo5Ak_tqiiaZlplI');"></div>
+<div class="absolute inset-0 bg-white/20 backdrop-blur-sm"></div>
+<!-- Gemma Logo Placeholder Icon -->
+<span class="material-symbols-outlined text-[80px] text-primary relative z-10 drop-shadow-md">memory</span>
+</div>
+<!-- Content Right / Bottom -->
+<div class="flex-1 w-full flex flex-col gap-6">
+<div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-primary mb-2">Gemma 4.2 Local Guide</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Downloading your on-device guide...</p>
+</div>
+<!-- Progress Section -->
+<div class="space-y-4">
+<!-- Progress Bar -->
+<div class="h-3 w-full bg-surface-variant rounded-full overflow-hidden shadow-inner">
+<div class="h-full bg-primary progress-bar-fill rounded-full" style="width: 68%;"></div>
+</div>
+<!-- Stats -->
+<div class="flex justify-between items-center font-label-sm text-label-sm text-on-surface-variant">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">speed</span> 12.4 MB/s</span>
+<span>68% • 1.2 GB / 1.8 GB</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">schedule</span> 0m 48s remaining</span>
+</div>
+</div>
+<!-- Meta & Status Cards (Bento style) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Checksum / Integrity -->
+<div class="bg-surface/60 rounded-xl p-4 border border-outline-variant/30 flex items-start gap-3">
+<span class="material-symbols-outlined text-primary-container mt-0.5">verified_user</span>
+<div>
+<h3 class="font-label-lg text-label-lg text-primary mb-1">Integrity Check</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Verifying SHA-256 signatures in real-time to ensure safe deployment.</p>
+</div>
+</div>
+<!-- Privacy -->
+<div class="bg-surface/60 rounded-xl p-4 border border-outline-variant/30 flex items-start gap-3">
+<span class="material-symbols-outlined text-primary-container mt-0.5">shield_lock</span>
+<div>
+<h3 class="font-label-lg text-label-lg text-primary mb-1">Total Privacy</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant">AI answers are generated entirely on your device. No cloud required.</p>
+</div>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex gap-4 mt-4 pt-4 border-t border-outline-variant/20">
+<button class="flex-1 bg-surface-variant text-on-surface hover:bg-surface-dim transition-colors py-3 px-6 rounded-full font-label-lg text-label-lg flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">pause</span> Pause
+                        </button>
+<!-- Example of active/primary button for when paused or failed -->
+<button class="flex-1 bg-primary text-on-primary hover:bg-primary-container transition-colors py-3 px-6 rounded-full font-label-lg text-label-lg flex items-center justify-center gap-2 shadow-[0_4px_12px_rgba(6,27,14,0.1)] hidden">
+<span class="material-symbols-outlined">play_arrow</span> Resume
+                        </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Error State Placeholder (Hidden by default for visual purity, shown here for structure) -->
+<!--
+        <div class="mt-8 bg-error-container text-on-error-container p-4 rounded-xl flex items-center justify-between border border-error/20">
+            <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-error">error</span>
+                <span class="font-label-lg text-label-lg">Model download failed due to network interruption.</span>
+            </div>
+            <button class="bg-error text-on-error px-4 py-2 rounded-full font-label-sm text-label-sm hover:opacity-90">Retry</button>
+        </div>
+        -->
+</main>
+<!-- BottomNavBar Suppressed (Linear/Transactional intent: Download in progress) -->
+</body></html>

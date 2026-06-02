@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Settings - TrailSage AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#1b1c19",
+                        "surface-container-highest": "#e4e2dd",
+                        "secondary-fixed": "#f4dfcb",
+                        "on-secondary-fixed-variant": "#524436",
+                        "tertiary-fixed-dim": "#ffb951",
+                        "surface-container-high": "#eae8e3",
+                        "on-primary-container": "#819986",
+                        "surface-bright": "#fbf9f4",
+                        "on-secondary-fixed": "#241a0e",
+                        "outline-variant": "#c3c8c1",
+                        "surface-container-low": "#f5f3ee",
+                        "primary-fixed-dim": "#b4cdb8",
+                        "secondary": "#6b5c4c",
+                        "on-secondary-container": "#716252",
+                        "secondary-container": "#f4dfcb",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-background": "#1b1c19",
+                        "background": "#fbf9f4",
+                        "surface-dim": "#dbdad5",
+                        "surface": "#fbf9f4",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-tint": "#4d6453",
+                        "on-tertiary-container": "#c5871d",
+                        "inverse-on-surface": "#f2f1ec",
+                        "on-surface-variant": "#434843",
+                        "on-tertiary-fixed-variant": "#633f00",
+                        "inverse-primary": "#b4cdb8",
+                        "on-primary-fixed-variant": "#364c3c",
+                        "secondary-fixed-dim": "#d7c3b0",
+                        "on-tertiary-fixed": "#291800",
+                        "on-primary-fixed": "#0b2013",
+                        "on-error-container": "#93000a",
+                        "inverse-surface": "#30312e",
+                        "outline": "#737973",
+                        "error-container": "#ffdad6",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed": "#ffddb3",
+                        "surface-variant": "#e4e2dd",
+                        "tertiary-container": "#3f2700",
+                        "primary": "#061b0e",
+                        "surface-container": "#f0eee9",
+                        "primary-fixed": "#d0e9d4",
+                        "on-primary": "#ffffff",
+                        "tertiary": "#241400",
+                        "error": "#ba1a1a",
+                        "primary-container": "#1b3022"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding-mobile": "20px",
+                        "unit": "8px",
+                        "touch-target-min": "48px",
+                        "safe-area-bottom": "32px",
+                        "gutter": "16px",
+                        "container-padding-desktop": "40px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "title-lg": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #061b0e;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #061b0e;
+        }
+        .toggle-checkbox:checked + .toggle-label:after {
+            transform: translateX(100%);
+            border-color: white;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body-md antialiased pb-safe-area-bottom md:pb-0">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-40 bg-surface-bright dark:bg-surface-dim flat no shadows text-primary dark:text-primary-fixed-dim transition-colors duration-200">
+<div class="flex justify-between items-center px-container-padding-mobile md:px-container-padding-desktop h-touch-target-min">
+<button aria-label="Disconnected" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors duration-200">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim" data-icon="signal_disconnected">signal_disconnected</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">TrailSage AI</h1>
+<button aria-label="Location" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors duration-200">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim" data-icon="location_on">location_on</span>
+</button>
+</div>
+</header>
+<main class="max-w-3xl mx-auto px-container-padding-mobile md:px-container-padding-desktop py-6 pb-32 md:pb-12">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mb-8">Settings</h2>
+<!-- Offline & Data -->
+<section class="mb-8">
+<h3 class="font-title-lg text-title-lg text-primary mb-4 px-2">Offline &amp; Data</h3>
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden">
+<div class="flex items-center justify-between p-4 border-b border-outline-variant hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-secondary" data-icon="wifi">wifi</span>
+<div>
+<p class="font-body-lg text-body-lg text-on-surface">Download over Wi-Fi only</p>
+<p class="font-label-lg text-label-lg text-on-surface-variant">Save cellular data</p>
+</div>
+</div>
+<div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 border-surface-container-high appearance-none cursor-pointer z-10 transition-transform duration-200" id="wifi-toggle" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-primary-container cursor-pointer transition-colors duration-200" for="wifi-toggle"></label>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-secondary" data-icon="update">update</span>
+<div>
+<p class="font-body-lg text-body-lg text-on-surface">Auto-update guides</p>
+<p class="font-label-lg text-label-lg text-on-surface-variant">Keep downloaded content fresh</p>
+</div>
+</div>
+<div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+<input class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 border-surface-container-high appearance-none cursor-pointer z-10 transition-transform duration-200" id="update-toggle" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-surface-container-high cursor-pointer transition-colors duration-200" for="update-toggle"></label>
+</div>
+</div>
+</div>
+</section>
+<!-- AI Guide -->
+<section class="mb-8">
+<h3 class="font-title-lg text-title-lg text-primary mb-4 px-2">AI Guide</h3>
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden">
+<div class="flex items-center justify-between p-4 border-b border-outline-variant hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-secondary" data-icon="psychology">psychology</span>
+<div>
+<p class="font-body-lg text-body-lg text-on-surface">Narration Style</p>
+<p class="font-label-lg text-label-lg text-on-surface-variant">Currently: Naturalist</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="chevron_right">chevron_right</span>
+</div>
+<div class="flex items-center justify-between p-4 hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-secondary" data-icon="short_text">short_text</span>
+<div>
+<p class="font-body-lg text-body-lg text-on-surface">Response Length</p>
+<p class="font-label-lg text-label-lg text-on-surface-variant">Currently: Concise</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+</section>
+<!-- Voice -->
+<section class="mb-8">
+<h3 class="font-title-lg text-title-lg text-primary mb-4 px-2">Voice</h3>
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden">
+<div class="flex items-center justify-between p-4 hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-secondary" data-icon="record_voice_over">record_voice_over</span>
+<div>
+<p class="font-body-lg text-body-lg text-on-surface">Default Voice</p>
+<p class="font-label-lg text-label-lg text-on-surface-variant">Currently: Sage (Deep, Calm)</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+</section>
+<!-- Privacy & Attribution -->
+<section class="mb-8">
+<h3 class="font-title-lg text-title-lg text-primary mb-4 px-2">About</h3>
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden">
+<div class="flex items-center justify-between p-4 border-b border-outline-variant hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-secondary" data-icon="shield">shield</span>
+<div>
+<p class="font-body-lg text-body-lg text-on-surface">Privacy &amp; Processing</p>
+<p class="font-label-lg text-label-lg text-on-surface-variant">On-device AI details</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="chevron_right">chevron_right</span>
+</div>
+<div class="flex items-center justify-between p-4 hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-secondary" data-icon="info">info</span>
+<div>
+<p class="font-body-lg text-body-lg text-on-surface">Attribution</p>
+<p class="font-label-lg text-label-lg text-on-surface-variant">Data sources and licenses</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+</section>
+<div class="text-center mt-12 mb-8">
+<p class="font-label-lg text-label-lg text-outline">TrailSage AI v2.4.1</p>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 pt-2 pb-safe-area-bottom bg-surface dark:bg-surface-dim shadow-[0_-4px_12px_rgba(6,27,14,0.1)] rounded-t-xl transition-all">
+<a aria-label="Explore" class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant py-1 hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all rounded-lg min-w-[64px]" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="explore">explore</span>
+<span class="font-label-sm text-label-sm">Explore</span>
+</a>
+<a aria-label="Map" class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant py-1 hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all rounded-lg min-w-[64px]" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="map">map</span>
+<span class="font-label-sm text-label-sm">Map</span>
+</a>
+<a aria-label="Downloads" class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant py-1 hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all rounded-lg min-w-[64px]" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="download">download</span>
+<span class="font-label-sm text-label-sm">Downloads</span>
+</a>
+<a aria-label="Guide" class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant py-1 hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all rounded-lg min-w-[64px]" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="chat_bubble">chat_bubble</span>
+<span class="font-label-sm text-label-sm">Guide</span>
+</a>
+<a aria-label="Settings" class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-full px-4 py-1 hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all min-w-[64px]" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="settings" data-weight="fill" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="font-label-sm text-label-sm">Settings</span>
+</a>
+</nav>
+<script>
+        // Simple toggle logic for visual feedback
+        const toggles = document.querySelectorAll('.toggle-checkbox');
+        toggles.forEach(toggle => {
+            toggle.addEventListener('change', function() {
+                const label = this.nextElementSibling;
+                if(this.checked) {
+                    label.classList.remove('bg-surface-container-high');
+                    label.classList.add('bg-primary-container');
+                } else {
+                    label.classList.remove('bg-primary-container');
+                    label.classList.add('bg-surface-container-high');
+                }
+            });
+        });
+    </script>
+</body></html>

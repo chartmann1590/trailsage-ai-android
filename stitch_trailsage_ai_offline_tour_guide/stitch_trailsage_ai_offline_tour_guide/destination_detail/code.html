@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Destination Detail - Adirondack High Peaks Loop</title>
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Theme Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary": "#ffffff",
+                    "on-background": "#1b1c19",
+                    "secondary-fixed": "#f4dfcb",
+                    "surface-container-low": "#f5f3ee",
+                    "tertiary-container": "#3f2700",
+                    "secondary-container": "#f4dfcb",
+                    "primary-fixed": "#d0e9d4",
+                    "primary-fixed-dim": "#b4cdb8",
+                    "on-primary-fixed": "#0b2013",
+                    "surface-container-lowest": "#ffffff",
+                    "outline-variant": "#c3c8c1",
+                    "background": "#fbf9f4",
+                    "primary-container": "#1b3022",
+                    "surface-bright": "#fbf9f4",
+                    "on-tertiary-container": "#c5871d",
+                    "error": "#ba1a1a",
+                    "inverse-on-surface": "#f2f1ec",
+                    "tertiary-fixed": "#ffddb3",
+                    "on-tertiary-fixed-variant": "#633f00",
+                    "on-surface": "#1b1c19",
+                    "on-primary-fixed-variant": "#364c3c",
+                    "primary": "#061b0e",
+                    "outline": "#737973",
+                    "on-surface-variant": "#434843",
+                    "on-secondary": "#ffffff",
+                    "surface-container-highest": "#e4e2dd",
+                    "on-tertiary-fixed": "#291800",
+                    "on-secondary-fixed-variant": "#524436",
+                    "tertiary": "#241400",
+                    "surface": "#fbf9f4",
+                    "tertiary-fixed-dim": "#ffb951",
+                    "error-container": "#ffdad6",
+                    "surface-dim": "#dbdad5",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-container": "#819986",
+                    "secondary-fixed-dim": "#d7c3b0",
+                    "on-secondary-fixed": "#241a0e",
+                    "inverse-primary": "#b4cdb8",
+                    "surface-container": "#f0eee9",
+                    "secondary": "#6b5c4c",
+                    "inverse-surface": "#30312e",
+                    "on-error-container": "#93000a",
+                    "on-error": "#ffffff",
+                    "surface-container-high": "#eae8e3",
+                    "on-secondary-container": "#716252",
+                    "surface-variant": "#e4e2dd",
+                    "surface-tint": "#4d6453"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-padding-mobile": "20px",
+                    "unit": "8px",
+                    "safe-area-bottom": "32px",
+                    "gutter": "16px",
+                    "touch-target-min": "48px",
+                    "container-padding-desktop": "40px"
+            },
+            "fontFamily": {
+                    "label-lg": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "title-lg": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "headline-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                    "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "label-sm": ["11px", {"lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body-md antialiased pb-safe-area-bottom pb-24 md:pb-0">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-container-padding-mobile h-touch-target-min backdrop-blur-xl bg-white/70 dark:bg-black/70">
+<button class="flex items-center justify-center w-10 h-10 rounded-full hover:opacity-80 scale-95 duration-200 text-primary">
+<span class="material-symbols-outlined" data-icon="signal_cellular_alt">signal_cellular_alt</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">TrailSage AI</h1>
+<button class="flex items-center justify-center w-10 h-10 rounded-full hover:opacity-80 scale-95 duration-200 text-outline">
+<span class="material-symbols-outlined" data-icon="offline_pin">offline_pin</span>
+</button>
+</header>
+<!-- Main Canvas -->
+<main class="relative w-full max-w-4xl mx-auto md:mt-touch-target-min md:px-container-padding-desktop">
+<!-- Hero Header Image -->
+<section class="relative w-full h-[530px] min-h-[400px] md:rounded-xl overflow-hidden bg-surface-container" data-alt="A sweeping, majestic high-definition photograph of the Adirondack High Peaks during early autumn. The sky is clear blue with soft, diffuse clouds. Rolling mountain ridges layered in lush deep greens, bright sunrise golds, and warm earthy browns stretch toward the horizon. The lighting is soft and golden hour natural, creating an adventurous, inspiring, and calm naturalist aesthetic perfectly aligned with a premium outdoor travel application." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDwJ5MocRYWdC8gk41dFfrAoU99O8fgCPn1fzyheNI2l6cBircSW1gVZbjsL1Df6_ugjnVQb8UAkdIsvLnWkrkVBBdWnQmq4nTIiGj-BFExMSXUXObYL4h0eOP3XGdMBZdKmUAFxxijZ1ISOqkwpLGZXW4N90QMw68--W_H4SdlpifPa4P1exhYNoXHe3CLPkuSxghRwxx8Z41EPderCZPotH5ttBT2yPIoczsQBGt11m2T6owY4xfrkzYYjKZhMAKalyP2Q5tAvJs'); background-size: cover; background-position: center;">
+<!-- Gradient Scrim for text legibility -->
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+<div class="absolute bottom-0 left-0 w-full px-container-padding-mobile pb-12 pt-8 md:px-12">
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-black/40 backdrop-blur-md rounded-full text-white mb-3">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-tertiary-fixed-dim">Upstate New York Region</span>
+</div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-display-lg md:text-display-lg text-white mb-2 shadow-sm">Adirondack High Peaks Loop</h2>
+<div class="flex items-center gap-4 text-surface-bright/90 font-label-lg text-label-lg mt-4">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined">directions_car</span>
+<span>4h 20m drive</span>
+</div>
+<div class="w-1 h-1 rounded-full bg-white/50"></div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined">cloud_download</span>
+<span>450 MB offline</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Content Area (Overlapping Hero slightly on mobile) -->
+<section class="relative z-10 -mt-6 bg-surface rounded-t-3xl px-container-padding-mobile pt-8 pb-16 md:mt-8 md:rounded-none md:px-0">
+<!-- Actions -->
+<div class="flex flex-col sm:flex-row gap-4 mb-10">
+<button class="flex-1 flex items-center justify-center gap-2 bg-primary text-on-primary font-label-lg text-label-lg py-4 px-6 rounded-full shadow-[0_4px_12px_rgba(6,27,14,0.15)] hover:bg-on-surface-variant transition-colors active:scale-[0.98]">
+<span class="material-symbols-outlined fill">download</span>
+                    Download Tour
+                </button>
+<button class="flex-1 flex items-center justify-center gap-2 bg-surface-container text-on-surface font-label-lg text-label-lg py-4 px-6 rounded-full border border-outline-variant hover:bg-surface-variant transition-colors active:scale-[0.98]">
+<span class="material-symbols-outlined">play_arrow</span>
+                    Preview
+                </button>
+</div>
+<!-- Bento Grid Stats -->
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-10">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-2xl p-5 flex flex-col justify-between aspect-square md:aspect-auto md:h-32 shadow-sm">
+<span class="material-symbols-outlined text-primary mb-2 text-3xl">headphones</span>
+<div>
+<div class="font-headline-md text-headline-md text-on-surface">18</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mt-1">GPS AUDIO STORIES</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-2xl p-5 flex flex-col justify-between aspect-square md:aspect-auto md:h-32 shadow-sm">
+<span class="material-symbols-outlined text-tertiary-container mb-2 text-3xl">explore</span>
+<div>
+<div class="font-headline-md text-headline-md text-on-surface">42</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mt-1">KEY POIs</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-primary-container text-on-primary-container rounded-2xl p-5 flex flex-col justify-between col-span-2 md:col-span-1 shadow-sm relative overflow-hidden">
+<div class="absolute -right-4 -top-4 opacity-10 pointer-events-none">
+<span class="material-symbols-outlined text-[100px]">offline_bolt</span>
+</div>
+<span class="material-symbols-outlined mb-2 text-3xl relative z-10">signal_wifi_off</span>
+<div class="relative z-10">
+<div class="font-headline-md text-headline-md">100%</div>
+<div class="font-label-sm text-label-sm mt-1">OFFLINE CAPABLE</div>
+</div>
+</div>
+</div>
+<!-- Offline Readiness Checklist -->
+<div class="mb-12">
+<h3 class="font-title-lg text-title-lg text-on-surface mb-4">Readiness Checklist</h3>
+<div class="bg-surface-container-low rounded-2xl p-2 border border-outline-variant/20">
+<ul class="flex flex-col gap-1">
+<li class="flex items-center justify-between p-3 rounded-xl hover:bg-surface-variant/50 transition-colors">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-fixed-dim">check_circle</span>
+<span class="font-body-md text-body-md text-on-surface">High-Res Map Tiles</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">120 MB</span>
+</li>
+<li class="flex items-center justify-between p-3 rounded-xl hover:bg-surface-variant/50 transition-colors">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-fixed-dim">check_circle</span>
+<span class="font-body-md text-body-md text-on-surface">Image Assets</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">85 MB</span>
+</li>
+<li class="flex items-center justify-between p-3 rounded-xl hover:bg-surface-variant/50 transition-colors">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-fixed-dim">check_circle</span>
+<span class="font-body-md text-body-md text-on-surface">Audio Source Chunks</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">240 MB</span>
+</li>
+<li class="flex items-center justify-between p-3 rounded-xl hover:bg-surface-variant/50 transition-colors">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-fixed-dim">check_circle</span>
+<span class="font-body-md text-body-md text-on-surface">Story Triggers &amp; AI Data</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">5 MB</span>
+</li>
+</ul>
+</div>
+</div>
+<!-- Public Sources Attribution Panel -->
+<div class="border-t border-outline-variant/30 pt-8 pb-8">
+<h4 class="font-label-lg text-label-lg text-on-surface-variant mb-4">DATA SOURCES &amp; ATTRIBUTION</h4>
+<div class="flex flex-wrap gap-2">
+<div class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-surface-container-highest/50 rounded-full text-on-surface-variant font-label-sm text-label-sm border border-outline-variant/30">
+<span class="material-symbols-outlined text-[14px]">public</span>
+                        Wikipedia
+                    </div>
+<div class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-surface-container-highest/50 rounded-full text-on-surface-variant font-label-sm text-label-sm border border-outline-variant/30">
+<span class="material-symbols-outlined text-[14px]">map</span>
+                        OpenStreetMap
+                    </div>
+<div class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-surface-container-highest/50 rounded-full text-on-surface-variant font-label-sm text-label-sm border border-outline-variant/30">
+<span class="material-symbols-outlined text-[14px]">photo_library</span>
+                        Wikimedia Commons
+                    </div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 flex justify-around items-center px-gutter pb-safe-area-bottom pt-2 bg-surface dark:bg-surface-container shadow-[0_-4px_12px_rgba(6,27,14,0.1)] rounded-t-xl font-label-sm text-label-sm">
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 scale-90 active:scale-95 duration-150 hover:text-primary transition-colors">
+<span class="material-symbols-outlined fill" data-icon="explore">explore</span>
+<span class="mt-1">Explore</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant scale-90 active:scale-95 duration-150 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span class="mt-1">Map</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant scale-90 active:scale-95 duration-150 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="download_for_offline">download_for_offline</span>
+<span class="mt-1">Downloads</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant scale-90 active:scale-95 duration-150 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
+<span class="mt-1">Guide</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant scale-90 active:scale-95 duration-150 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="mt-1">Settings</span>
+</button>
+</nav>
+</body></html>

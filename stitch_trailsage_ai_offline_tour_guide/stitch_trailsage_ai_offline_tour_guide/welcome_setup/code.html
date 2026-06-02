@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Welcome Setup - TrailSage AI</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#1b1c19",
+                        "secondary-container": "#f4dfcb",
+                        "background": "#fbf9f4",
+                        "on-secondary-fixed": "#241a0e",
+                        "on-tertiary-fixed": "#291800",
+                        "secondary-fixed": "#f4dfcb",
+                        "on-tertiary-container": "#c5871d",
+                        "on-tertiary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "primary": "#061b0e",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#d0e9d4",
+                        "inverse-surface": "#30312e",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#dbdad5",
+                        "tertiary-fixed": "#ffddb3",
+                        "on-secondary": "#ffffff",
+                        "surface": "#fbf9f4",
+                        "error-container": "#ffdad6",
+                        "surface-tint": "#4d6453",
+                        "primary-container": "#1b3022",
+                        "outline": "#737973",
+                        "surface-container-highest": "#e4e2dd",
+                        "inverse-on-surface": "#f2f1ec",
+                        "tertiary": "#241400",
+                        "secondary-fixed-dim": "#d7c3b0",
+                        "on-primary-container": "#819986",
+                        "tertiary-container": "#3f2700",
+                        "on-primary-fixed": "#0b2013",
+                        "on-secondary-fixed-variant": "#524436",
+                        "secondary": "#6b5c4c",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface-variant": "#434843",
+                        "tertiary-fixed-dim": "#ffb951",
+                        "on-secondary-container": "#716252",
+                        "primary-fixed-dim": "#b4cdb8",
+                        "on-background": "#1b1c19",
+                        "outline-variant": "#c3c8c1",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed-variant": "#364c3c",
+                        "on-tertiary-fixed-variant": "#633f00",
+                        "surface-variant": "#e4e2dd",
+                        "surface-container-high": "#eae8e3",
+                        "surface-bright": "#fbf9f4",
+                        "inverse-primary": "#b4cdb8",
+                        "surface-container-low": "#f5f3ee",
+                        "surface-container": "#f0eee9"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px",
+                        "2xl": "1.25rem",
+                        "3xl": "1.5rem"
+                    },
+                    "spacing": {
+                        "unit": "8px",
+                        "container-padding-desktop": "40px",
+                        "touch-target-min": "48px",
+                        "gutter": "16px",
+                        "container-padding-mobile": "20px",
+                        "safe-area-bottom": "32px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "headline-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "title-lg": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e4e2dd;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #c3c8c1;
+        }
+        
+        /* Glassmorphism utilities */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface antialiased flex flex-col min-h-screen relative overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container">
+<!-- NO SHELL NAVIGATION INJECTED -->
+<!-- As per instructions: Setup/Onboarding screens are linear/transactional, so the navigation shell is suppressed. -->
+<!-- Main Content Canvas -->
+<main class="flex-grow flex flex-col w-full min-h-screen relative z-10">
+<!-- Hero Section -->
+<section class="relative w-full h-[442px] md:h-[530px] flex-shrink-0 bg-surface-container-highest overflow-hidden">
+<!-- Background Image -->
+<div class="absolute inset-0 w-full h-full bg-cover bg-center transition-transform duration-[10s] ease-out hover:scale-105" data-alt="A breathtaking, high-resolution view of a winding mountain road cutting through a lush, vibrant green valley under a clear blue sky. The scene is bathed in bright, natural sunlight, capturing the rugged spirit of outdoor exploration. The modern naturalist aesthetic is emphasized by the crisp contrast between the asphalt road and the untouched wilderness, evoking a sense of calm and adventurous anticipation. The overall color palette features deep forest greens, warm sandstone tones, and bright sky blues." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCxxYZgU9nvcuzct8ci1W_7bZGJlJNyRtq9Xz8CUn23-Vq0Or0FxkNfh4iKYrCttMhNI3TcxKqFcLulMD_F4x9ElyQQNEpViD0dOeRaRJNzTI5cQHPjNtkd7qWrT-HVtAr3yJ_3m2261WomMMQFjdDeoBp9FkK5UZNMWcgYjPtvjNJdI6RzKoHq4eVSElNTg4csJPDUjX2x1iat73k_dHLEVhu3-Yr_idIeIUtdDahfLi5gOmjJky_8QqZ4Nmqhho6mL48AX_7h5aU');">
+</div>
+<!-- Gradient Scrim for Text Readability -->
+<div class="absolute inset-0 bg-gradient-to-b from-transparent via-background/20 to-background"></div>
+<!-- Hero Content -->
+<div class="absolute bottom-0 left-0 w-full px-container-padding-mobile md:px-container-padding-desktop pb-unit-32 flex flex-col justify-end">
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-unit-16 max-w-2xl text-balance">
+                    Your private road trip storyteller.
+                </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl text-balance">
+                    TrailSage downloads its AI guide, natural voice, maps, and sample tour so your road trip can work offline.
+                </p>
+</div>
+</section>
+<!-- Features & Actions Section (Bento-style layout on desktop, stacked on mobile) -->
+<section class="flex-grow px-container-padding-mobile md:px-container-padding-desktop py-unit-32 pb-safe-area-bottom flex flex-col gap-unit-32 z-20 -mt-unit-16 relative bg-background rounded-t-3xl shadow-[0_-8px_24px_rgba(6,27,14,0.05)]">
+<!-- Bento Grid for Features -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-unit-16">
+<!-- Feature Card 1 -->
+<div class="bg-surface-container-low border border-surface-dim rounded-2xl p-unit-24 flex items-start gap-unit-16 hover:bg-surface-container transition-colors duration-200">
+<div class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">memory</span>
+</div>
+<div>
+<h3 class="font-title-lg text-title-lg text-on-surface mb-unit-8">On-device AI guide</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Intelligent context without needing a cell signal.</p>
+</div>
+</div>
+<!-- Feature Card 2 -->
+<div class="bg-surface-container-low border border-surface-dim rounded-2xl p-unit-24 flex items-start gap-unit-16 hover:bg-surface-container transition-colors duration-200">
+<div class="w-12 h-12 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">record_voice_over</span>
+</div>
+<div>
+<h3 class="font-title-lg text-title-lg text-on-surface mb-unit-8">Natural offline voice</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">High-quality speech synthesis stored locally.</p>
+</div>
+</div>
+<!-- Feature Card 3 -->
+<div class="bg-surface-container-low border border-surface-dim rounded-2xl p-unit-24 flex items-start gap-unit-16 hover:bg-surface-container transition-colors duration-200">
+<div class="w-12 h-12 rounded-full bg-tertiary-container text-on-tertiary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">my_location</span>
+</div>
+<div>
+<h3 class="font-title-lg text-title-lg text-on-surface mb-unit-8">GPS-triggered stories</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Audio plays automatically as you reach waypoints.</p>
+</div>
+</div>
+<!-- Feature Card 4 -->
+<div class="bg-surface-container-low border border-surface-dim rounded-2xl p-unit-24 flex items-start gap-unit-16 hover:bg-surface-container transition-colors duration-200">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest text-on-surface flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">menu_book</span>
+</div>
+<div>
+<h3 class="font-title-lg text-title-lg text-on-surface mb-unit-8">Public-source knowledge</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Rich history sourced from OpenStreetMap and Wikipedia.</p>
+</div>
+</div>
+</div>
+<!-- Action Area (Bottom weighted) -->
+<div class="mt-auto pt-unit-32 flex flex-col items-center gap-unit-24 w-full max-w-md mx-auto">
+<button class="w-full h-touch-target-min bg-primary text-on-primary rounded-full font-label-lg text-label-lg flex items-center justify-center gap-unit-8 shadow-[0_4px_12px_rgba(6,27,14,0.1)] hover:bg-primary-container hover:text-on-primary-container transition-all duration-200 active:scale-95">
+<span class="material-symbols-outlined">download</span>
+                    Set Up Offline Guide
+                </button>
+<a class="font-label-lg text-label-lg text-secondary hover:text-primary transition-colors duration-200 underline underline-offset-4 decoration-secondary/30 hover:decoration-primary" href="#">
+                    Why downloads are required
+                </a>
+<!-- Privacy Badge -->
+<div class="flex items-center gap-unit-8 px-unit-16 py-unit-8 bg-surface-container-low rounded-full border border-surface-dim mt-unit-8">
+<span class="material-symbols-outlined text-outline text-[16px]">shield_lock</span>
+<span class="font-label-sm text-label-sm text-outline">Your guide runs on your device whenever possible.</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Optional JS for micro-interactions -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const primaryBtn = document.querySelector('button');
+            if(primaryBtn) {
+                primaryBtn.addEventListener('click', (e) => {
+                    // Simple ripple or loading state effect could go here
+                    const icon = primaryBtn.querySelector('.material-symbols-outlined');
+                    if(icon) {
+                        icon.textContent = 'hourglass_top';
+                        icon.classList.add('animate-spin');
+                        setTimeout(() => {
+                            icon.classList.remove('animate-spin');
+                            icon.textContent = 'check_circle';
+                        }, 1500);
+                    }
+                });
+            }
+        });
+    </script>
+</body></html>

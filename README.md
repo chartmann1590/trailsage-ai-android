@@ -1,41 +1,65 @@
 # TrailSage AI
 
-TrailSage AI is an Android-only offline-first GPS audio tour guide: **Your private road trip storyteller.** It downloads a local Gemma model, LiteRT-LM assets, a Sherpa-ONNX neural voice, tour content, local source notes, and an offline map before travel.
+### *Your private road trip storyteller.*
 
-## Build
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![GitHub Pages](https://img.shields.io/badge/docs-GitHub_Pages-blue.svg)](https://chartmann1590.github.io/trailsage-ai-android/)
 
-```powershell
-$env:JAVA_HOME="H:\TrailSage-AI\.jdk\jdk-21.0.11+10" # or any JDK 21
-.\gradlew.bat testDebugUnitTest assembleDebug
-adb -s 37220DLJG001ML install -r app\build\outputs\apk\debug\app-debug.apk
-```
+TrailSage AI is an offline-first GPS audio tour guide for Android. Designed for deep mountain valleys, long highways, and remote national parks where cellular service vanishes, TrailSage AI packages on-device Artificial Intelligence, neural narration, and detailed offline maps to tell you the stories of the land as you drive.
 
-The normal debug build needs no secret. Place an untracked `app/google-services.json` only when connecting Firebase locally. The app uses Kotlin 2.2, JDK 21 for the build JVM, Android SDK 36, and Java 21 source compatibility (required by the LiteRT-LM Android SDK, which ships Java 21 bytecode).
+---
 
-## Included
+## 🌟 Key Features
 
-- Compose Material 3 setup gate and Stitch-derived screens
-- A dedicated design system in `ui/theme/` (full Stitch token palette, light **and** dark/night-driving schemes, the Stitch type scale, and 24/12dp shape language) built directly from the Stitch `DESIGN.md` export
-- A reusable component library in `ui/components/` (top bar, bottom nav, hero/story cards, dual-layer download bars, voice-preview card, large narration button, map status overlay, storage meter, status pills) and per-feature screens under `ui/screens/<feature>/`
-- Room database, Hilt graph, ViewModels, WorkManager, DataStore, Flow, Navigation Compose
-- SHA-256 asset manifests and resumable WorkManager downloader
-- Real LiteRT-LM Android SDK with Gemma 4 E2B model lifecycle
-- Bundled Sherpa-ONNX Android `v1.13.2` runtime with neural-first VITS/Piper voice playback
-- GPS radius and bearing trigger engine
-- Public-source Adirondack High Peaks Loop pack with verified OSM-derived PMTiles extract
-- Python Wikimedia/OSM tour-pack builder
-- Firebase Spark-compatible SDK dependencies and setup documentation
+*   **🧠 Local AI Storytelling:** Powered by Google Gemma 2B and on-device LiteRT. Get answers to your travel queries about landmarks, flora, and history using our localized Retrieval-Augmented Generation (RAG) system—no cloud APIs or data connections needed.
+*   **🗣️ Expressive Neural Voices:** Utilizes the Sherpa-ONNX native synthesis engine and VITS voice profiles. Listen to highly expressive, natural human voice tours instead of robotic system-fallback audio.
+*   **🗺️ Offline OpenStreetMap Exploration:** View paths, trails, and terrain offline using pre-packaged vector PMTiles extracts.
+*   **📍 Automatic GPS Triggers:** Advanced radius and bearing calculation plays matching historical stories at the exact moment you approach landmarks from the correct direction.
+*   **🔒 Absolute Privacy:** No ad SDKs, no location tracking, and no external data sales. Your location and tour history stay on your device permanently.
 
-See [`docs/`](docs), [`PRIVACY.md`](PRIVACY.md), and [`ATTRIBUTION.md`](ATTRIBUTION.md). No paid API or API-key-required content service is used.
+---
 
-### Functional wiring
+## 📸 App Preview
 
-The AI Guide chat is RAG-first: it retrieves chunks from the installed tour pack and generates a structured answer through the on-device Gemma/LiteRT engine (falling back to a clearly-labeled demo template until a verified model is installed), and says it doesn't know when no local source context matches. Driving Mode plays narration through the neural-first `NarrationPlayer` and shows the Android-fallback warning (plus the `android_tts_fallback_used` analytics event) only when the system voice is used. Voice Settings previews and selects installed neural voices.
+| Welcome & Setup | Explore Dashboard | Offline Map Navigation |
+| :---: | :---: | :---: |
+| ![Welcome Setup](docs/images/welcome.png) | ![Explore Dashboard](docs/images/dashboard.png) | ![Offline Map](docs/images/map.png) |
 
-### Package namespace
+| Driving Mode HUD | Neural Voice Selection | Detailed Story Information |
+| :---: | :---: | :---: |
+| ![Driving HUD](docs/images/driving_mode.png) | ![Voice Settings](docs/images/voice_settings.png) | ![Story Detail](docs/images/story_detail.png) |
 
-The application namespace is intentionally `com.charles.trailsage` (the prompt suggested `com.trailsage.ai`). This is a deliberate project decision; everything else follows the prompt's package layout under `com/trailsage/ai/...` source directories.
+---
 
-## Production Asset Notes
+## 🚀 How to Get Started
 
-Gemma and the LibriTTS neural voice archive are too large to commit and are downloaded through exact manifests with SHA-256 verification. Setup remains locked until required production assets verify. The debug APK includes the Sherpa native runtime and a real Adirondack PMTiles extract.
+1.  **Download the App:** Install the latest release build from our [GitHub Releases](https://github.com/chartmann1590/trailsage-ai-android/releases) section.
+2.  **Get Your Tour Packs:** Download a travel pack (such as our Adirondack High Peaks Loop) to cache offline maps, route layouts, and story files.
+3.  **Configure On-Device AI:** Follow the onboarding prompts to verify and load the local Gemma LLM.
+4.  **Install Neural Voices:** Select and install a Piper/VITS voice pack to activate human-like narration.
+5.  **Start Your Journey:** Activate your GPS, select **Start Driving**, and let TrailSage narrate your adventure!
+
+---
+
+## ℹ️ Technical Info
+
+This is an open-source project written natively for Android.
+
+*   **Platform:** Android (source target SDK 36, minimum JVM Java 21 compatible)
+*   **UI Framework:** Jetpack Compose (Material 3)
+*   **Speech System:** Sherpa-ONNX with Piper models
+*   **Map System:** MapLibre GL with PMTiles
+
+---
+
+## 🛠️ Contribution & Development
+
+Are you a developer, geographer, or writer looking to build your own tour packs or contribute to the app?
+
+See our detailed [Developer Guide](docs/developer-guide.md) to set up your JDK 21 build system, build the debug APK, and work with the Wikimedia/OpenStreetMap python builders.
+
+---
+
+## 📄 License & Attribution
+
+Distributed under the MIT License. See [LICENSE](LICENSE) and [ATTRIBUTION.md](ATTRIBUTION.md) for full details.

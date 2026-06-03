@@ -15,6 +15,7 @@ TrailSage AI is an offline-first GPS audio tour guide for Android. Designed for 
 *   **🗣️ Expressive Neural Voices:** Utilizes the Sherpa-ONNX native synthesis engine and VITS voice profiles. Listen to highly expressive, natural human voice tours instead of robotic system-fallback audio.
 *   **🗺️ Offline OpenStreetMap Exploration:** View paths, trails, and terrain offline using pre-packaged vector PMTiles extracts.
 *   **📍 Automatic GPS Triggers:** Advanced radius and bearing calculation plays matching historical stories at the exact moment you approach landmarks from the correct direction.
+*   **🔗 Anonymous Trip Sharing:** Share your custom or curated road-trip tours with friends. Generates a static preview link that opens in any browser with interactive maps, stop summaries, and directions, or imports back directly into TrailSage AI via deep links.
 *   **🔒 Absolute Privacy:** No ad SDKs, no location tracking, and no external data sales. Your location and tour history stay on your device permanently.
 
 ---

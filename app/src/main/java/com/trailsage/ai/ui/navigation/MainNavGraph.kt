@@ -31,6 +31,18 @@ import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.charles.trailsage.ui.screens.tour.ActiveTourScreen
 import com.charles.trailsage.ui.screens.tour.DrivingModeScreen
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.ui.platform.LocalContext
 
 private val tabs = listOf(
     BottomNavItem("explore", "Explore", Icons.Default.Explore),
@@ -54,14 +66,36 @@ fun MainNavGraph(vm: AppViewModel) {
     val route = backStack?.destination?.route
     val showBottomBar = route in tabs.map { it.route }
 
-    Scaffold(
-        bottomBar = {
-            if (showBottomBar) {
-                TrailSageBottomNav(tabs, route) { target -> nav.switchTab(target) }
-            }
-        },
-    ) { padding ->
-        NavHost(nav, startDestination = "explore", modifier = Modifier.padding(padding)) {
+    val pendingImportId by vm.sharedTripImporter.pendingImportId.collectAsStateWithLifecycle()
+    var isImporting by remember { mutableStateOf(false) }
+    val context = LocalContext.current
+
+    LaunchedEffect(pendingImportId) {
+        val id = pendingImportId ?: return@LaunchedEffect
+        isImporting = true
+        val result = vm.sharedTripImporter.importTrip(id)
+        isImporting = false
+        if (result.isSuccess) {
+            nav.navigate("itinerary")
+        } else {
+            android.widget.Toast.makeText(
+                context,
+                "Failed to import trip: ${result.exceptionOrNull()?.message}",
+                android.widget.Toast.LENGTH_LONG
+            ).show()
+        }
+        vm.sharedTripImporter.setPendingImport(null)
+    }
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        Scaffold(
+            bottomBar = {
+                if (showBottomBar) {
+                    TrailSageBottomNav(tabs, route) { target -> nav.switchTab(target) }
+                }
+            },
+        ) { padding ->
+            NavHost(nav, startDestination = "explore", modifier = Modifier.padding(padding)) {
             composable("explore") {
                 ExploreScreen(
                     onOpenRouteBuilder = { nav.navigate("route-builder") },
@@ -110,4 +144,27 @@ fun MainNavGraph(vm: AppViewModel) {
             composable("privacy") { PrivacyScreen(onBack = { nav.popBackStack() }) }
         }
     }
+
+    if (isImporting) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black.copy(alpha = 0.5f)),
+            contentAlignment = Alignment.Center
+        ) {
+            Card(
+                colors = CardDefaults.cardColors(containerColor = androidx.compose.material3.MaterialTheme.colorScheme.surface)
+            ) {
+                Column(
+                    modifier = Modifier.padding(24.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    CircularProgressIndicator(color = androidx.compose.material3.MaterialTheme.colorScheme.primary)
+                    Text("Importing shared trip…", style = androidx.compose.material3.MaterialTheme.typography.bodyMedium)
+                }
+            }
+        }
+    }
+}
 }

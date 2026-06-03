@@ -6,6 +6,7 @@ import com.charles.trailsage.data.local.*
 import com.charles.trailsage.downloads.*
 import com.charles.trailsage.domain.SetupState
 import com.charles.trailsage.tour.SampleTourInstaller
+import com.charles.trailsage.tour.SharedTripImporter
 import com.charles.trailsage.routing.ActiveTourStore
 import com.charles.trailsage.routing.RouteTourGenerator
 import com.charles.trailsage.firebase.FirebaseTelemetry
@@ -25,7 +26,8 @@ class AppViewModel @Inject constructor(
     private val routeTourGenerator: RouteTourGenerator,
     private val activeTourStore: ActiveTourStore,
     private val dao: TrailSageDao,
-    private val telemetry: FirebaseTelemetry
+    private val telemetry: FirebaseTelemetry,
+    val sharedTripImporter: SharedTripImporter
 ) : ViewModel() {
     private val compatibility = MutableStateFlow<DeviceCompatibility?>(null)
     val setup: StateFlow<SetupUiState> = combine(setupRepository.setup, assetRepository.assets, assetRepository.downloads, compatibility) { status, assets, downloads, check ->

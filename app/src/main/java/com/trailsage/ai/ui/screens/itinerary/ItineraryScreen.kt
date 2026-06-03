@@ -7,9 +7,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,6 +25,7 @@ import com.charles.trailsage.data.local.TrailSageDao
 import com.charles.trailsage.routing.ActiveTourStore
 import com.charles.trailsage.routing.Directions
 import com.charles.trailsage.routing.RouteTourGenerator
+import com.charles.trailsage.firebase.TripShareService
 import com.charles.trailsage.ui.components.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -43,7 +46,39 @@ class ItineraryViewModel @Inject constructor(
     private val dao: TrailSageDao,
     private val generator: RouteTourGenerator,
     private val activeTourStore: ActiveTourStore,
+    private val tripShareService: TripShareService,
 ) : ViewModel() {
+    sealed interface ShareState {
+        object Idle : ShareState
+        object Loading : ShareState
+        data class Success(val shareUrl: String) : ShareState
+        data class Error(val message: String) : ShareState
+    }
+
+    private val _shareState = MutableStateFlow<ShareState>(ShareState.Idle)
+    val shareState: StateFlow<ShareState> = _shareState.asStateFlow()
+
+    fun shareCurrentTrip() {
+        if (_shareState.value is ShareState.Loading) return
+        _shareState.value = ShareState.Loading
+        viewModelScope.launch {
+            val activeId = activeTourStore.tourId.value
+            val result = tripShareService.shareTrip(activeId)
+            _shareState.value = result.fold(
+                onSuccess = { shareId ->
+                    ShareState.Success("https://chartmann1590.github.io/trailsage-ai-android/t/?t=$shareId")
+                },
+                onFailure = {
+                    ShareState.Error(it.message ?: "Failed to share trip")
+                }
+            )
+        }
+    }
+
+    fun resetShareState() {
+        _shareState.value = ShareState.Idle
+    }
+
     data class Poi(val storyId: String, val title: String, val preview: String, val byAi: Boolean, val imageUrl: String?)
     data class Itinerary(
         val name: String = "",
@@ -86,6 +121,28 @@ class ItineraryViewModel @Inject constructor(
 fun ItineraryScreen(onBack: () -> Unit, onOpenMap: () -> Unit, onOpenStory: (String) -> Unit, vm: ItineraryViewModel = hiltViewModel()) {
     val trip by vm.itinerary.collectAsStateWithLifecycle()
     val regenerating by vm.regenerating.collectAsStateWithLifecycle()
+    val shareState by vm.shareState.collectAsStateWithLifecycle()
+    val context = androidx.compose.ui.platform.LocalContext.current
+
+    LaunchedEffect(shareState) {
+        when (val state = shareState) {
+            is ItineraryViewModel.ShareState.Success -> {
+                val sendIntent = android.content.Intent().apply {
+                    action = android.content.Intent.ACTION_SEND
+                    putExtra(android.content.Intent.EXTRA_TEXT, "Check out my TrailSage AI road trip: ${state.shareUrl}")
+                    type = "text/plain"
+                }
+                val shareIntent = android.content.Intent.createChooser(sendIntent, "Share Trip")
+                context.startActivity(shareIntent)
+                vm.resetShareState()
+            }
+            is ItineraryViewModel.ShareState.Error -> {
+                android.widget.Toast.makeText(context, state.message, android.widget.Toast.LENGTH_LONG).show()
+                vm.resetShareState()
+            }
+            else -> {}
+        }
+    }
 
     DetailScaffold(trip.name.ifBlank { "Trip details" }, onBack) {
         InfoCard("Overview", buildString {
@@ -94,6 +151,22 @@ fun ItineraryScreen(onBack: () -> Unit, onOpenMap: () -> Unit, onOpenStory: (Str
             append(". Narration plays automatically as you reach each stop, and turn directions are spoken in your selected voice.")
         })
         PrimaryButton("Open live map", onClick = onOpenMap)
+
+        val isSharing = shareState is ItineraryViewModel.ShareState.Loading
+        OutlinedButton(
+            onClick = { if (!isSharing) vm.shareCurrentTrip() },
+            modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+            contentPadding = PaddingValues(16.dp),
+            shape = MaterialTheme.shapes.medium
+        ) {
+            if (isSharing) {
+                CircularProgressIndicator(Modifier.size(18.dp), strokeWidth = 2.dp)
+            } else {
+                Icon(Icons.Default.Share, contentDescription = "Share", modifier = Modifier.size(18.dp))
+            }
+            Spacer(Modifier.width(8.dp))
+            Text(if (isSharing) "Generating link…" else "Share this trip", fontWeight = FontWeight.SemiBold)
+        }
 
         SectionHeader("All stops (${trip.pois.size})")
         if (trip.pois.isEmpty()) {

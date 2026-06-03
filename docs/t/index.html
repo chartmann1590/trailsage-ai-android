@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrailSage AI - Shared Trip</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    
+    <!-- Custom Style -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app-container">
+        <!-- Sidebar Panel -->
+        <aside id="sidebar">
+            <header id="sidebar-header">
+                <div class="logo-area">
+                    <span class="logo-icon">📍</span>
+                    <span class="logo-text">TrailSage AI</span>
+                </div>
+                <h1 id="trip-title">Loading Trip…</h1>
+                <p id="trip-meta" class="hidden"><span id="stop-count">0</span> stops &bull; <span id="drive-time">0</span> min driving</p>
+                <div id="trip-desc">Fetching shared itinerary details from the cloud...</div>
+                
+                <a id="open-app-btn" href="#" class="btn btn-primary hidden">
+                    <span class="btn-icon">⚡</span> Open in TrailSage
+                </a>
+            </header>
+            
+            <nav id="tabs">
+                <button id="tab-stops" class="tab-btn active">Stops</button>
+                <button id="tab-directions" class="tab-btn">Directions</button>
+            </nav>
+            
+            <div id="tab-content">
+                <!-- Stops list -->
+                <div id="stops-panel" class="panel active">
+                    <div id="stops-list" class="list-container">
+                        <!-- Stops will be inserted here dynamically -->
+                    </div>
+                </div>
+                
+                <!-- Directions list -->
+                <div id="directions-panel" class="panel">
+                    <div id="directions-list" class="list-container">
+                        <!-- Directions will be inserted here dynamically -->
+                    </div>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Map Panel -->
+        <main id="map-container">
+            <div id="map"></div>
+            <!-- Loading Indicator -->
+            <div id="map-loader" class="loader-overlay">
+                <div class="spinner"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="error-overlay" class="hidden">
+        <div class="error-card">
+            <h2>Trip Not Found</h2>
+            <p id="error-message">This shared trip link might be invalid, expired, or deleted.</p>
+            <a href="https://github.com/chartmann1590/trailsage-ai-android" class="btn btn-secondary">Go to Homepage</a>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
+    <!-- Web Viewer Code -->
+    <script src="viewer.js"></script>
+</body>
+</html>

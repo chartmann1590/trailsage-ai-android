@@ -32,6 +32,7 @@ interface TrailSageDao {
     @Query("SELECT * FROM routes WHERE tourPackId=:tourId LIMIT 1") suspend fun route(tourId: String): RouteEntity?
     @Query("SELECT * FROM destinations WHERE id=:id LIMIT 1") suspend fun destination(id: String): DestinationEntity?
     @Query("SELECT * FROM story_sources ORDER BY title") fun observeSources(): Flow<List<StorySourceEntity>>
+    @Query("SELECT * FROM story_sources") suspend fun allSources(): List<StorySourceEntity>
     @Upsert suspend fun upsertDestination(value: DestinationEntity)
     @Upsert suspend fun upsertTour(value: TourPackEntity)
     @Upsert suspend fun upsertRoute(value: RouteEntity)

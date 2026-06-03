@@ -24,6 +24,7 @@
       <nav>
         <ul class="nav-menu">
           <li><a href="#features" class="nav-link" id="nav-features-link">Features</a></li>
+          <li><a href="#sharing" class="nav-link" id="nav-sharing-link">Sharing</a></li>
           <li><a href="#screenshots" class="nav-link" id="nav-screenshots-link">Screenshots</a></li>
           <li><a href="#specs" class="nav-link" id="nav-specs-link">Specifications</a></li>
           <li><a href="privacy.html" class="nav-link" id="nav-privacy-link">Privacy Policy</a></li>
@@ -118,6 +119,13 @@
             <h3>Privacy by Design</h3>
             <p>Zero cloud AI APIs, zero location selling, and zero advertising SDKs. Data resides permanently on your device. Optional Firebase analytics are strict opt-in only.</p>
           </div>
+
+          <!-- Feature 7 -->
+          <div class="glass-card feature-card">
+            <div class="feature-icon">🔗</div>
+            <h3>Anonymous Trip Sharing</h3>
+            <p>Share your curated road trip itineraries with friends. Generates a unique, privacy-safe sharing link that opens in any browser with interactive maps, stop summaries, and directions, or imports back directly into TrailSage AI.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -182,6 +190,43 @@
               <img src="images/story_detail.png" alt="Story Details Screen" class="mockup-showcase-screen" id="img-story">
               <img src="images/downloads.png" alt="Downloads Control Panel" class="mockup-showcase-screen" id="img-downloads">
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How Trip Sharing Works Section -->
+    <section class="section" id="sharing" style="border-top: 1px solid var(--border-color); background: rgba(16, 26, 21, 0.1); border-bottom: 1px solid var(--border-color);">
+      <div class="container">
+        <div class="text-center" style="margin-bottom: 48px;">
+          <span class="eyebrow">Connected Travel</span>
+          <h2>How Trip Sharing Works</h2>
+          <p class="lead">Curated an amazing route? Share your adventure with friends in seconds without creating any account.</p>
+        </div>
+
+        <div class="sharing-steps">
+          <div class="step-card glass-card">
+            <div class="step-num">1</div>
+            <h4>Share in App</h4>
+            <p>From your active <b>Itinerary Screen</b>, tap <b>Share this trip</b>. The app signs you in anonymously and serializes your custom stops, narration texts, directions, and route geometry into a single document.</p>
+          </div>
+
+          <div class="step-card glass-card">
+            <div class="step-num">2</div>
+            <h4>Get Your Link</h4>
+            <p>The app generates a unique link (hosted on GitHub Pages) and launches the Android share sheet. You can send this link to your friends via any messaging app.</p>
+          </div>
+
+          <div class="step-card glass-card">
+            <div class="step-num">3</div>
+            <h4>View in Browser</h4>
+            <p>Your friends open the link in any mobile or desktop browser to view the interactive Leaflet map, driving path, turn-by-turn directions, and narrated stops with pictures.</p>
+          </div>
+
+          <div class="step-card glass-card">
+            <div class="step-num">4</div>
+            <h4>Import to TrailSage</h4>
+            <p>With a single tap on the <b>Open in TrailSage</b> button, the trip downloads directly back into the app using a deep link, sets itself active, and is immediately ready to navigate offline.</p>
           </div>
         </div>
       </div>

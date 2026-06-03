@@ -1,4 +1,5 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -6,7 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
-    <application android:name=".TrailSageApplication" android:theme="@style/Theme.TrailSage" android:label="TrailSage AI" android:allowBackup="false">
+    <application android:name=".TrailSageApplication" android:theme="@style/Theme.TrailSage" android:label="TrailSage AI" android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher_round" android:allowBackup="false">
         <meta-data android:name="firebase_analytics_collection_enabled" android:value="false" />
         <meta-data android:name="firebase_crashlytics_collection_enabled" android:value="false" />
         <meta-data android:name="firebase_performance_collection_enabled" android:value="false" />
@@ -21,5 +22,18 @@
         <service android:name=".firebase.TrailSageMessagingService" android:exported="false">
             <intent-filter><action android:name="com.google.firebase.MESSAGING_EVENT" /></intent-filter>
         </service>
+        <!-- Remove the default WorkManager initializer so on-demand init uses the
+             HiltWorkerFactory from TrailSageApplication; otherwise @HiltWorker
+             DownloadWorker cannot be instantiated and downloads stay QUEUED forever. -->
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+        </provider>
     </application>
 </manifest>

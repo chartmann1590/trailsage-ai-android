@@ -11,3 +11,6 @@ tourpack-cache/
 .jdk/
 tools/pmtiles/
 .kotlin/
+.gradle-tmp/
+build_*.log
+.claude/

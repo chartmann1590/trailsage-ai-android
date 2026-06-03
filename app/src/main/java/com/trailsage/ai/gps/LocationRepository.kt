@@ -28,8 +28,23 @@ class LocationRepository @Inject constructor(@ApplicationContext private val con
             trySend(GpsStatus(manager.isLocationEnabled, true)); close(); return@callbackFlow
         }
         val listener = LocationListener { location -> trySend(GpsStatus(manager.isLocationEnabled, location.accuracy > 50f, location)) }
-        manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2_000, 5f, listener)
-        trySend(GpsStatus(manager.isLocationEnabled, true))
+
+        // Emit the best last-known fix immediately so the map can center + zoom right away
+        // (GPS alone gives nothing indoors / on first open).
+        val providers = listOf(LocationManager.GPS_PROVIDER, LocationManager.NETWORK_PROVIDER, LocationManager.PASSIVE_PROVIDER)
+        val lastKnown = providers
+            .filter { runCatching { manager.isProviderEnabled(it) }.getOrDefault(false) }
+            .mapNotNull { runCatching { manager.getLastKnownLocation(it) }.getOrNull() }
+            .maxByOrNull { it.time }
+        trySend(GpsStatus(manager.isLocationEnabled, lastKnown == null, lastKnown))
+
+        // Live updates from GPS (precise) and NETWORK (works indoors / faster first fix).
+        runCatching { manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2_000, 5f, listener) }
+        runCatching {
+            if (manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+                manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 3_000, 10f, listener)
+            }
+        }
         awaitClose { manager.removeUpdates(listener) }
     }
 }

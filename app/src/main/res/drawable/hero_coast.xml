@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Original TrailSage artwork (CC0). Stylized coastal byway scene. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="400dp"
+    android:height="320dp"
+    android:viewportWidth="400"
+    android:viewportHeight="320">
+    <path android:pathData="M0,0 L400,0 L400,320 L0,320 Z">
+        <aapt:attr xmlns:aapt="http://schemas.android.com/aapt" name="android:fillColor">
+            <gradient android:type="linear" android:startX="0" android:startY="0" android:endX="0" android:endY="320">
+                <item android:offset="0" android:color="#9AD0F0" />
+                <item android:offset="0.5" android:color="#4A90E2" />
+                <item android:offset="1" android:color="#1B3A5C" />
+            </gradient>
+        </aapt:attr>
+    </path>
+    <!-- horizon water band -->
+    <path android:pathData="M0,170 L400,170 L400,230 L0,230 Z" android:fillColor="#3A78C2" android:fillAlpha="0.6" />
+    <!-- cliff -->
+    <path android:pathData="M0,200 L120,160 L200,210 L200,320 L0,320 Z" android:fillColor="#1B3022" />
+    <!-- road ribbon -->
+    <path android:pathData="M40,320 L120,210 L150,215 L90,320 Z" android:fillColor="#E9C79A" android:fillAlpha="0.9" />
+    <!-- sun -->
+    <path android:pathData="M300,80 m-22,0 a22,22 0 1,0 44,0 a22,22 0 1,0 -44,0"
+        android:fillColor="#FFFFFF" android:fillAlpha="0.85" />
+</vector>

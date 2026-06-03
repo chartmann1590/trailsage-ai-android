@@ -34,7 +34,7 @@ data class StoryEntity(@PrimaryKey val id: String, val tourPackId: String, val t
 @Entity("story_sources")
 data class StorySourceEntity(@PrimaryKey val id: String, val storyId: String, val sourceType: String, val title: String, val url: String, val author: String = "", val license: String, val retrievedAt: Long = System.currentTimeMillis())
 @Entity("downloads")
-data class DownloadEntity(@PrimaryKey val id: String, val assetId: String, val status: String, val bytesDownloaded: Long = 0, val totalBytes: Long = 0, val workId: String = "", val error: String? = null, val updatedAt: Long = System.currentTimeMillis())
+data class DownloadEntity(@PrimaryKey val id: String, val assetId: String, val status: String, val bytesDownloaded: Long = 0, val totalBytes: Long = 0, val workId: String = "", val error: String? = null, val startedAt: Long = System.currentTimeMillis(), val updatedAt: Long = System.currentTimeMillis())
 @Entity("user_settings")
 data class UserSettingsEntity(@PrimaryKey val id: Int = 1, val offlineOnly: Boolean = true, val wifiOnlyDownloads: Boolean = true, val selectedVoicePackId: String? = null, val narrationStyle: String = "friendly", val allowAndroidTtsFallback: Boolean = false, val kidFriendlyMode: Boolean = false, val responseLength: String = "short", val notificationsEnabled: Boolean = false, val telemetryEnabled: Boolean = false)
 @Entity("ai_chat_messages")
@@ -43,4 +43,3 @@ data class AiChatMessageEntity(@PrimaryKey val id: String, val role: String, val
 data class AppEventEntity(@PrimaryKey val id: String, val eventName: String, val detailsJson: String = "{}", val createdAt: Long = System.currentTimeMillis())
 @Entity("narration_cache")
 data class NarrationCacheEntity(@PrimaryKey val id: String, val storyId: String, val voicePackId: String, val audioPath: String, val createdAt: Long = System.currentTimeMillis())
-

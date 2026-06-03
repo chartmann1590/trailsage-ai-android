@@ -22,7 +22,7 @@ class TourPackImporter @Inject constructor(private val dao: TrailSageDao) {
                 PoiEntity(properties.getString("id"), tourId, properties.getString("name"), properties.optString("type", "landmark"), coordinates.getDouble(1), coordinates.getDouble(0), properties.optString("description"))
             }
             val stories = jsonArray(directory, "stories.json").map { item ->
-                StoryEntity(item.getString("id"), tourId, item.getString("title"), item.getString("narration"), item.optString("funFact"), sourceIdsJson = item.optJSONArray("sourceIds")?.toString() ?: "[]")
+                StoryEntity(item.getString("id"), tourId, item.getString("title"), item.getString("narration"), item.optString("funFact"), imageLocalPath = item.optString("image"), sourceIdsJson = item.optJSONArray("sourceIds")?.toString() ?: "[]")
             }
             val triggers = jsonArray(directory, "triggers.json").map { item ->
                 StoryTriggerEntity(item.getString("id"), tourId, item.getString("id"), item.getDouble("latitude"), item.getDouble("longitude"), item.getDouble("radiusMeters"), item.optDoubleOrNull("bearingStart"), item.optDoubleOrNull("bearingEnd"), storyId = item.getString("id"))

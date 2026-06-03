@@ -25,12 +25,31 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        // LiteRT-LM (litertlm-android) ships Java 21 bytecode; the toolchain must read/emit JVM 21.
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
-    kotlinOptions { jvmTarget = "17" }
+    kotlinOptions { jvmTarget = "21" }
     buildFeatures { compose = true; buildConfig = true }
     packaging { resources.excludes += "/META-INF/{AL2.0,LGPL2.1}" }
+}
+
+// LiteRT-LM ships Java 21 bytecode; pin the whole Kotlin/kapt toolchain to JDK 21 so the
+// kapt stub javac reads it (otherwise it builds against a Java 17 system image and fails).
+kotlin {
+    jvmToolchain(21)
+}
+
+// The JDK-21 toolchain runs kapt in a separate Gradle worker daemon that is launched with
+// no TEMP env, so Room's sqlite-jdbc verifier tries to extract its native lib into a
+// non-writable system dir (C:\WINDOWS) and fails. Point that worker at a writable build dir.
+// Portable: derived from the build directory, harmless on CI/Linux.
+tasks.withType<org.jetbrains.kotlin.gradle.internal.KaptWithoutKotlincTask>().configureEach {
+    val kaptTmp = layout.buildDirectory.dir("kapt-tmp").get().asFile.apply { mkdirs() }.absolutePath
+    kaptProcessJvmArgs.addAll(
+        "-Djava.io.tmpdir=$kaptTmp",
+        "-Dorg.sqlite.tmpdir=$kaptTmp",
+    )
 }
 
 dependencies {
@@ -52,6 +71,7 @@ dependencies {
     implementation("androidx.room:room-ktx:2.7.1")
     implementation("com.google.dagger:hilt-android:2.56.2")
     implementation("org.maplibre.gl:android-sdk:11.8.0")
+    implementation("io.coil-kt:coil-compose:2.7.0")
     implementation("com.google.ai.edge.litertlm:litertlm-android:0.12.0")
     implementation(files("libs/sherpa-onnx-1.13.2.aar"))
     implementation("org.apache.commons:commons-compress:1.27.1")

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Original TrailSage artwork (CC0). Stylized desert canyon / hidden-gem scene. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="400dp"
+    android:height="320dp"
+    android:viewportWidth="400"
+    android:viewportHeight="320">
+    <path android:pathData="M0,0 L400,0 L400,320 L0,320 Z">
+        <aapt:attr xmlns:aapt="http://schemas.android.com/aapt" name="android:fillColor">
+            <gradient android:type="linear" android:startX="0" android:startY="0" android:endX="0" android:endY="320">
+                <item android:offset="0" android:color="#6FA8DC" />
+                <item android:offset="0.5" android:color="#E9A06A" />
+                <item android:offset="1" android:color="#7A3B1E" />
+            </gradient>
+        </aapt:attr>
+    </path>
+    <!-- back mesa -->
+    <path android:pathData="M0,180 L120,180 L140,150 L260,150 L280,190 L400,190 L400,320 L0,320 Z"
+        android:fillColor="#B5612F" android:fillAlpha="0.85" />
+    <!-- front buttes -->
+    <path android:pathData="M40,230 L60,180 L120,180 L130,230 Z" android:fillColor="#7A3B1E" />
+    <path android:pathData="M260,240 L280,170 L330,170 L350,240 Z" android:fillColor="#8C4524" />
+    <!-- desert floor -->
+    <path android:pathData="M0,250 L400,250 L400,320 L0,320 Z" android:fillColor="#5C2E16" />
+</vector>

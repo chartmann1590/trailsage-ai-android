@@ -53,12 +53,20 @@ class AssetRepository @Inject constructor(
     val downloads: Flow<List<DownloadEntity>> = dao.observeDownloads()
 
     suspend fun seedManifests() {
+        // Preserve already-installed/verified state across launches — re-seeding must NOT
+        // reset verified flags, or completed downloads would be re-queued and re-downloaded.
+        val existing = dao.assets().associateBy { it.id }
         val values = listOf("manifests/core_asset_manifest.json", "manifests/voice_manifest.json", "manifests/sample_tour_manifest.json")
             .flatMap { path -> context.assets.open(path).bufferedReader().use { AssetManifestParser.parse(it.readText()) } }
             .map { asset ->
                 val packagedRuntime = asset.id == "litert-lm-runtime" || asset.id == "sherpa-onnx-runtime"
+                val prior = existing[asset.id]
                 RequiredAssetEntity(asset.id, asset.name, asset.type.name, asset.version, asset.downloadUrl, asset.localPath,
-                    asset.sizeBytes, asset.checksumSha256, asset.required, installed = packagedRuntime, verified = packagedRuntime, license = asset.license, attribution = asset.attribution,
+                    asset.sizeBytes, asset.checksumSha256, asset.required,
+                    installed = prior?.installed ?: packagedRuntime,
+                    verified = prior?.verified ?: packagedRuntime,
+                    demoPlaceholder = prior?.demoPlaceholder ?: false,
+                    license = asset.license, attribution = asset.attribution,
                     minAndroidSdk = asset.minAndroidSdk, recommendedRamMb = asset.recommendedRamMb, engine = asset.engine)
             }
         dao.upsertAssets(values)
@@ -77,9 +85,32 @@ class AssetRepository @Inject constructor(
         val request = OneTimeWorkRequestBuilder<DownloadWorker>()
             .setConstraints(constraints)
             .setInputData(workDataOf("assetId" to asset.id, "url" to asset.downloadUrl, "localPath" to asset.localPath, "sha256" to asset.checksumSha256))
-            .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 30, TimeUnit.SECONDS).build()
-        dao.upsertDownload(DownloadEntity(asset.id, asset.id, "QUEUED", totalBytes = asset.sizeBytes, workId = request.id.toString()))
-        workManager.enqueueUniqueWork("asset-${asset.id}", ExistingWorkPolicy.KEEP, request)
+            .setBackoffCriteria(BackoffPolicy.LINEAR, 20, TimeUnit.SECONDS).build()
+        val now = System.currentTimeMillis()
+        val existing = dao.download(asset.id)
+        // Only keep work that is actively running; re-tapping a QUEUED/RETRYING/PAUSED/FAILED
+        // item must REPLACE so it re-enqueues with current constraints (and a live worker).
+        val policy = if (existing?.status in setOf("CONNECTING", "DOWNLOADING")) ExistingWorkPolicy.KEEP else ExistingWorkPolicy.REPLACE
+        val startedAt = existing?.startedAt?.takeIf { it > 0 && policy == ExistingWorkPolicy.KEEP } ?: now
+        dao.upsertDownload(DownloadEntity(asset.id, asset.id, "QUEUED", totalBytes = asset.sizeBytes, workId = request.id.toString(), startedAt = startedAt, updatedAt = now))
+        workManager.enqueueUniqueWork("asset-${asset.id}", policy, request)
+    }
+
+    /**
+     * Re-enqueues required web downloads that are not actively running (QUEUED/RETRYING/
+     * PAUSED/FAILED or never started). Called on launch so a stalled download — e.g. one
+     * whose WorkManager backoff grew after transient DNS failures — resumes promptly from
+     * its .partial file with a fresh attempt instead of waiting out a long backoff.
+     */
+    suspend fun resumeIncompleteRequired() {
+        dao.assets()
+            .filter { it.required && !it.verified && it.downloadUrl.startsWith("http") }
+            .forEach { asset ->
+                val status = dao.download(asset.id)?.status
+                if (status !in setOf("CONNECTING", "DOWNLOADING")) {
+                    runCatching { enqueue(asset) }
+                }
+            }
     }
 
     suspend fun installSampleTour() {
@@ -87,7 +118,11 @@ class AssetRepository @Inject constructor(
         listOf("adirondack-high-peaks-loop", "adirondack-map", "adirondack-rag").forEach { dao.markAsset(it, installed = true, verified = true) }
     }
 
-    suspend fun pause(assetId: String) { workManager.cancelUniqueWork("asset-$assetId"); dao.upsertDownload(DownloadEntity(assetId, assetId, "PAUSED")) }
+    suspend fun pause(assetId: String) {
+        workManager.cancelUniqueWork("asset-$assetId")
+        val existing = dao.download(assetId)
+        dao.upsertDownload(DownloadEntity(assetId, assetId, "PAUSED", existing?.bytesDownloaded ?: 0, existing?.totalBytes ?: 0, existing?.workId ?: "", startedAt = existing?.startedAt ?: System.currentTimeMillis()))
+    }
     suspend fun retry(asset: RequiredAssetEntity) { pause(asset.id); enqueue(asset) }
 
     private suspend fun installBundledAsset(asset: RequiredAssetEntity) {

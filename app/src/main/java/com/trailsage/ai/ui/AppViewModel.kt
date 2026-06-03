@@ -6,6 +6,8 @@ import com.charles.trailsage.data.local.*
 import com.charles.trailsage.downloads.*
 import com.charles.trailsage.domain.SetupState
 import com.charles.trailsage.tour.SampleTourInstaller
+import com.charles.trailsage.routing.ActiveTourStore
+import com.charles.trailsage.routing.RouteTourGenerator
 import com.charles.trailsage.firebase.FirebaseTelemetry
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -20,6 +22,8 @@ class AppViewModel @Inject constructor(
     private val assetRepository: AssetRepository,
     private val sampleTourInstaller: SampleTourInstaller,
     private val compatibilityChecker: DeviceCompatibilityChecker,
+    private val routeTourGenerator: RouteTourGenerator,
+    private val activeTourStore: ActiveTourStore,
     private val dao: TrailSageDao,
     private val telemetry: FirebaseTelemetry
 ) : ViewModel() {
@@ -33,7 +37,14 @@ class AppViewModel @Inject constructor(
     val sources = dao.observeSources().stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
     val settings = dao.observeSettings().stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
 
-    init { viewModelScope.launch { setupRepository.initialize() } }
+    init {
+        viewModelScope.launch {
+            runCatching { setupRepository.initialize() }
+            runCatching { assetRepository.resumeIncompleteRequired() }
+            // Backfill real Wikimedia photos for the active trip's stops that have none.
+            runCatching { routeTourGenerator.backfillImages(activeTourStore.tourId.value) }
+        }
+    }
     fun mark(state: SetupState) = viewModelScope.launch { setupRepository.update(state) }
     fun checkDevice() = viewModelScope.launch {
         setupRepository.update(SetupState.CHECKING_DEVICE)

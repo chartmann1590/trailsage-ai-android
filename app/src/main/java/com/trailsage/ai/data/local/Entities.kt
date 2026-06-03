@@ -36,7 +36,23 @@ data class StorySourceEntity(@PrimaryKey val id: String, val storyId: String, va
 @Entity("downloads")
 data class DownloadEntity(@PrimaryKey val id: String, val assetId: String, val status: String, val bytesDownloaded: Long = 0, val totalBytes: Long = 0, val workId: String = "", val error: String? = null, val startedAt: Long = System.currentTimeMillis(), val updatedAt: Long = System.currentTimeMillis())
 @Entity("user_settings")
-data class UserSettingsEntity(@PrimaryKey val id: Int = 1, val offlineOnly: Boolean = true, val wifiOnlyDownloads: Boolean = true, val selectedVoicePackId: String? = null, val narrationStyle: String = "friendly", val allowAndroidTtsFallback: Boolean = false, val kidFriendlyMode: Boolean = false, val responseLength: String = "short", val notificationsEnabled: Boolean = false, val telemetryEnabled: Boolean = false)
+data class UserSettingsEntity(
+    @PrimaryKey val id: Int = 1,
+    val offlineOnly: Boolean = true,
+    val wifiOnlyDownloads: Boolean = true,
+    val selectedVoicePackId: String? = null,
+    val narrationStyle: String = "friendly",
+    val allowAndroidTtsFallback: Boolean = false,
+    val kidFriendlyMode: Boolean = false,
+    val responseLength: String = "short",
+    val notificationsEnabled: Boolean = false,
+    val telemetryEnabled: Boolean = false,
+    val adFreeUntil: Long = 0L,
+    val credits: Int = 0,
+    val adsWatchedToday: Int = 0,
+    val creditsSpentToday: Int = 0,
+    val lastAdResetTimestamp: Long = 0L
+)
 @Entity("ai_chat_messages")
 data class AiChatMessageEntity(@PrimaryKey val id: String, val role: String, val content: String, val createdAt: Long = System.currentTimeMillis())
 @Entity("app_events")

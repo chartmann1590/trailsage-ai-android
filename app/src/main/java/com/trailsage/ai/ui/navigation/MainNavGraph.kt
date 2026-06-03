@@ -31,6 +31,9 @@ import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.charles.trailsage.ui.screens.tour.ActiveTourScreen
 import com.charles.trailsage.ui.screens.tour.DrivingModeScreen
+import com.charles.trailsage.ui.screens.rewards.RewardsScreen
+import com.charles.trailsage.ui.components.AdmobBanner
+import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Card
@@ -90,17 +93,33 @@ fun MainNavGraph(vm: AppViewModel) {
     Box(modifier = Modifier.fillMaxSize()) {
         Scaffold(
             bottomBar = {
-                if (showBottomBar) {
-                    TrailSageBottomNav(tabs, route) { target -> nav.switchTab(target) }
+                val activity = LocalContext.current as? Activity
+                Column {
+                    if (route != "driving") {
+                        AdmobBanner(applyNavigationInsets = !showBottomBar, vm = vm)
+                    }
+                    if (showBottomBar) {
+                        TrailSageBottomNav(tabs, route) { target ->
+                            vm.adManager.showRandomInterstitial(activity ?: return@TrailSageBottomNav)
+                            nav.switchTab(target)
+                        }
+                    }
                 }
             },
         ) { padding ->
             NavHost(nav, startDestination = "explore", modifier = Modifier.padding(padding)) {
             composable("explore") {
+                val activity = LocalContext.current as? Activity
                 ExploreScreen(
-                    onOpenRouteBuilder = { nav.navigate("route-builder") },
+                    onOpenRouteBuilder = {
+                        vm.adManager.showRandomInterstitial(activity ?: return@ExploreScreen)
+                        nav.navigate("route-builder")
+                    },
                     onOpenMap = { nav.switchTab("map") },
-                    onOpenStory = { storyId -> nav.navigate("story/$storyId") },
+                    onOpenStory = { storyId ->
+                        vm.adManager.showRandomInterstitial(activity ?: return@ExploreScreen)
+                        nav.navigate("story/$storyId")
+                    },
                     onOpenItinerary = { nav.navigate("itinerary") },
                 )
             }
@@ -110,7 +129,14 @@ fun MainNavGraph(vm: AppViewModel) {
             composable("settings") { SettingsScreen(vm) { nav.navigate(it) } }
 
             composable("destination") {
-                DestinationDetailScreen(onBack = { nav.popBackStack() }, onStartTour = { nav.navigate("tour") })
+                val activity = LocalContext.current as? Activity
+                DestinationDetailScreen(
+                    onBack = { nav.popBackStack() },
+                    onStartTour = {
+                        vm.adManager.showRandomInterstitial(activity ?: return@DestinationDetailScreen)
+                        nav.navigate("tour")
+                    }
+                )
             }
             composable("tour") {
                 ActiveTourScreen(
@@ -142,6 +168,7 @@ fun MainNavGraph(vm: AppViewModel) {
             }
             composable("notifications") { NotificationsScreen(onBack = { nav.popBackStack() }) }
             composable("privacy") { PrivacyScreen(onBack = { nav.popBackStack() }) }
+            composable("rewards") { RewardsScreen(vm = vm, onBack = { nav.popBackStack() }) }
         }
     }
 

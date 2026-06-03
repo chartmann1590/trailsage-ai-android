@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -5,6 +7,17 @@ plugins {
     id("org.jetbrains.kotlin.kapt")
     id("com.google.dagger.hilt.android")
 }
+
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.inputStream().use { localProperties.load(it) }
+}
+
+val admobAppId = System.getenv("ADMOB_APP_ID") ?: localProperties.getProperty("admob.app.id") ?: ""
+val admobBannerId = System.getenv("ADMOB_BANNER_ID") ?: localProperties.getProperty("admob.banner.id") ?: ""
+val admobInterstitialId = System.getenv("ADMOB_INTERSTITIAL_ID") ?: localProperties.getProperty("admob.interstitial.id") ?: ""
+val admobRewardId = System.getenv("ADMOB_REWARD_ID") ?: localProperties.getProperty("admob.reward.id") ?: ""
 
 android {
     namespace = "com.charles.trailsage"
@@ -17,6 +30,11 @@ android {
         versionCode = 1
         versionName = "0.1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        
+        manifestPlaceholders["admobAppId"] = admobAppId
+        buildConfigField("String", "ADMOB_BANNER_ID", "\"$admobBannerId\"")
+        buildConfigField("String", "ADMOB_INTERSTITIAL_ID", "\"$admobInterstitialId\"")
+        buildConfigField("String", "ADMOB_REWARD_ID", "\"$admobRewardId\"")
     }
     buildTypes {
         release {
@@ -87,6 +105,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
     debugImplementation("androidx.compose.ui:ui-tooling")
+    implementation("com.google.android.gms:play-services-ads:23.1.0")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.json:json:20240303")
 }

@@ -17,6 +17,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.charles.trailsage.BuildConfig
 import com.charles.trailsage.ui.AppViewModel
 import com.charles.trailsage.ui.components.*
+import androidx.compose.ui.platform.LocalUriHandler
 
 @Composable
 fun SettingsScreen(vm: AppViewModel, onNavigate: (String) -> Unit) {
@@ -42,6 +43,7 @@ fun SettingsScreen(vm: AppViewModel, onNavigate: (String) -> Unit) {
         }
         SectionHeader("More")
         listOf(
+            "rewards" to "Rewards & Ad-Free",
             "voice" to "Voice settings",
             "notifications" to "Notifications",
             "attribution" to "Sources & attribution",
@@ -55,6 +57,25 @@ fun SettingsScreen(vm: AppViewModel, onNavigate: (String) -> Unit) {
                 colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
             )
         }
+        
+        val uriHandler = LocalUriHandler.current
+        SectionHeader("About")
+        ListItem(
+            headlineContent = { Text("Project website") },
+            supportingContent = { Text("chartmann1590.github.io/trailsage-ai-android/") },
+            modifier = Modifier
+                .clip(MaterialTheme.shapes.small)
+                .clickable { uriHandler.openUri("https://chartmann1590.github.io/trailsage-ai-android/") },
+            colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
+        )
+        ListItem(
+            headlineContent = { Text("Privacy policy") },
+            supportingContent = { Text("chartmann1590.github.io/trailsage-ai-android/privacy.html") },
+            modifier = Modifier
+                .clip(MaterialTheme.shapes.small)
+                .clickable { uriHandler.openUri("https://chartmann1590.github.io/trailsage-ai-android/privacy.html") },
+            colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
+        )
         if (BuildConfig.DEBUG) {
             SecondaryButton("Reset setup (debug)", onClick = vm::reset)
         }

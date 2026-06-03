@@ -9,6 +9,12 @@ jobs:
         with: {distribution: temurin, java-version: '21'}
       - uses: gradle/actions/setup-gradle@v4
       - run: chmod +x gradlew
-      - run: ./gradlew testDebugUnitTest assembleDebug
+      - name: Build and Test
+        env:
+          ADMOB_APP_ID: ${{ secrets.ADMOB_APP_ID }}
+          ADMOB_BANNER_ID: ${{ secrets.ADMOB_BANNER_ID }}
+          ADMOB_INTERSTITIAL_ID: ${{ secrets.ADMOB_INTERSTITIAL_ID }}
+          ADMOB_REWARD_ID: ${{ secrets.ADMOB_REWARD_ID }}
+        run: ./gradlew testDebugUnitTest assembleDebug
       - uses: actions/upload-artifact@v4
         with: {name: trailsage-debug-apk, path: app/build/outputs/apk/debug/app-debug.apk}

@@ -38,6 +38,7 @@ class TrailSageApplication : Application(), Configuration.Provider, ImageLoaderF
         super.onCreate()
         // Missing google-services.json is valid for local and CI builds.
         FirebaseApp.initializeApp(this)
+        com.google.android.gms.ads.MobileAds.initialize(this) {}
         telemetry.applyConsent(false)
         telemetry.initializeRemoteConfig()
     }

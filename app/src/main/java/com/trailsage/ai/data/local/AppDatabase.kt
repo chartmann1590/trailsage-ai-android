@@ -9,5 +9,5 @@ import androidx.room.RoomDatabase
     TourPackEntity::class, RouteEntity::class, RoutePointEntity::class, PoiEntity::class, StoryTriggerEntity::class,
     StoryEntity::class, StorySourceEntity::class, DownloadEntity::class, UserSettingsEntity::class,
     AiChatMessageEntity::class, AppEventEntity::class, NarrationCacheEntity::class
-], version = 2, exportSchema = false)
+], version = 3, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() { abstract fun dao(): TrailSageDao }

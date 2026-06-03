@@ -19,12 +19,23 @@ import javax.inject.Singleton
 object AppModule {
     @Provides @Singleton fun database(@ApplicationContext context: Context): AppDatabase =
         Room.databaseBuilder(context, AppDatabase::class.java, "trailsage.db")
-            .addMigrations(object : Migration(1, 2) {
-                override fun migrate(db: SupportSQLiteDatabase) {
-                    db.execSQL("ALTER TABLE downloads ADD COLUMN startedAt INTEGER NOT NULL DEFAULT 0")
-                    db.execSQL("UPDATE downloads SET startedAt = updatedAt WHERE startedAt = 0")
+            .addMigrations(
+                object : Migration(1, 2) {
+                    override fun migrate(db: SupportSQLiteDatabase) {
+                        db.execSQL("ALTER TABLE downloads ADD COLUMN startedAt INTEGER NOT NULL DEFAULT 0")
+                        db.execSQL("UPDATE downloads SET startedAt = updatedAt WHERE startedAt = 0")
+                    }
+                },
+                object : Migration(2, 3) {
+                    override fun migrate(db: SupportSQLiteDatabase) {
+                        db.execSQL("ALTER TABLE user_settings ADD COLUMN adFreeUntil INTEGER NOT NULL DEFAULT 0")
+                        db.execSQL("ALTER TABLE user_settings ADD COLUMN credits INTEGER NOT NULL DEFAULT 0")
+                        db.execSQL("ALTER TABLE user_settings ADD COLUMN adsWatchedToday INTEGER NOT NULL DEFAULT 0")
+                        db.execSQL("ALTER TABLE user_settings ADD COLUMN creditsSpentToday INTEGER NOT NULL DEFAULT 0")
+                        db.execSQL("ALTER TABLE user_settings ADD COLUMN lastAdResetTimestamp INTEGER NOT NULL DEFAULT 0")
+                    }
                 }
-            }).build()
+            ).build()
     @Provides fun dao(database: AppDatabase): TrailSageDao = database.dao()
     @Provides @Singleton fun workManager(@ApplicationContext context: Context): WorkManager = WorkManager.getInstance(context)
 }

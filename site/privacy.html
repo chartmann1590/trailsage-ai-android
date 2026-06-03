@@ -1,1 +1,104 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>TrailSage AI Privacy</title><link rel="stylesheet" href="style.css"></head><body><main><p class="eyebrow">TRAILSAGE AI</p><h1>Privacy Policy</h1><p>TrailSage AI is offline-first. Downloaded tour packs work locally and AI runs on-device whenever a verified model is installed.</p><p>We do not sell location data, include advertising SDKs, or send prompts to paid AI APIs. Location is used for active tour triggers.</p><p>Optional Firebase analytics, crash reporting, performance monitoring, remote configuration, and notifications are used only with appropriate consent.</p><a href="index.html">Back to TrailSage AI</a></main></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrailSage AI - Privacy Policy</title>
+  <meta name="description" content="Privacy Policy for TrailSage AI. Offline-first GPS audio tour guide with local data storage and zero location sharing.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header>
+    <div class="container nav-container">
+      <a href="index.html" class="logo-link" id="nav-brand-link">
+        <img src="images/logo.png" alt="TrailSage AI Logo" class="logo-img">
+        <span class="brand-name">TrailSage <span class="gradient-text">AI</span></span>
+      </a>
+      <a href="index.html" class="btn-github" id="nav-back-btn">
+        &larr; Back to Home
+      </a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="privacy-container" style="margin-top: 60px; margin-bottom: 60px;">
+      <a href="index.html" class="privacy-back" id="content-back-btn">&larr; Back to Home</a>
+      <span class="eyebrow">Privacy by Design</span>
+      <h1 style="font-size: 2.5rem; margin-bottom: 20px;">Privacy Policy</h1>
+      <p style="font-size: 0.95rem; color: var(--text-muted);">Last updated: June 3, 2026</p>
+      
+      <p class="lead" style="margin-bottom: 32px; font-size: 1.15rem;">
+        TrailSage AI is designed from the ground up as an offline-first mobile application. We believe your travel logs, locations, and conversations should remain yours alone.
+      </p>
+
+      <h2>1. The Offline-First Promise</h2>
+      <p>
+        All core functionalities of TrailSage AI are performed directly on your Android device. Downloaded tour packages, local Wikipedia metadata, offline vector maps, and speech synthesis files are stored locally on your internal storage. 
+      </p>
+
+      <h2>2. Location Data & GPS Triggers</h2>
+      <p>
+        To trigger audio guides and stories as you travel, the app requests access to your device's precise location (GPS).
+      </p>
+      <ul>
+        <li><strong>On-Device Processing:</strong> Your coordinates are processed entirely on-device to calculate radius triggers and travel bearings.</li>
+        <li><strong>No Tracking or Selling:</strong> Location history is never sent to a cloud server, saved to an online database, or shared with/sold to third-party advertising services.</li>
+        <li><strong>Offline Maps:</strong> The vector map rendering utilizes locally stored PMTiles archives, requiring no online connections to refresh tiles while you explore.</li>
+      </ul>
+
+      <h2>3. Local LLM & Audio Speech Synthesis</h2>
+      <p>
+        Unlike typical travel assistants, TrailSage AI does not use external paid APIs (such as OpenAI, Anthropic, or Gemini Cloud) to answer prompts or generate speech:
+      </p>
+      <ul>
+        <li><strong>Local AI RAG:</strong> Conversational RAG queries are processed on-device through the LiteRT-LM runtime and local quantized Gemma models.</li>
+        <li><strong>On-Device Voice Synthesis:</strong> Audio tours are synthesized locally using the Sherpa-ONNX native runtime and Piper VITS files. No audio clips or texts are transmitted online.</li>
+      </ul>
+
+      <h2>4. Optional Analytics & Developer Telemetry</h2>
+      <p>
+        To help us maintain application stability, TrailSage AI includes optional Firebase SDK dependencies (Analytics, Crashlytics, Performance Monitoring, Remote Config, and Cloud Messaging):
+      </p>
+      <ul>
+        <li><strong>Opt-In Setup:</strong> Telemetry collection is completely disabled by default. The application will not initialize these modules until you provide explicit consent during setup or inside Settings.</li>
+        <li><strong>Anonymized Data:</strong> If you opt in, Firebase collects anonymized crash logs, app responsiveness metrics, and basic device information to help identify performance regressions.</li>
+        <li><strong>Revocability:</strong> You can revoke your consent at any time from the app settings, which instantly terminates telemetry reporting.</li>
+      </ul>
+
+      <h2>5. Security & Verification</h2>
+      <p>
+        The application is fully open source. All downloadable model files and tour packages are verified via strict SHA-256 checksums inside local manifest templates to prevent asset tampering.
+      </p>
+
+      <h2>6. Changes to this Policy</h2>
+      <p>
+        We may update this Privacy Policy to reflect changes in our local toolsets. Any revisions will be pushed directly to our open-source codebase and static website.
+      </p>
+
+      <h2>7. Contact Information</h2>
+      <p>
+        For questions or feedback regarding our privacy practices, please submit an issue on our GitHub repository.
+      </p>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-content">
+      <div>
+        <p style="margin: 0; font-weight: 600; color: var(--text-primary);">TrailSage AI</p>
+        <p style="margin: 5px 0 0 0; font-size: 0.85rem;">Open-source, private, and offline-first road trip storytelling.</p>
+      </div>
+      <ul class="footer-links">
+        <li><a href="index.html" id="footer-home-link">Home</a></li>
+        <li><a href="#" id="footer-privacy-link">Privacy Policy</a></li>
+        <li><a href="https://github.com/chartmann1590/trailsage-ai-android/blob/main/ATTRIBUTION.md" id="footer-attribution-link">Attribution</a></li>
+        <li><a href="https://github.com/chartmann1590/trailsage-ai-android" id="footer-github-link">GitHub Repository</a></li>
+      </ul>
+    </div>
+  </footer>
+
+</body>
+</html>

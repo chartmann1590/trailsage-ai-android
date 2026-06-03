@@ -1,1 +1,294 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>TrailSage AI</title><link rel="stylesheet" href="style.css"></head><body><main><p class="eyebrow">TRAILSAGE AI</p><h1>Your private road trip storyteller.</h1><p class="lead">Offline-first GPS audio tours with on-device AI, natural local voices, and public-source destination packs.</p><section><h2>Built for the road</h2><p>Download before departure. TrailSage keeps tour stories, source notes, route context, and offline maps on your device.</p></section><section><h2>Privacy by design</h2><p>No paid cloud AI API. No ads. No hidden location selling.</p><a href="privacy.html">Read the privacy policy</a> · <a href="https://github.com/chartmann1590/trailsage-ai-android/blob/main/ATTRIBUTION.md">Attribution</a></section></main></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrailSage AI - Offline GPS Audio Tour Guide & Road Trip Storyteller</title>
+  <meta name="description" content="An offline-first GPS audio tour guide for Android. Experience on-device RAG AI stories, natural neural voices, and offline OSM maps with absolute privacy.">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Font Awesome for Icons (using SVG directly to maintain offline/light performance) -->
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header>
+    <div class="container nav-container">
+      <a href="#" class="logo-link" id="nav-brand-link">
+        <img src="images/logo.png" alt="TrailSage AI Logo" class="logo-img">
+        <span class="brand-name">TrailSage <span class="gradient-text">AI</span></span>
+      </a>
+      
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="#features" class="nav-link" id="nav-features-link">Features</a></li>
+          <li><a href="#screenshots" class="nav-link" id="nav-screenshots-link">Screenshots</a></li>
+          <li><a href="#specs" class="nav-link" id="nav-specs-link">Specifications</a></li>
+          <li><a href="privacy.html" class="nav-link" id="nav-privacy-link">Privacy Policy</a></li>
+        </ul>
+      </nav>
+
+      <a href="https://github.com/chartmann1590/trailsage-ai-android" class="btn-github" target="_blank" rel="noopener noreferrer" id="nav-github-btn">
+        <svg height="20" viewBox="0 0 16 16" width="20" fill="currentColor"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+        GitHub
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <span class="eyebrow">On-Device Storytelling</span>
+          <h1 class="gradient-text">Your private road trip storyteller.</h1>
+          <p class="lead hero-lead">
+            TrailSage AI is an offline-first GPS audio tour guide for Android. It runs a local LLM, neural voices, and offline maps completely on your device. Discover stories, geology, and local lore without any internet connection.
+          </p>
+          <div class="btn-group">
+            <a href="https://github.com/chartmann1590/trailsage-ai-android/releases" class="btn btn-primary" id="hero-download-btn">
+              Download Latest APK
+            </a>
+            <a href="#features" class="btn btn-secondary" id="hero-features-btn">
+              Explore Features
+            </a>
+          </div>
+        </div>
+        
+        <div class="hero-mockup">
+          <div class="glow-ring"></div>
+          <div class="phone-container">
+            <div class="phone-notch"></div>
+            <img src="images/welcome.png" alt="TrailSage App Splash Screen" class="phone-screen" id="hero-phone-img">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Core Pitch / Highlights Grid -->
+    <section class="section" id="features">
+      <div class="container">
+        <div class="text-center">
+          <span class="eyebrow">Features</span>
+          <h2>Built for the remote highways</h2>
+          <p class="lead">No cell service? No problem. Everything operates 100% locally on your phone.</p>
+        </div>
+
+        <div class="features-grid">
+          <!-- Feature 1 -->
+          <div class="glass-card feature-card">
+            <div class="feature-icon">🧠</div>
+            <h3>On-Device RAG AI</h3>
+            <p>Powered by Google Gemma 2B and LiteRT-LM. Retrieves rich driving context and answers custom tour queries directly on your device using a local knowledge graph, returning clean context-sourced summaries.</p>
+          </div>
+
+          <!-- Feature 2 -->
+          <div class="glass-card feature-card">
+            <div class="feature-icon">🗣️</div>
+            <h3>Neural TTS Voice Playback</h3>
+            <p>Integrated with the Sherpa-ONNX native engine and Piper/VITS neural voices. Experience highly expressive, natural human voice tours instead of basic robotic system text-to-speech fallback.</p>
+          </div>
+
+          <!-- Feature 3 -->
+          <div class="glass-card feature-card">
+            <div class="feature-icon">🗺️</div>
+            <h3>Offline Maps (PMTiles)</h3>
+            <p>Utilizes offline-first OpenStreetMap vector data compiled into PMTiles extracts. Render detailed terrain, pathways, and roads locally with full zoom capabilities in remote valleys.</p>
+          </div>
+
+          <!-- Feature 4 -->
+          <div class="glass-card feature-card">
+            <div class="feature-icon">📍</div>
+            <h3>GPS Triggers & Bearings</h3>
+            <p>Smart radius and bearing calculations. The audio player triggers historical narration automatically as you drive into the trigger zone in the exact direction of travel.</p>
+          </div>
+
+          <!-- Feature 5 -->
+          <div class="glass-card feature-card">
+            <div class="feature-icon">🛠️</div>
+            <h3>Open Pack Builder</h3>
+            <p>Includes a Python tour-pack builder tool that scrapes Wikimedia and OpenStreetMap data to generate custom tour-packages with local maps, narration scripts, and RAG contexts.</p>
+          </div>
+
+          <!-- Feature 6 -->
+          <div class="glass-card feature-card">
+            <div class="feature-icon">🔒</div>
+            <h3>Privacy by Design</h3>
+            <p>Zero cloud AI APIs, zero location selling, and zero advertising SDKs. Data resides permanently on your device. Optional Firebase analytics are strict opt-in only.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Screenshot Showcase -->
+    <section class="section" id="screenshots" style="background: rgba(16, 26, 21, 0.2); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+      <div class="container">
+        <div class="text-center" style="margin-bottom: 48px;">
+          <span class="eyebrow">Showcase</span>
+          <h2>Inside the Interface</h2>
+          <p class="lead">Crafted using Compose Material 3 design systems and optimized for driving safety.</p>
+        </div>
+
+        <div class="showcase-container">
+          <!-- Showcase Tabs Selector -->
+          <div class="showcase-tabs">
+            <!-- Tab 1 -->
+            <button class="showcase-tab active" id="tab-dashboard" onclick="selectShowcase('dashboard', 'dashboard.png')">
+              <h3>Explore Dashboard</h3>
+              <p>Discover available tours, check active status, monitor database storage, and view active downloads.</p>
+            </button>
+            
+            <!-- Tab 2 -->
+            <button class="showcase-tab" id="tab-map" onclick="selectShowcase('map', 'map.png')">
+              <h3>Offline Exploration Map</h3>
+              <p>Navigate using localized OSM-derived PMTiles vector maps, showing active routes and tour stops.</p>
+            </button>
+
+            <!-- Tab 3 -->
+            <button class="showcase-tab" id="tab-driving" onclick="selectShowcase('driving', 'driving_mode.png')">
+              <h3>Driving Mode HUD</h3>
+              <p>A high-contrast, distraction-free night-driving HUD that displays story status, playing audio guides, and upcoming triggers.</p>
+            </button>
+
+            <!-- Tab 4 -->
+            <button class="showcase-tab" id="tab-voice" onclick="selectShowcase('voice', 'voice_settings.png')">
+              <h3>Neural Voice Settings</h3>
+              <p>Configure and preview on-device neural voices. Install Piper/VITS audio packs for a natural storytelling voice.</p>
+            </button>
+            
+            <!-- Tab 5 -->
+            <button class="showcase-tab" id="tab-story" onclick="selectShowcase('story', 'story_detail.png')">
+              <h3>Tour Details & Story Detail</h3>
+              <p>Browse full itineraries, read source attribution, explore georeferences, and review offline-cached stories.</p>
+            </button>
+
+            <!-- Tab 6 -->
+            <button class="showcase-tab" id="tab-downloads" onclick="selectShowcase('downloads', 'downloads.png')">
+              <h3>Assets & Downloads Panel</h3>
+              <p>Track SHA-256 asset manifests and download LLM models or neural voices with a resumable WorkManager manager.</p>
+            </button>
+          </div>
+
+          <!-- Showcase Mockup Viewport -->
+          <div class="showcase-display">
+            <div class="mockup-showcase-phone">
+              <div class="phone-notch"></div>
+              <img src="images/dashboard.png" alt="Explore Dashboard" class="mockup-showcase-screen active" id="img-dashboard">
+              <img src="images/map.png" alt="Offline Exploration Map" class="mockup-showcase-screen" id="img-map">
+              <img src="images/driving_mode.png" alt="Driving Mode HUD" class="mockup-showcase-screen" id="img-driving">
+              <img src="images/voice_settings.png" alt="Neural Voice Settings" class="mockup-showcase-screen" id="img-voice">
+              <img src="images/story_detail.png" alt="Story Details Screen" class="mockup-showcase-screen" id="img-story">
+              <img src="images/downloads.png" alt="Downloads Control Panel" class="mockup-showcase-screen" id="img-downloads">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Technical Specifications -->
+    <section class="section" id="specs">
+      <div class="container">
+        <div class="text-center">
+          <span class="eyebrow">Under The Hood</span>
+          <h2>Technical Architecture</h2>
+          <p class="lead">Engineered to bypass cloud API limits, cell network latency, and high subscription fees.</p>
+        </div>
+
+        <table class="specs-table">
+          <thead>
+            <tr>
+              <th scope="col">Component</th>
+              <th scope="col">Technology Details & APIs</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="spec-category">Android Development</td>
+              <td class="spec-details">
+                Built natively using <span class="badge-tag">Kotlin 2.2</span>, <span class="badge-tag">Jetpack Compose M3</span>, and structured around Hilt DI, Room DB, WorkManager, Coroutine Flows, and DataStore.
+              </td>
+            </tr>
+            <tr>
+              <td class="spec-category">On-Device LLM AI</td>
+              <td class="spec-details">
+                Google <span class="badge-tag">Gemma 2B E2B</span> quantized model running on-device via the <span class="badge-tag">LiteRT-LM Android SDK</span> for robust offline RAG capability.
+              </td>
+            </tr>
+            <tr>
+              <td class="spec-category">Offline Speech Synthesis</td>
+              <td class="spec-details">
+                <span class="badge-tag">Sherpa-ONNX v1.13.2</span> native library coupled with highly expressive Piper VITS models for fully offline, natural text-to-speech rendering.
+              </td>
+            </tr>
+            <tr>
+              <td class="spec-category">Vector Map Engine</td>
+              <td class="spec-details">
+                <span class="badge-tag">MapLibre GL Android</span> loading and rendering compiled offline <span class="badge-tag">PMTiles</span> vector extracts derived from OpenStreetMap coordinates.
+              </td>
+            </tr>
+            <tr>
+              <td class="spec-category">Tour Pack Schema</td>
+              <td class="spec-details">
+                ZIP archives structured with geo-coordinates, triggers, markdown narrations, and RAG context maps. Assets are verified via SHA-256 checksum manifests before load.
+              </td>
+            </tr>
+            <tr>
+              <td class="spec-category">Privacy & Telemetry</td>
+              <td class="spec-details">
+                Strict opt-in. Firebase Crashlytics, Analytics, and Performance Monitoring initialization are dynamically disabled by default until developer/user permission gate passes.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-content">
+      <div>
+        <p style="margin: 0; font-weight: 600; color: var(--text-primary);">TrailSage AI</p>
+        <p style="margin: 5px 0 0 0; font-size: 0.85rem;">Open-source, private, and offline-first road trip storytelling.</p>
+      </div>
+      <ul class="footer-links">
+        <li><a href="#" id="footer-home-link">Home</a></li>
+        <li><a href="privacy.html" id="footer-privacy-link">Privacy Policy</a></li>
+        <li><a href="https://github.com/chartmann1590/trailsage-ai-android/blob/main/ATTRIBUTION.md" id="footer-attribution-link">Attribution</a></li>
+        <li><a href="https://github.com/chartmann1590/trailsage-ai-android" id="footer-github-link">GitHub Repository</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Script for showcase interactivity -->
+  <script>
+    function selectShowcase(tabId, imgName) {
+      // Deactivate all tab elements
+      const tabs = document.querySelectorAll('.showcase-tab');
+      tabs.forEach(tab => {
+        tab.classList.remove('active');
+      });
+
+      // Activate selected tab
+      const selectedTab = document.getElementById('tab-' + tabId);
+      if (selectedTab) {
+        selectedTab.classList.add('active');
+      }
+
+      // Hide all screen images
+      const screens = document.querySelectorAll('.mockup-showcase-screen');
+      screens.forEach(screen => {
+        screen.classList.remove('active');
+      });
+
+      // Show selected screen image
+      const selectedScreen = document.getElementById('img-' + tabId);
+      if (selectedScreen) {
+        selectedScreen.classList.add('active');
+      }
+    }
+  </script>
+</body>
+</html>

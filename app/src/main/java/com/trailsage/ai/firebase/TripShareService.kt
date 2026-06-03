@@ -110,6 +110,8 @@ class TripShareService @Inject constructor(
             Tasks.await(docRef.set(docData))
 
             docRef.id
+        }.onFailure {
+            android.util.Log.e("TripShareService", "Failed to share trip $tourId", it)
         }
     }
 

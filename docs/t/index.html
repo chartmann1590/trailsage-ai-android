@@ -25,7 +25,10 @@
                     <span class="logo-icon">📍</span>
                     <span class="logo-text">TrailSage AI</span>
                 </div>
-                <h1 id="trip-title">Loading Trip…</h1>
+                <div class="header-toggle-row">
+                    <h1 id="trip-title">Loading Trip…</h1>
+                    <button id="toggle-header-btn" title="Toggle Details">▼</button>
+                </div>
                 <p id="trip-meta" class="hidden"><span id="stop-count">0</span> stops &bull; <span id="drive-time">0</span> min driving</p>
                 <div id="trip-desc">Fetching shared itinerary details from the cloud...</div>
                 
@@ -59,6 +62,7 @@
         <!-- Map Panel -->
         <main id="map-container">
             <div id="map"></div>
+            <button id="toggle-map-btn" class="map-toggle-btn">🗺️ Minimize Map</button>
             <!-- Loading Indicator -->
             <div id="map-loader" class="loader-overlay">
                 <div class="spinner"></div>

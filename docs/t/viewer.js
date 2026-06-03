@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     setupTabs();
+    setupToggles();
     initFirebase(shareId);
 });
 
@@ -48,6 +49,36 @@ function setupTabs() {
         panelDirections.classList.add("active");
         panelStops.classList.remove("active");
     });
+}
+
+// Setup collapsible header and map controls
+function setupToggles() {
+    const toggleHeaderBtn = document.getElementById("toggle-header-btn");
+    const sidebar = document.getElementById("sidebar");
+    
+    if (toggleHeaderBtn && sidebar) {
+        toggleHeaderBtn.addEventListener("click", () => {
+            const isCollapsed = sidebar.classList.toggle("header-collapsed");
+            toggleHeaderBtn.textContent = isCollapsed ? "▲ Info" : "▼ Info";
+        });
+    }
+
+    const toggleMapBtn = document.getElementById("toggle-map-btn");
+    const appContainer = document.getElementById("app-container");
+    
+    if (toggleMapBtn && appContainer) {
+        toggleMapBtn.addEventListener("click", () => {
+            const isCollapsed = appContainer.classList.toggle("map-collapsed");
+            toggleMapBtn.textContent = isCollapsed ? "🗺️ Show Map" : "🗺️ Minimize Map";
+            
+            // Force Leaflet to recalculate map size after layout transition completes
+            setTimeout(() => {
+                if (map) {
+                    map.invalidateSize({ animate: true });
+                }
+            }, 300);
+        });
+    }
 }
 
 // Initialize Firebase and Fetch Trip

@@ -213,6 +213,8 @@ class SharedTripImporter @Inject constructor(
             activeTourStore.setActive(tourId)
 
             tourId
+        }.onFailure {
+            android.util.Log.e("SharedTripImporter", "Failed to import trip $shareId", it)
         }
     }
 }

@@ -473,8 +473,97 @@ body {
     box-shadow: 0 0 10px var(--accent);
 }
 
+/* Header Toggle */
+.header-toggle-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+#toggle-header-btn {
+    background: none;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    font-size: 11px;
+    cursor: pointer;
+    padding: 4px 10px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    font-family: var(--font-heading);
+    font-weight: 600;
+}
+
+#toggle-header-btn:hover {
+    color: var(--text-primary);
+    border-color: var(--primary);
+    background-color: rgba(255,255,255,0.02);
+}
+
+.header-collapsed #trip-desc,
+.header-collapsed #open-app-btn,
+.header-collapsed #trip-meta,
+.header-collapsed .logo-area {
+    display: none !important;
+}
+
+.header-collapsed #sidebar-header {
+    padding: 12px 24px;
+    background: none;
+}
+
+.header-collapsed #trip-title {
+    font-size: 18px;
+    margin-bottom: 0;
+}
+
+/* Map Toggle Button (Mobile Only) */
+.map-toggle-btn {
+    display: none; /* Hidden on desktop */
+}
+
+/* Sidebar Header transitions */
+#sidebar-header {
+    transition: padding 0.2s ease;
+}
+
+#trip-title {
+    transition: font-size 0.2s ease;
+}
+
+#sidebar, #map-container {
+    transition: height 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
+    .map-toggle-btn {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        position: absolute;
+        bottom: 12px;
+        right: 12px;
+        z-index: 1000;
+        background-color: var(--panel-bg);
+        border: 1px solid var(--border-color);
+        color: var(--text-primary);
+        padding: 8px 14px;
+        border-radius: 20px;
+        font-family: var(--font-heading);
+        font-weight: 600;
+        font-size: 13px;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        transition: all 0.2s ease;
+    }
+    
+    .map-toggle-btn:hover {
+        background-color: var(--card-hover);
+        border-color: var(--primary);
+    }
+
     #app-container {
         flex-direction: column-reverse;
     }
@@ -486,5 +575,24 @@ body {
     
     #map-container {
         height: 40%;
+    }
+    
+    /* Collapsed Map Layout */
+    .map-collapsed #map-container {
+        height: 60px !important;
+    }
+    
+    .map-collapsed #sidebar {
+        height: calc(100% - 60px) !important;
+    }
+    
+    .map-collapsed .map-toggle-btn {
+        top: 12px;
+        bottom: auto;
+        right: 12px;
+    }
+    
+    .map-collapsed #map {
+        pointer-events: none;
     }
 }

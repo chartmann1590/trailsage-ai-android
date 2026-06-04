@@ -19,6 +19,19 @@ val admobBannerId = System.getenv("ADMOB_BANNER_ID") ?: localProperties.getPrope
 val admobInterstitialId = System.getenv("ADMOB_INTERSTITIAL_ID") ?: localProperties.getProperty("admob.interstitial.id") ?: ""
 val admobRewardId = System.getenv("ADMOB_REWARD_ID") ?: localProperties.getProperty("admob.reward.id") ?: ""
 
+// Release signing. On CI these come from the environment (the keystore is decoded
+// from the KEYSTORE_BASE64 secret); locally they can be set in local.properties.
+val keystoreFilePath = System.getenv("KEYSTORE_FILE") ?: localProperties.getProperty("keystore.file")
+val keystorePassword = System.getenv("KEYSTORE_PASSWORD") ?: localProperties.getProperty("keystore.password")
+val keystoreKeyAlias = System.getenv("KEY_ALIAS") ?: localProperties.getProperty("key.alias")
+val keystoreKeyPassword = System.getenv("KEY_PASSWORD") ?: localProperties.getProperty("key.password")
+val hasReleaseKeystore = keystoreFilePath != null && file(keystoreFilePath).exists()
+
+// versionCode is bumped on every CI build (set from the workflow run number via the
+// VERSION_CODE env var); both fall back to sensible defaults for local builds.
+val ciVersionCode = System.getenv("VERSION_CODE")?.toIntOrNull() ?: 1
+val ciVersionName = System.getenv("VERSION_NAME") ?: "0.1.0"
+
 android {
     namespace = "com.charles.trailsage"
     compileSdk = 36
@@ -27,19 +40,32 @@ android {
         applicationId = "com.charles.trailsage"
         minSdk = 26
         targetSdk = 36
-        versionCode = 1
-        versionName = "0.1.0"
+        versionCode = ciVersionCode
+        versionName = ciVersionName
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        
+
         manifestPlaceholders["admobAppId"] = admobAppId
         buildConfigField("String", "ADMOB_BANNER_ID", "\"$admobBannerId\"")
         buildConfigField("String", "ADMOB_INTERSTITIAL_ID", "\"$admobInterstitialId\"")
         buildConfigField("String", "ADMOB_REWARD_ID", "\"$admobRewardId\"")
     }
+    signingConfigs {
+        if (hasReleaseKeystore) {
+            create("release") {
+                storeFile = file(keystoreFilePath!!)
+                storePassword = keystorePassword
+                keyAlias = keystoreKeyAlias
+                keyPassword = keystoreKeyPassword
+            }
+        }
+    }
     buildTypes {
         release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            // Sign with the release key when it is available (CI / configured local builds);
+            // otherwise the APK is left unsigned so debug builds still work without the key.
+            signingConfig = signingConfigs.findByName("release")
         }
     }
     compileOptions {

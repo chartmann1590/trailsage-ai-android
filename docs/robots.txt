@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /t/
+
+Sitemap: https://chartmann1590.github.io/trailsage-ai-android/sitemap.xml

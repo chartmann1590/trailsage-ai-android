@@ -1,0 +1,26 @@
+PLAY DATA SAFETY — declaration guide (fill in the Console to match app behavior)
+
+App package: com.charles.trailsage
+
+DATA COLLECTED / SHARED
+- Location (approximate & precise): Used ON-DEVICE only for GPS-triggered narration
+  and routing. NOT sent off-device, NOT sold, NOT shared. Declare as "not collected"
+  off the device (processing stays local).
+- Diagnostics / Crash logs (Firebase): OPTIONAL, OFF by default. If a user opts in,
+  anonymous diagnostics may be collected. Declare as collected (optional) when enabled.
+- Advertising (Google AdMob): The app shows ads. AdMob may collect device/advertising
+  identifiers for ad delivery and measurement. Declare AdMob data collection/sharing
+  per Google's AdMob guidance. An optional rewards-based ad-free tier is available.
+
+THIRD-PARTY SDKs PRESENT
+- Google AdMob (ads)
+- Firebase (optional, opt-in diagnostics)
+
+NOT PRESENT
+- No accounts/login required
+- No sale of personal data
+- Trip history, routes, and AI queries are not transmitted off the device
+
+IMPORTANT: The marketing copy must NOT claim "no ads" or "zero telemetry" in absolute
+terms because AdMob is integrated and optional Firebase diagnostics exist. Keep copy
+consistent with this declaration (see long_description.txt PRIVACY-FIRST DESIGN section).

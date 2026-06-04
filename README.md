@@ -16,19 +16,21 @@ TrailSage AI is an offline-first GPS audio tour guide for Android. Designed for 
 *   **🗺️ Offline OpenStreetMap Exploration:** View paths, trails, and terrain offline using pre-packaged vector PMTiles extracts.
 *   **📍 Automatic GPS Triggers:** Advanced radius and bearing calculation plays matching historical stories at the exact moment you approach landmarks from the correct direction.
 *   **🔗 Anonymous Trip Sharing:** Share your custom or curated road-trip tours with friends. Generates a static preview link that opens in any browser with interactive maps, stop summaries, and directions, or imports back directly into TrailSage AI via deep links.
-*   **🔒 Absolute Privacy:** No ad SDKs, no location tracking, and no external data sales. Your location and tour history stay on your device permanently.
+*   **🔒 Privacy-First:** Your location and tour history stay on your device—never sold or shared. On-device AI means your queries never leave your phone. Optional diagnostics (Firebase) are off by default. The app is supported by non-intrusive ads, with an optional rewards-based ad-free tier.
 
 ---
 
 ## 📸 App Preview
 
-| Welcome & Setup | Explore Dashboard | Offline Map Navigation |
-| :---: | :---: | :---: |
-| ![Welcome Setup](docs/images/welcome.png) | ![Explore Dashboard](docs/images/dashboard.png) | ![Offline Map](docs/images/map.png) |
+*Real screenshots captured on a Google Pixel 8 Pro.*
 
-| Driving Mode HUD | Neural Voice Selection | Detailed Story Information |
+| Explore Dashboard | Offline Map Navigation | On-Device Downloads |
 | :---: | :---: | :---: |
-| ![Driving HUD](docs/images/driving_mode.png) | ![Voice Settings](docs/images/voice_settings.png) | ![Story Detail](docs/images/story_detail.png) |
+| ![Explore Dashboard](docs/images/explore.png) | ![Offline Map](docs/images/map.png) | ![Downloads](docs/images/downloads.png) |
+
+| Ask Your AI Guide | Settings & Privacy | |
+| :---: | :---: | :---: |
+| ![AI Guide](docs/images/guide.png) | ![Settings](docs/images/settings.png) | |
 
 ---
 

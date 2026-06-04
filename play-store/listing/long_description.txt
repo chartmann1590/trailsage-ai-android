@@ -1,0 +1,43 @@
+TrailSage AI is your private, offline road trip storyteller.
+
+Designed for deep mountain valleys, scenic highways, and remote national parks where cellular service vanishes, TrailSage AI packages on-device Artificial Intelligence, expressive neural narration, and detailed offline maps to tell you the stories of the land as you drive.
+
+🌟 KEY FEATURES
+
+🧠 LOCAL ON-DEVICE AI
+* Powered by Google Gemma 2B and on-device LiteRT.
+* Ask questions about surrounding landmarks, local history, geography, or flora and fauna.
+* Works completely offline—no cloud APIs, cellular data, or internet connection required.
+* Utilizes a localized Retrieval-Augmented Generation (RAG) system for accurate, context-aware responses.
+
+🗣️ NATURAL NEURAL VOICES
+* Driven by the Sherpa-ONNX synthesis engine and VITS voice profiles.
+* Experience highly expressive, natural human voice tours instead of robotic system text-to-speech fallbacks.
+* Choose from multiple voice styles to fit the mood of your adventure.
+
+🗺️ OFFLINE OPENSTREETMAPS
+* Explore with fully offline vector maps powered by PMTiles extracts.
+* Track paths, trails, roads, and topography with zero latency.
+* Seamless navigation HUD designed specifically for driving.
+
+📍 GPS-TRIGGERED NARRATION
+* Advanced radius and bearing calculations automatically play stories.
+* Hear about historical events and points of interest the exact second you approach a landmark from the correct direction.
+* Curated and customizable tour packages.
+
+🔗 ANONYMOUS TRIP SHARING
+* Create and share custom itineraries with friends.
+* Share links that preview in any web browser with interactive maps, summaries, and directions.
+* Import trips directly via deep links.
+
+🔒 PRIVACY-FIRST DESIGN
+* Your trip history, routes, and location coordinates stay on your device—never sold or shared.
+* On-device AI and narration mean your questions and travels never leave your phone.
+* Optional, anonymous diagnostics (Firebase) are OFF by default—you choose whether to share them.
+* Supported by non-intrusive ads, with an optional rewards-based ad-free tier.
+
+How to start:
+1. Load your tour pack (e.g., Adirondack High Peaks Loop) to download offline maps, routes, and story assets.
+2. Follow on-device setup prompts to verify the local Gemma LLM.
+3. Install your preferred Piper/VITS voice pack.
+4. Turn on GPS, tap "Start Driving," and let the story unfold!

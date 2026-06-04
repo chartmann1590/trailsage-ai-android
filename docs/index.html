@@ -3,13 +3,70 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Primary SEO -->
   <title>TrailSage AI - Offline GPS Audio Tour Guide & Road Trip Storyteller</title>
-  <meta name="description" content="An offline-first GPS audio tour guide for Android. Experience on-device RAG AI stories, natural neural voices, and offline OSM maps with absolute privacy.">
-  
+  <meta name="description" content="TrailSage AI is an offline-first GPS audio tour guide for Android. On-device AI storytelling (Google Gemma), natural neural voices, and offline OpenStreetMap navigation — your private road trip storyteller.">
+  <meta name="keywords" content="offline gps tour, road trip guide, offline maps, on-device AI, offline tts, audio tour guide, national park guide, travel assistant, gemma llm, openstreetmap, scenic drive, turn-by-turn offline">
+  <meta name="author" content="TrailSage AI">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#1B3022">
+  <link rel="canonical" href="https://chartmann1590.github.io/trailsage-ai-android/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="TrailSage AI">
+  <meta property="og:title" content="TrailSage AI - Offline GPS Audio Tour Guide & Road Trip Storyteller">
+  <meta property="og:description" content="On-device AI storytelling, natural neural voices, and offline OpenStreetMap navigation. Your private road trip storyteller for Android.">
+  <meta property="og:url" content="https://chartmann1590.github.io/trailsage-ai-android/">
+  <meta property="og:image" content="https://chartmann1590.github.io/trailsage-ai-android/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="TrailSage AI — your private road trip storyteller">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="TrailSage AI - Offline GPS Audio Tour Guide">
+  <meta name="twitter:description" content="On-device AI storytelling, neural voices, and offline maps. Your private road trip storyteller for Android.">
+  <meta name="twitter:image" content="https://chartmann1590.github.io/trailsage-ai-android/images/og-image.png">
+
+  <!-- Icons / PWA -->
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+
   <!-- CSS Stylesheet -->
   <link rel="stylesheet" href="style.css">
-  
-  <!-- Font Awesome for Icons (using SVG directly to maintain offline/light performance) -->
+
+  <!-- Structured Data: SoftwareApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "TrailSage AI",
+    "operatingSystem": "Android",
+    "applicationCategory": "TravelApplication",
+    "description": "Offline-first GPS audio tour guide for Android with on-device AI storytelling, natural neural voices, and offline OpenStreetMap navigation.",
+    "url": "https://chartmann1590.github.io/trailsage-ai-android/",
+    "image": "https://chartmann1590.github.io/trailsage-ai-android/images/og-image.png",
+    "downloadUrl": "https://github.com/chartmann1590/trailsage-ai-android/releases",
+    "softwareVersion": "1.0",
+    "author": { "@type": "Organization", "name": "TrailSage AI" },
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+  <!-- Structured Data: WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "TrailSage AI",
+    "url": "https://chartmann1590.github.io/trailsage-ai-android/"
+  }
+  </script>
 </head>
 <body>
 
@@ -26,6 +83,7 @@
           <li><a href="#features" class="nav-link" id="nav-features-link">Features</a></li>
           <li><a href="#sharing" class="nav-link" id="nav-sharing-link">Sharing</a></li>
           <li><a href="#screenshots" class="nav-link" id="nav-screenshots-link">Screenshots</a></li>
+          <li><a href="#video" class="nav-link" id="nav-video-link">Video</a></li>
           <li><a href="#specs" class="nav-link" id="nav-specs-link">Specifications</a></li>
           <li><a href="privacy.html" class="nav-link" id="nav-privacy-link">Privacy Policy</a></li>
         </ul>
@@ -62,7 +120,7 @@
           <div class="glow-ring"></div>
           <div class="phone-container">
             <div class="phone-notch"></div>
-            <img src="images/welcome.png" alt="TrailSage App Splash Screen" class="phone-screen" id="hero-phone-img">
+            <img src="images/explore.png" alt="TrailSage AI Explore Dashboard" class="phone-screen" id="hero-phone-img">
           </div>
         </div>
       </div>
@@ -117,7 +175,7 @@
           <div class="glass-card feature-card">
             <div class="feature-icon">🔒</div>
             <h3>Privacy by Design</h3>
-            <p>Zero cloud AI APIs, zero location selling, and zero advertising SDKs. Data resides permanently on your device. Optional Firebase analytics are strict opt-in only.</p>
+            <p>No cloud AI APIs and no selling of your data. Your location and trip history stay on your device. Optional Firebase diagnostics are strictly opt-in, and an optional rewards-based ad-free tier is available.</p>
           </div>
 
           <!-- Feature 7 -->
@@ -143,39 +201,33 @@
           <!-- Showcase Tabs Selector -->
           <div class="showcase-tabs">
             <!-- Tab 1 -->
-            <button class="showcase-tab active" id="tab-dashboard" onclick="selectShowcase('dashboard', 'dashboard.png')">
+            <button class="showcase-tab active" id="tab-explore" onclick="selectShowcase('explore', 'explore.png')">
               <h3>Explore Dashboard</h3>
-              <p>Discover available tours, check active status, monitor database storage, and view active downloads.</p>
+              <p>Plan a road trip and let TrailSage find the route and the real attractions along the way.</p>
             </button>
-            
+
             <!-- Tab 2 -->
             <button class="showcase-tab" id="tab-map" onclick="selectShowcase('map', 'map.png')">
-              <h3>Offline Exploration Map</h3>
-              <p>Navigate using localized OSM-derived PMTiles vector maps, showing active routes and tour stops.</p>
+              <h3>Offline Map Navigation</h3>
+              <p>Follow turn-by-turn directions on localized OSM-derived PMTiles vector maps—no signal required.</p>
             </button>
 
             <!-- Tab 3 -->
-            <button class="showcase-tab" id="tab-driving" onclick="selectShowcase('driving', 'driving_mode.png')">
-              <h3>Driving Mode HUD</h3>
-              <p>A high-contrast, distraction-free night-driving HUD that displays story status, playing audio guides, and upcoming triggers.</p>
+            <button class="showcase-tab" id="tab-downloads" onclick="selectShowcase('downloads', 'downloads.png')">
+              <h3>Everything On-Device</h3>
+              <p>The AI model, neural voices, and offline maps all live on your phone, with verified asset downloads.</p>
             </button>
 
             <!-- Tab 4 -->
-            <button class="showcase-tab" id="tab-voice" onclick="selectShowcase('voice', 'voice_settings.png')">
-              <h3>Neural Voice Settings</h3>
-              <p>Configure and preview on-device neural voices. Install Piper/VITS audio packs for a natural storytelling voice.</p>
-            </button>
-            
-            <!-- Tab 5 -->
-            <button class="showcase-tab" id="tab-story" onclick="selectShowcase('story', 'story_detail.png')">
-              <h3>Tour Details & Story Detail</h3>
-              <p>Browse full itineraries, read source attribution, explore georeferences, and review offline-cached stories.</p>
+            <button class="showcase-tab" id="tab-guide" onclick="selectShowcase('guide', 'guide.png')">
+              <h3>Ask Your AI Guide</h3>
+              <p>Ask the offline guide anything and hear the history of the places you pass, narrated in a natural voice.</p>
             </button>
 
-            <!-- Tab 6 -->
-            <button class="showcase-tab" id="tab-downloads" onclick="selectShowcase('downloads', 'downloads.png')">
-              <h3>Assets & Downloads Panel</h3>
-              <p>Track SHA-256 asset manifests and download LLM models or neural voices with a resumable WorkManager manager.</p>
+            <!-- Tab 5 -->
+            <button class="showcase-tab" id="tab-settings" onclick="selectShowcase('settings', 'settings.png')">
+              <h3>Settings & Privacy</h3>
+              <p>Wi-Fi-only downloads, kid-friendly narration, an optional ad-free tier, and opt-in diagnostics.</p>
             </button>
           </div>
 
@@ -183,14 +235,35 @@
           <div class="showcase-display">
             <div class="mockup-showcase-phone">
               <div class="phone-notch"></div>
-              <img src="images/dashboard.png" alt="Explore Dashboard" class="mockup-showcase-screen active" id="img-dashboard">
-              <img src="images/map.png" alt="Offline Exploration Map" class="mockup-showcase-screen" id="img-map">
-              <img src="images/driving_mode.png" alt="Driving Mode HUD" class="mockup-showcase-screen" id="img-driving">
-              <img src="images/voice_settings.png" alt="Neural Voice Settings" class="mockup-showcase-screen" id="img-voice">
-              <img src="images/story_detail.png" alt="Story Details Screen" class="mockup-showcase-screen" id="img-story">
-              <img src="images/downloads.png" alt="Downloads Control Panel" class="mockup-showcase-screen" id="img-downloads">
+              <img src="images/explore.png" alt="Explore Dashboard" class="mockup-showcase-screen active" id="img-explore">
+              <img src="images/map.png" alt="Offline Map Navigation" class="mockup-showcase-screen" id="img-map">
+              <img src="images/downloads.png" alt="On-Device Downloads" class="mockup-showcase-screen" id="img-downloads">
+              <img src="images/guide.png" alt="Ask Your AI Guide" class="mockup-showcase-screen" id="img-guide">
+              <img src="images/settings.png" alt="Settings & Privacy" class="mockup-showcase-screen" id="img-settings">
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Promo Video Section -->
+    <section class="section" id="video">
+      <div class="container">
+        <div class="text-center" style="margin-bottom: 48px;">
+          <span class="eyebrow">Watch</span>
+          <h2>See TrailSage AI in Action</h2>
+          <p class="lead">A 40-second tour of planning a trip, navigating offline, and hearing the road's stories.</p>
+        </div>
+        <div style="max-width: 360px; margin: 0 auto;">
+          <video
+            controls
+            playsinline
+            preload="metadata"
+            poster="images/explore.png"
+            style="width: 100%; border-radius: 28px; box-shadow: 0 20px 60px rgba(0,0,0,0.45); border: 1px solid var(--border-color);">
+            <source src="promo.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
         </div>
       </div>
     </section>

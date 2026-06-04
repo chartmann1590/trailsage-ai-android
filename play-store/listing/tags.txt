@@ -1,0 +1,11 @@
+Suggested Play Console tags (choose up to 5 from Google's predefined list):
+- Travel
+- Navigation
+- Maps
+- Audio
+- Personalization
+
+Free-text discovery terms (use in description / ASO, not Console tags):
+offline gps tour, road trip guide, offline maps, on-device AI, offline tts,
+national park guide, audio tour guide, travel assistant, gemma llm, local rag,
+travel storyteller, openstreetmap, scenic drive, turn-by-turn offline

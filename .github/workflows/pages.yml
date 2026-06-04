@@ -29,6 +29,17 @@ jobs:
         
       - name: Setup Pages
         uses: actions/configure-pages@v5
+
+      - name: Inject Firebase API Key
+        env:
+          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+        run: |
+          if [ -n "$FIREBASE_API_KEY" ]; then
+            sed -i "s/__FIREBASE_API_KEY__/$FIREBASE_API_KEY/g" docs/t/viewer.js
+            echo "Firebase API key injected."
+          else
+            echo "::warning::FIREBASE_API_KEY secret not set."
+          fi
         
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

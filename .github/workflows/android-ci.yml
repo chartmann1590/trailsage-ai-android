@@ -20,6 +20,22 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v4
 
+      - name: Decode google-services.json
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: |
+          if [ -n "$GOOGLE_SERVICES_JSON" ]; then
+            # Check if the secret is base64 encoded
+            if echo "$GOOGLE_SERVICES_JSON" | grep -q "^[A-Za-z0-9+/=]*$"; then
+              echo "$GOOGLE_SERVICES_JSON" | base64 -d > app/google-services.json
+            else
+              echo "$GOOGLE_SERVICES_JSON" > app/google-services.json
+            fi
+            echo "google-services.json decoded."
+          else
+            echo "::warning::GOOGLE_SERVICES_JSON secret not set - building without Firebase configuration."
+          fi
+
       - name: Decode release keystore
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}

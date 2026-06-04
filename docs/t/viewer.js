@@ -1,6 +1,6 @@
 // Firebase Configuration for trailsage-ai-android-2026
 const firebaseConfig = {
-    apiKey: "AIzaSyBsgixkdw0afrMKNUVmlwa9vOiZYIK2Enw",
+    apiKey: "__FIREBASE_API_KEY__",
     authDomain: "trailsage-ai-android-2026.firebaseapp.com",
     projectId: "trailsage-ai-android-2026",
     storageBucket: "trailsage-ai-android-2026.appspot.com",

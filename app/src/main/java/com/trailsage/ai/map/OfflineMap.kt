@@ -32,26 +32,17 @@ import org.maplibre.android.style.sources.GeoJsonSource
 
 data class MapStop(val name: String, val latitude: Double, val longitude: Double, val storyId: String = "")
 
-/** OpenStreetMap raster base (keyless) so styles always work; OSM usage policy applies. */
-private const val OSM_RASTER_STYLE = """
-{
-  "version": 8,
-  "sources": {
-    "osm": {
-      "type": "raster",
-      "tiles": ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
-      "tileSize": 256,
-      "attribution": "© OpenStreetMap contributors"
-    }
-  },
-  "layers": [{ "id": "osm", "type": "raster", "source": "osm" }]
-}
-"""
+/**
+ * OpenStreetMap raster base (keyless). Shared with [OfflineMapCache] so that tiles pre-cached
+ * for a generated route are reused here without a network connection. Tiles are also cached
+ * ambiently as they load, so a route that was viewed once keeps working offline afterward.
+ */
+private val OSM_RASTER_STYLE = OfflineMapCache.OSM_RASTER_STYLE
 
 /**
  * Renders the active tour: OSM raster base, the route line (road-trip blue), and stop
  * markers (sunrise gold). Works for the AI-generated route tours and any tour with a
- * route.geojson + POIs. Online raster base; offline the route/markers still draw.
+ * route.geojson + POIs. Tiles load online once, then render offline from the cache.
  */
 @Composable
 fun TourMapView(

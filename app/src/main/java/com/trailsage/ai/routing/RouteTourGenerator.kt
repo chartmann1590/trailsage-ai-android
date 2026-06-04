@@ -3,11 +3,14 @@ package com.charles.trailsage.routing
 import android.content.Context
 import com.charles.trailsage.ai.AiGuideService
 import com.charles.trailsage.data.local.*
+import com.charles.trailsage.map.OfflineMapCache
 import com.charles.trailsage.net.Http
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import org.maplibre.android.geometry.LatLng
+import org.maplibre.android.geometry.LatLngBounds
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
@@ -32,6 +35,7 @@ class RouteTourGenerator @Inject constructor(
     private data class Route(val coords: List<DoubleArray>, val distanceMeters: Double, val durationSeconds: Double, val directions: List<DirectionStep> = emptyList())
     private data class Stop(val title: String, val lat: Double, val lon: Double, val url: String, val summary: String, val imageUrl: String, var narration: String = "")
     private data class WikiPage(val title: String, val extract: String, val pageUrl: String, val imageUrl: String)
+    private data class TempCandidate(val pageId: Int, val title: String, val lat: Double, val lon: Double, val pointIndex: Int)
 
     suspend fun generate(startQuery: String, endQuery: String, onStatus: (String) -> Unit): Result<GeneratedTour> =
         withContext(Dispatchers.IO) {
@@ -57,8 +61,13 @@ class RouteTourGenerator @Inject constructor(
                     stop.narration = ai.narrateStop(stop.title, stop.summary)
                 }
 
+                onStatus("Caching offline map for this route…")
+                cacheRouteTiles(route.coords) { onStatus(it) }
+
                 onStatus("Saving offline tour…")
                 persist(startQuery, endQuery, route, stops, aiReady)
+            }.onFailure {
+                android.util.Log.e("RouteTourGenerator", "Generation failed", it)
             }
         }
 
@@ -174,37 +183,145 @@ class RouteTourGenerator @Inject constructor(
         (0 until coordsJson.length()).map { val c = coordsJson.getJSONArray(it); doubleArrayOf(c.getDouble(0), c.getDouble(1)) }
     }.getOrDefault(emptyList())
 
-    /** Sample evenly along the route, geosearch Wikipedia near each, dedupe, keep up to MAX_STOPS. */
+    /**
+     * Pre-download the OSM map tiles covering this route's bounding box while we still have a
+     * connection, so the route's map renders later with no internet. Best-effort: never fails
+     * tour generation. coords are [lon, lat] pairs.
+     */
+    private suspend fun cacheRouteTiles(coords: List<DoubleArray>, onStatus: (String) -> Unit) {
+        if (coords.size < 2) return
+        runCatching {
+            val builder = LatLngBounds.Builder()
+            coords.forEach { builder.include(LatLng(it[1], it[0])) }
+            val bounds = builder.build()
+            withContext(Dispatchers.Main) {
+                OfflineMapCache.cacheRegion(context, bounds, "route-${System.currentTimeMillis()}") { pct ->
+                    onStatus("Caching offline map… $pct%")
+                }
+            }
+        }.onFailure {
+            android.util.Log.w("RouteTourGenerator", "Offline map caching skipped", it)
+        }
+    }
+
     private suspend fun collectStops(coords: List<DoubleArray>): List<Stop> {
         if (coords.isEmpty()) return emptyList()
+        android.util.Log.i("RouteTourGenerator", "collectStops started with ${coords.size} coords")
         val samples = sampleEvenly(coords, SAMPLE_POINTS)
-        val seen = LinkedHashMap<Int, Stop>()
-        for (point in samples) {
-            if (seen.size >= MAX_STOPS) break
+        android.util.Log.i("RouteTourGenerator", "sampled ${samples.size} points")
+        val candidatesBySample = List(samples.size) { mutableListOf<TempCandidate>() }
+        val seenPageIds = mutableSetOf<Int>()
+
+        // 1. Gather candidates from each sample point
+        for ((pointIndex, point) in samples.withIndex()) {
+            var url = ""
             runCatching {
-                val url = "https://en.wikipedia.org/w/api.php?format=json&action=query&list=geosearch" +
-                    "&gscoord=${point[1]}|${point[0]}&gsradius=8000&gslimit=5"
-                val results = JSONObject(Http.get(url)).getJSONObject("query").getJSONArray("geosearch")
+                url = "https://en.wikipedia.org/w/api.php?format=json&action=query&list=geosearch" +
+                    "&gscoord=${point[1]}%7C${point[0]}&gsradius=10000&gslimit=5"
+                val responseStr = Http.get(url)
+                val queryObj = JSONObject(responseStr).optJSONObject("query") ?: return@runCatching
+                val results = queryObj.optJSONArray("geosearch") ?: return@runCatching
+                android.util.Log.i("RouteTourGenerator", "point $pointIndex returned ${results.length()} geosearch results")
                 for (i in 0 until results.length()) {
                     val r = results.getJSONObject(i)
                     val pageId = r.getInt("pageid")
-                    if (seen.containsKey(pageId) || seen.size >= MAX_STOPS) continue
-                    val page = wikiSummary(r.getString("title")) ?: continue
-                    val lat = r.getDouble("lat")
-                    val lon = r.getDouble("lon")
-                    seen[pageId] = Stop(
-                        title = page.title,
-                        lat = lat,
-                        lon = lon,
-                        url = page.pageUrl,
-                        summary = page.extract,
-                        imageUrl = page.imageUrl.ifBlank { commonsImageNear(lat, lon) ?: "" },
-                    )
+                    if (seenPageIds.add(pageId)) {
+                        candidatesBySample[pointIndex].add(
+                            TempCandidate(
+                                pageId = pageId,
+                                title = r.getString("title"),
+                                lat = r.getDouble("lat"),
+                                lon = r.getDouble("lon"),
+                                pointIndex = pointIndex
+                            )
+                        )
+                    }
+                }
+            }.onFailure {
+                android.util.Log.e("RouteTourGenerator", "Geosearch failed for point $pointIndex ($url)", it)
+            }
+            delay(800) // Polite delay between geosearch requests (comply with MediaWiki's rate limits)
+        }
+
+        // 2. Distribute selection across the route using round-robin
+        val selectedCandidates = mutableListOf<TempCandidate>()
+        var addedInRound: Boolean
+        var pass = 0
+        do {
+            addedInRound = false
+            for (pointIndex in 0 until samples.size) {
+                if (selectedCandidates.size >= MAX_STOPS) break
+                val list = candidatesBySample[pointIndex]
+                if (pass < list.size) {
+                    selectedCandidates.add(list[pass])
+                    addedInRound = true
                 }
             }
-            delay(250)
+            pass++
+        } while (addedInRound && selectedCandidates.size < MAX_STOPS)
+
+        android.util.Log.i("RouteTourGenerator", "Selected ${selectedCandidates.size} candidates via round-robin")
+
+        // Sort by pointIndex to ensure POIs are ordered along the trip
+        val orderedCandidates = selectedCandidates.sortedBy { it.pointIndex }
+
+        // 3. Batch query Wikipedia details (summaries, images, urls) in chunks of 50
+        val finalStops = mutableListOf<Stop>()
+        val chunks = orderedCandidates.chunked(50)
+        for (chunk in chunks) {
+            var url = ""
+            runCatching {
+                val pageidsStr = chunk.joinToString("%7C") { it.pageId.toString() }
+                url = "https://en.wikipedia.org/w/api.php?action=query&format=json" +
+                    "&prop=extracts%7Cpageimages%7Cinfo&exintro=1&explaintext=1&exchars=300" +
+                    "&piprop=original%7Cthumbnail&pithumbsize=1000&inprop=url&pageids=$pageidsStr"
+                
+                val responseStr = Http.get(url)
+                val queryObj = JSONObject(responseStr).optJSONObject("query") ?: return@runCatching
+                val pagesJson = queryObj.optJSONObject("pages") ?: return@runCatching
+                
+                for (candidate in chunk) {
+                    val pageObj = pagesJson.optJSONObject(candidate.pageId.toString()) ?: continue
+                    val extract = pageObj.optString("extract").trim()
+                    if (extract.isBlank()) {
+                        android.util.Log.i("RouteTourGenerator", "Skip ${candidate.title}: blank extract")
+                        continue
+                    }
+                    
+                    val title = pageObj.optString("title", candidate.title)
+                    val pageUrl = pageObj.optString("fullurl", "https://en.wikipedia.org/wiki/${Http.encode(title).replace("+", "%20")}")
+                    
+                    val originalImage = pageObj.optJSONObject("original")?.optString("source")
+                    val thumbnailImage = pageObj.optJSONObject("thumbnail")?.optString("source")
+                    var imageUrl = originalImage?.ifBlank { null } ?: thumbnailImage?.ifBlank { null } ?: ""
+                    
+                    if (imageUrl.isBlank()) {
+                        // Fallback to commons image search
+                        imageUrl = runCatching { commonsImageNear(candidate.lat, candidate.lon) }
+                            .onFailure { android.util.Log.w("RouteTourGenerator", "commonsImageNear failed for ${candidate.title}", it) }
+                            .getOrNull() ?: ""
+                        delay(100) // Polite delay after fallback call
+                    }
+                    
+                    finalStops.add(
+                        Stop(
+                            title = title,
+                            lat = candidate.lat,
+                            lon = candidate.lon,
+                            url = pageUrl,
+                            summary = extract,
+                            imageUrl = imageUrl
+                        )
+                    )
+                }
+            }.onFailure {
+                android.util.Log.e("RouteTourGenerator", "Batch detail query failed ($url)", it)
+            }
+            delay(200) // Polite delay between batch detail requests
         }
-        return seen.values.toList()
+
+        android.util.Log.i("RouteTourGenerator", "collectStops finished. Returning ${finalStops.size} stops")
+        return finalStops
     }
 
     /** A real geotagged Wikimedia Commons photo near a coordinate (works even when the
@@ -302,8 +419,8 @@ class RouteTourGenerator @Inject constructor(
 
     companion object {
         // Scout the route densely with a generous ceiling rather than a hard "6 stops" cap.
-        private const val MAX_STOPS = 50
-        private const val SAMPLE_POINTS = 28
+        private const val MAX_STOPS = 30
+        private const val SAMPLE_POINTS = 12
         private const val TRIGGER_RADIUS_M = 450.0
     }
 }

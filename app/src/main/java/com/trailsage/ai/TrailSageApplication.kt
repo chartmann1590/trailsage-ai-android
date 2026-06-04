@@ -41,5 +41,13 @@ class TrailSageApplication : Application(), Configuration.Provider, ImageLoaderF
         com.google.android.gms.ads.MobileAds.initialize(this) {}
         telemetry.applyConsent(false)
         telemetry.initializeRemoteConfig()
+
+        // Enlarge MapLibre's ambient tile cache so map tiles loaded once (e.g. while viewing a
+        // route online) persist and keep rendering offline afterward, instead of being evicted.
+        runCatching {
+            org.maplibre.android.MapLibre.getInstance(this)
+            org.maplibre.android.offline.OfflineManager.getInstance(this)
+                .setMaximumAmbientCacheSize(512L * 1024 * 1024, null)
+        }
     }
 }

@@ -7,7 +7,7 @@ import java.net.URLEncoder
 
 /** Tiny keyless HTTP GET helper with a polite User-Agent (Nominatim/Wikimedia require one). */
 object Http {
-    private const val USER_AGENT = "TrailSageAI/1.0 (offline road-trip tour app; on-device AI)"
+    private const val USER_AGENT = "TrailSageAI/1.0 (offline road-trip tour app; on-device AI; contact: dev@trailsage.ai)"
 
     fun get(url: String, accept: String = "application/json"): String {
         val connection = (URL(url).openConnection() as HttpURLConnection).apply {

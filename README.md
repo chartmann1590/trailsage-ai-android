@@ -4,6 +4,8 @@
 
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![GitHub Pages](https://img.shields.io/badge/docs-GitHub_Pages-blue.svg)](https://chartmann1590.github.io/trailsage-ai-android/)
+[![Android CI](https://github.com/chartmann1590/trailsage-ai-android/actions/workflows/android-ci.yml/badge.svg)](https://github.com/chartmann1590/trailsage-ai-android/actions/workflows/android-ci.yml)
+[![Google Play](https://img.shields.io/badge/Google_Play-Install-green?logo=googleplay&logoColor=white)](https://play.google.com/store/apps/details?id=com.charles.trailsage)
 
 TrailSage AI is an offline-first GPS audio tour guide for Android. Designed for deep mountain valleys, long highways, and remote national parks where cellular service vanishes, TrailSage AI packages on-device Artificial Intelligence, neural narration, and detailed offline maps to tell you the stories of the land as you drive.
 
@@ -36,7 +38,7 @@ TrailSage AI is an offline-first GPS audio tour guide for Android. Designed for 
 
 ## 🚀 How to Get Started
 
-1.  **Download the App:** Install the latest release build from our [GitHub Releases](https://github.com/chartmann1590/trailsage-ai-android/releases) section.
+1.  **Download the App:** Install from the [Google Play Store](https://play.google.com/store/apps/details?id=com.charles.trailsage) or download the latest release build from our [GitHub Releases](https://github.com/chartmann1590/trailsage-ai-android/releases) section.
 2.  **Get Your Tour Packs:** Download a travel pack (such as our Adirondack High Peaks Loop) to cache offline maps, route layouts, and story files.
 3.  **Configure On-Device AI:** Follow the onboarding prompts to verify and load the local Gemma LLM.
 4.  **Install Neural Voices:** Select and install a Piper/VITS voice pack to activate human-like narration.

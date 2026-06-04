@@ -765,3 +765,48 @@ footer {
     padding: 24px;
   }
 }
+
+/* Unit Test Status Badge */
+.test-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(16, 185, 129, 0.12);
+  color: var(--accent-mint-hover);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0.05em;
+  margin-left: 12px;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.05);
+}
+
+.test-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--accent-mint);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--accent-mint);
+  animation: pulse-dot 2s infinite ease-in-out;
+}
+
+@keyframes pulse-dot {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.6;
+    box-shadow: 0 0 4px var(--accent-mint);
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+    box-shadow: 0 0 12px var(--accent-mint-hover);
+  }
+  100% {
+    transform: scale(0.9);
+    opacity: 0.6;
+    box-shadow: 0 0 4px var(--accent-mint);
+  }
+}

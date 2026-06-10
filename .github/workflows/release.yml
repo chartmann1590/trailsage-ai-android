@@ -50,6 +50,12 @@ jobs:
 
       - run: chmod +x gradlew
 
+      - name: Compute version code
+        run: |
+          VERSION_CODE=$((GITHUB_RUN_NUMBER + 100))
+          echo "APP_VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
+          echo "APP_VERSION_NAME=0.1.$VERSION_CODE" >> $GITHUB_ENV
+
       - name: Run unit tests
         env:
           ADMOB_APP_ID: ${{ secrets.ADMOB_APP_ID }}
@@ -74,16 +80,16 @@ jobs:
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           # Bump versionCode on every run; versionName tracks it for clarity.
-          VERSION_CODE: ${{ github.run_number }}
-          VERSION_NAME: 0.1.${{ github.run_number }}
+          VERSION_CODE: ${{ env.APP_VERSION_CODE }}
+          VERSION_NAME: ${{ env.APP_VERSION_NAME }}
         run: ./gradlew assembleRelease bundleRelease
 
       - name: Stage release assets with versioned names
         id: stage
         run: |
           mkdir -p release-assets
-          cp app/build/outputs/apk/release/*.apk "release-assets/trailsage-v0.1.${{ github.run_number }}.apk"
-          cp app/build/outputs/bundle/release/*.aab "release-assets/trailsage-v0.1.${{ github.run_number }}.aab"
+          cp app/build/outputs/apk/release/*.apk "release-assets/trailsage-v${{ env.APP_VERSION_NAME }}.apk"
+          cp app/build/outputs/bundle/release/*.aab "release-assets/trailsage-v${{ env.APP_VERSION_NAME }}.aab"
           ls -lh release-assets
 
       - name: Upload release APK
@@ -106,13 +112,13 @@ jobs:
         if: github.ref == 'refs/heads/main'
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v0.1.${{ github.run_number }}
-          name: TrailSage AI v0.1.${{ github.run_number }}
+          tag_name: v${{ env.APP_VERSION_NAME }}
+          name: TrailSage AI v${{ env.APP_VERSION_NAME }}
           body: |
             Automated release build.
 
-            - versionName: `0.1.${{ github.run_number }}`
-            - versionCode: `${{ github.run_number }}`
+            - versionName: `${{ env.APP_VERSION_NAME }}`
+            - versionCode: `${{ env.APP_VERSION_CODE }}`
             - commit: ${{ github.sha }}
 
             Assets: signed release APK (sideload) and AAB (Play Store upload).

@@ -185,14 +185,17 @@ fun SettingsScreen(
         )
         
         val submitStatus by issueVm.submitStatus.collectAsStateWithLifecycle()
-        
+        val configValid = BuildConfig.GITHUB_API_TOKEN.isNotBlank() &&
+            BuildConfig.GITHUB_REPO_OWNER.isNotBlank() &&
+            BuildConfig.GITHUB_REPO_NAME.isNotBlank()
+
         LaunchedEffect(submitStatus) {
             if (submitStatus is SubmitStatus.Success) {
                 showReportDialog = false
                 issueVm.resetSubmitStatus()
             }
         }
-        
+
         AlertDialog(
             onDismissRequest = {
                 if (submitStatus !is SubmitStatus.Loading) {
@@ -219,9 +222,22 @@ fun SettingsScreen(
                         ) {
                             Icon(Icons.Default.Warning, contentDescription = null, tint = MaterialTheme.colorScheme.error)
                             Text(
-                                text = "Warning: Bug reports and attachments submitted here are publicly visible on GitHub.",
+                                text = "Your report will be submitted to this app's GitHub issue tracker. Do not include passwords, private keys, medical information, financial information, or anything you do not want visible to the repository maintainers. If this repository is public, your report may be publicly visible.",
                                 color = MaterialTheme.colorScheme.onErrorContainer,
                                 style = MaterialTheme.typography.bodySmall
+                            )
+                        }
+                    }
+
+                    if (!configValid) {
+                        Card(
+                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer)
+                        ) {
+                            Text(
+                                text = "GitHub configuration is missing. Submission is disabled. Check that GITHUB_API_TOKEN, GITHUB_REPO_OWNER, and GITHUB_REPO_NAME are set in local.properties or repository secrets.",
+                                color = MaterialTheme.colorScheme.onErrorContainer,
+                                style = MaterialTheme.typography.bodySmall,
+                                modifier = Modifier.padding(12.dp)
                             )
                         }
                     }
@@ -324,7 +340,7 @@ fun SettingsScreen(
             },
             confirmButton = {
                 Button(
-                    enabled = title.isNotBlank() && description.isNotBlank() && submitStatus !is SubmitStatus.Loading,
+                    enabled = title.isNotBlank() && description.isNotBlank() && submitStatus !is SubmitStatus.Loading && configValid,
                     onClick = {
                         issueVm.submitIssue(title, description, name, email, includeDiagnostics, screenshotUri)
                     }
@@ -433,14 +449,14 @@ fun SettingsScreen(
                                         verticalArrangement = Arrangement.spacedBy(8.dp)
                                     ) {
                                         items(comments) { comment ->
-                                            val isUserReply = comment.body.startsWith("**[User Reply from App]**")
+                                            val isUserReply = comment.body.startsWith("## Reply")
                                             val bubbleColor = if (isUserReply) {
                                                 MaterialTheme.colorScheme.primaryContainer
                                             } else {
                                                 MaterialTheme.colorScheme.surfaceVariant
                                             }
                                             val alignment = if (isUserReply) Alignment.End else Alignment.Start
-                                            
+
                                             Column(
                                                 modifier = Modifier.fillMaxWidth(),
                                                 horizontalAlignment = alignment
@@ -458,7 +474,7 @@ fun SettingsScreen(
                                                         )
                                                         Spacer(Modifier.height(4.dp))
                                                         Text(
-                                                            text = if (isUserReply) comment.body.removePrefix("**[User Reply from App]**").trim() else comment.body,
+                                                            text = if (isUserReply) comment.body.removePrefix("## Reply").trim() else comment.body,
                                                             style = MaterialTheme.typography.bodyMedium
                                                         )
                                                     }

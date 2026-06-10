@@ -102,38 +102,34 @@ class GitHubIssueRepository @Inject constructor(
         screenshotUri: Uri?
     ): Result<SubmittedIssue> {
         val finalBody = StringBuilder()
-        
-        // Metadata / reporter info
-        if (name.isNotBlank() || email.isNotBlank()) {
-            finalBody.append("**Reported by**:")
-            if (name.isNotBlank()) finalBody.append(" $name")
-            if (email.isNotBlank()) finalBody.append(" ($email)")
-            finalBody.append("\n\n")
-        }
 
+        finalBody.append("## Description\n\n")
         finalBody.append(description)
+        finalBody.append("\n\n")
 
-        // Upload screenshot if present
+        finalBody.append("## Contact Info\n\n")
+        finalBody.append("- Name: ${name.ifBlank { "Not provided" }}\n")
+        finalBody.append("- Email: ${email.ifBlank { "Not provided" }}\n")
+
         if (screenshotUri != null) {
             val uploadResult = uploadScreenshot(screenshotUri)
             if (uploadResult.isSuccess) {
                 val downloadUrl = uploadResult.getOrThrow()
-                finalBody.append("\n\n### Attached Screenshot\n")
-                finalBody.append("![Screenshot]($downloadUrl)")
+                finalBody.append("\n## Attachment\n\n")
+                finalBody.append("![Screenshot]($downloadUrl)\n")
             } else {
                 return Result.failure(uploadResult.exceptionOrNull() ?: Exception("Failed to upload screenshot"))
             }
         }
 
-        // Diagnostics
         if (includeDiagnostics) {
             val diagnostics = diagnosticsHelper.gatherDiagnostics(includeModels = true)
-            finalBody.append("\n\n---\n")
+            finalBody.append("\n## Diagnostics\n\n")
             finalBody.append(diagnostics)
         }
 
         return runCatching {
-            val responseObj = gitHubService.createIssue(title, finalBody.toString())
+            val responseObj = gitHubService.createIssue("[Feedback] $title", finalBody.toString())
             val number = responseObj.getInt("number")
             val issueTitle = responseObj.getString("title")
             val state = responseObj.optString("state", "open")
@@ -165,15 +161,15 @@ class GitHubIssueRepository @Inject constructor(
         screenshotUri: Uri?
     ): Result<JSONObject> {
         val finalBody = StringBuilder()
-        finalBody.append("**[User Reply from App]**\n\n")
+        finalBody.append("## Reply\n\n")
         finalBody.append(bodyText)
 
         if (screenshotUri != null) {
             val uploadResult = uploadScreenshot(screenshotUri)
             if (uploadResult.isSuccess) {
                 val downloadUrl = uploadResult.getOrThrow()
-                finalBody.append("\n\n### Attached Screenshot\n")
-                finalBody.append("![Screenshot]($downloadUrl)")
+                finalBody.append("\n\n## Attachment\n\n")
+                finalBody.append("![Screenshot]($downloadUrl)\n")
             } else {
                 return Result.failure(uploadResult.exceptionOrNull() ?: Exception("Failed to upload comment screenshot"))
             }

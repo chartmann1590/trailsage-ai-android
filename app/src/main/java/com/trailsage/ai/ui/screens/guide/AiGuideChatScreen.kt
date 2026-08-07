@@ -1,5 +1,6 @@
 package com.charles.trailsage.ui.screens.guide
 
+import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,8 +17,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.charles.trailsage.review.ReviewPrompter
 import com.charles.trailsage.ui.components.SourceChip
 
 @Composable
@@ -26,10 +29,18 @@ fun AiGuideChatScreen(vm: GuideChatViewModel = hiltViewModel()) {
     val thinking by vm.thinking.collectAsStateWithLifecycle()
     var input by remember { mutableStateOf("") }
     val listState = rememberLazyListState()
+    val context = LocalContext.current
 
     LaunchedEffect(messages.size, thinking) {
         val target = messages.size + if (thinking) 1 else 0
         if (target > 0) listState.animateScrollToItem(target - 1)
+    }
+
+    // The guide just finished answering — a real moment of the on-device pipeline working.
+    LaunchedEffect(thinking) {
+        if (!thinking && messages.isNotEmpty()) {
+            (context as? Activity)?.let { ReviewPrompter.maybeRequestReview(it) }
+        }
     }
 
     Column(Modifier.fillMaxSize().statusBarsPadding()) {

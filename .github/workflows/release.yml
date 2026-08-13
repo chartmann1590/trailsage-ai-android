@@ -62,9 +62,6 @@ jobs:
           ADMOB_BANNER_ID: ${{ secrets.ADMOB_BANNER_ID }}
           ADMOB_INTERSTITIAL_ID: ${{ secrets.ADMOB_INTERSTITIAL_ID }}
           ADMOB_REWARD_ID: ${{ secrets.ADMOB_REWARD_ID }}
-          GH_API_TOKEN: "stub_token"
-          GH_REPO_OWNER: "stub_owner"
-          GH_REPO_NAME: "stub_name"
         run: ./gradlew testDebugUnitTest
 
       - name: Build signed release APK + AAB
@@ -73,9 +70,6 @@ jobs:
           ADMOB_BANNER_ID: ${{ secrets.ADMOB_BANNER_ID }}
           ADMOB_INTERSTITIAL_ID: ${{ secrets.ADMOB_INTERSTITIAL_ID }}
           ADMOB_REWARD_ID: ${{ secrets.ADMOB_REWARD_ID }}
-          GH_API_TOKEN: ${{ secrets.GH_API_TOKEN }}
-          GH_REPO_OWNER: ${{ secrets.GH_REPO_OWNER }}
-          GH_REPO_NAME: ${{ secrets.GH_REPO_NAME }}
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}

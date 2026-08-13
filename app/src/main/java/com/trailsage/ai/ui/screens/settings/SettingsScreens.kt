@@ -186,9 +186,8 @@ fun SettingsScreen(
         )
         
         val submitStatus by issueVm.submitStatus.collectAsStateWithLifecycle()
-        val configValid = BuildConfig.GITHUB_API_TOKEN.isNotBlank() &&
-            BuildConfig.GITHUB_REPO_OWNER.isNotBlank() &&
-            BuildConfig.GITHUB_REPO_NAME.isNotBlank()
+        // Always true now — the relay is a fixed public Worker URL, not per-install config.
+        val configValid = true
 
         LaunchedEffect(submitStatus) {
             if (submitStatus is SubmitStatus.Success) {

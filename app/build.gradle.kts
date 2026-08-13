@@ -19,10 +19,6 @@ val admobBannerId = System.getenv("ADMOB_BANNER_ID") ?: localProperties.getPrope
 val admobInterstitialId = System.getenv("ADMOB_INTERSTITIAL_ID") ?: localProperties.getProperty("admob.interstitial.id") ?: ""
 val admobRewardId = System.getenv("ADMOB_REWARD_ID") ?: localProperties.getProperty("admob.reward.id") ?: ""
 
-val githubToken = System.getenv("GH_API_TOKEN") ?: localProperties.getProperty("github.api.token") ?: ""
-val githubOwner = System.getenv("GH_REPO_OWNER") ?: localProperties.getProperty("github.repo.owner") ?: ""
-val githubName = System.getenv("GH_REPO_NAME") ?: localProperties.getProperty("github.repo.name") ?: ""
-
 // Release signing. On CI these come from the environment (the keystore is decoded
 // from the KEYSTORE_BASE64 secret); locally they can be set in local.properties.
 val keystoreFilePath = System.getenv("KEYSTORE_FILE") ?: localProperties.getProperty("keystore.file")
@@ -52,9 +48,6 @@ android {
         buildConfigField("String", "ADMOB_BANNER_ID", "\"$admobBannerId\"")
         buildConfigField("String", "ADMOB_INTERSTITIAL_ID", "\"$admobInterstitialId\"")
         buildConfigField("String", "ADMOB_REWARD_ID", "\"$admobRewardId\"")
-        buildConfigField("String", "GITHUB_API_TOKEN", "\"$githubToken\"")
-        buildConfigField("String", "GITHUB_REPO_OWNER", "\"$githubOwner\"")
-        buildConfigField("String", "GITHUB_REPO_NAME", "\"$githubName\"")
     }
     signingConfigs {
         if (hasReleaseKeystore) {

@@ -149,6 +149,7 @@ fun MainNavGraph(vm: AppViewModel) {
             composable("driving") { DrivingModeScreen() }
             composable("voice") { VoiceSettingsScreen(onBack = { nav.popBackStack() }) }
             composable("attribution") { AttributionScreen(vm, onBack = { nav.popBackStack() }) }
+            composable("more-apps") { MoreAppsScreen(onBack = { nav.popBackStack() }) }
             composable(
                 "story/{storyId}",
                 arguments = listOf(navArgument("storyId") { type = NavType.StringType }),

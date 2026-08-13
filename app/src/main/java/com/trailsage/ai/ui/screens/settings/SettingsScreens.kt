@@ -138,6 +138,7 @@ fun SettingsScreen(
             "notifications" to "Notifications",
             "attribution" to "Sources & attribution",
             "privacy" to "Privacy",
+            "more-apps" to "More apps from this developer",
         ).forEach { (route, label) ->
             ListItem(
                 headlineContent = { Text(label) },
@@ -633,6 +634,44 @@ fun PrivacyScreen(onBack: () -> Unit) = DetailScaffold("Privacy", onBack) {
         "Private by design",
         "AI runs on-device whenever possible. Downloaded packs work offline. TrailSage does not sell location data and uses no paid AI APIs. Optional Firebase telemetry requires your consent.",
     )
+}
+
+private data class CrossPromoApp(val name: String, val packageName: String, val tagline: String)
+
+private val crossPromoApps: List<CrossPromoApp> = listOf(
+    CrossPromoApp("NutriSnap: AI Calorie Tracker", "com.charles.nutrisnap", "Snap a meal, get instant calories & macros — 100% on-device AI, private."),
+    CrossPromoApp("Aria: On-Device Assistant", "com.aria.assistant", "Private on-device voice AI with optional, source-backed web verification."),
+    CrossPromoApp("ScamRadar: AI Scam Detector", "com.charles.scamradar.app", "On-device AI catches scams in texts, voicemails & notifications. Free."),
+    CrossPromoApp("MeshTalk: Bluetooth Mesh Chat", "com.charles.meshtalk.app", "Chat, talk & AI over Bluetooth mesh. No internet, no accounts, fully offline."),
+    CrossPromoApp("DriveVault Dashcam", "com.drivevault.dashcam", "Privacy-first dashcam: GPS overlays, dual-camera, background recording."),
+    CrossPromoApp("PixelDream: Offline AI Images", "com.hartmann.pixeldream", "Private, offline AI image generator. Your prompts and pictures never leave."),
+    CrossPromoApp("Pocket-Assistant", "com.charles.pocketassistant", "Local AI organizer: save bills & notes, chat, tasks, and reminders on-device."),
+    CrossPromoApp("TextPilot AI Messaging", "com.charles.messenger.v2", "Clean, fast SMS app with AI smart replies and web browser access to your texts."),
+    CrossPromoApp("Pixel Fish Tank", "com.charles.virtualpet.fishtank", "Cozy virtual pet game — feed, clean & customize your pixel fish. Play & relax!"),
+    CrossPromoApp("Knightfall: Chess with AI Coach", "com.chartmann.knightfall", "Play chess against Stockfish AI with Gemma 4 coaching, online, or on the web!"),
+    CrossPromoApp("CaptionBurn: Video Captions", "com.charlesh.captionburn", "On-device auto-captions, burned into your video, with built-in translation."),
+    CrossPromoApp("Jury Simulator: Trial Verdict", "com.charles.jurysim", "Step into jury duty with AI trials, eleven jurors, and the verdict in your hands."),
+    CrossPromoApp("Photobooth Event Camera", "com.charles.photobooth", "Turn any Android device into a fun event photo booth with sharing and prints."),
+    CrossPromoApp("Path - Daily Bible Study", "com.biblereadingpath.app", "Build daily Bible study habits with gentle streaks."),
+    CrossPromoApp("Dreamloom: AI Dream Journal", "com.charles.app.dreamloom", "Private dream journal with on-device AI insights, symbols, and weekly patterns."),
+    CrossPromoApp("SkyPulse: Live Flight Tracker", "com.charles.skypulse.app", "Track live flights overhead in real time — aircraft, airports & smart alerts."),
+    CrossPromoApp("Grocy Fridge Scanner", "com.charleshartmann.grocyfridge", "Snap your fridge. On-device AI updates your Grocy stock in seconds. No cloud."),
+    CrossPromoApp("CrowdTransit: Bus & Train", "com.charles.crowdtransit.app", "Find your ride — free live transit stops, schedules & reviews, nationwide."),
+)
+
+@Composable
+fun MoreAppsScreen(onBack: () -> Unit) = DetailScaffold("More from this developer", onBack) {
+    val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
+    crossPromoApps.forEach { app ->
+        ListItem(
+            headlineContent = { Text(app.name) },
+            supportingContent = { Text(app.tagline) },
+            modifier = Modifier
+                .clip(MaterialTheme.shapes.small)
+                .clickable { uriHandler.openUri("https://play.google.com/store/apps/details?id=${app.packageName}") },
+            colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
+        )
+    }
 }
 
 @Composable

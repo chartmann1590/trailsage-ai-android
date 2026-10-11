@@ -76,13 +76,19 @@ class AppViewModel @Inject constructor(
         sampleTourInstaller.install().onSuccess { setupRepository.update(SetupState.READY_FOR_DOWNLOADS) }
             .onFailure { setupRepository.update(SetupState.SETUP_FAILED, error = it.message) }
     }
-    fun download(asset: RequiredAssetEntity) = viewModelScope.launch { runCatching { assetRepository.enqueue(asset) }.onFailure { setupRepository.update(SetupState.SETUP_FAILED, error = it.message) } }
+    fun download(asset: RequiredAssetEntity) = viewModelScope.launch { runCatching { assetRepository.enqueue(asset, userInitiated = true) }.onFailure { setupRepository.update(SetupState.SETUP_FAILED, error = it.message) } }
     fun verify() = viewModelScope.launch { setupRepository.verifyAndComplete() }
     fun reset() = viewModelScope.launch { setupRepository.reset() }
     fun updateSettings(transform: (UserSettingsEntity) -> UserSettingsEntity) = viewModelScope.launch {
-        val updated = transform(dao.settings() ?: UserSettingsEntity())
+        val previous = dao.settings() ?: UserSettingsEntity()
+        val updated = transform(previous)
         dao.upsertSettings(updated)
         telemetry.applyConsent(updated.telemetryEnabled)
+        // Re-queue waiting downloads so a changed Wi-Fi-only preference applies right away
+        // instead of leaving them behind the old network constraint.
+        if (updated.wifiOnlyDownloads != previous.wifiOnlyDownloads) {
+            runCatching { assetRepository.resumeIncompleteRequired() }
+        }
     }
 
     private fun isSameDay(time1: Long, time2: Long): Boolean {

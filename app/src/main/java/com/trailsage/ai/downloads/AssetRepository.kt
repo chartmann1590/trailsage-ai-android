@@ -19,6 +19,15 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/** Which downloads honour the "Wi-Fi-only downloads" setting. Pure so it can be unit tested. */
+object DownloadNetworkPolicy {
+    /** Assets at or above this size (the AI model) wait for Wi-Fi when Wi-Fi-only is on. */
+    const val LARGE_DOWNLOAD_BYTES = 200L * 1024 * 1024
+
+    fun requiresUnmetered(wifiOnlySetting: Boolean, sizeBytes: Long, userOverride: Boolean): Boolean =
+        wifiOnlySetting && !userOverride && sizeBytes >= LARGE_DOWNLOAD_BYTES
+}
+
 data class DeviceCompatibility(val supported: Boolean, val limited: Boolean, val messages: List<String>)
 
 @Singleton
@@ -74,14 +83,31 @@ class AssetRepository @Inject constructor(
         if (dao.setup() == null) dao.upsertSetup(SetupStatusEntity())
     }
 
-    suspend fun enqueue(asset: RequiredAssetEntity) {
+    /**
+     * Queues a download.
+     *
+     * Wi-Fi-only downloads (on by default) used to put EVERY asset behind an UNMETERED
+     * network constraint. On mobile data or a metered Wi-Fi (hotspots, many Samsung/OEM
+     * defaults) WorkManager then never started anything: the AI model and the voice both sat at
+     * 0% "Queued" forever, and tapping Resume just re-queued them behind the same constraint.
+     *
+     * Now the Wi-Fi-only preference only applies to large assets (the multi-GB AI model). Small
+     * assets such as the ~22 MB voice always download on any connection. When a large asset is
+     * held for Wi-Fi it is marked [WAITING_FOR_WIFI] so the UI can say so, and a tap on its
+     * "Download now" button ([userInitiated]) downloads it over the current connection.
+     */
+    suspend fun enqueue(asset: RequiredAssetEntity, userInitiated: Boolean = false) {
         if (asset.downloadUrl.startsWith("asset://")) {
             installBundledAsset(asset)
             return
         }
         require(asset.checksumSha256.isNotBlank()) { "${asset.name} requires a SHA-256 checksum before download" }
         val settings = dao.settings() ?: UserSettingsEntity()
-        val constraints = Constraints.Builder().setRequiredNetworkType(if (settings.wifiOnlyDownloads) NetworkType.UNMETERED else NetworkType.CONNECTED).build()
+        val previous = dao.download(asset.id)
+        val userOverride = userInitiated && previous?.status == "QUEUED" && previous.error == WAITING_FOR_WIFI
+        val holdForWifi = DownloadNetworkPolicy.requiresUnmetered(settings.wifiOnlyDownloads, asset.sizeBytes, userOverride)
+        val waitingForWifi = holdForWifi && !isOnUnmeteredNetwork()
+        val constraints = Constraints.Builder().setRequiredNetworkType(if (holdForWifi) NetworkType.UNMETERED else NetworkType.CONNECTED).build()
         val request = OneTimeWorkRequestBuilder<DownloadWorker>()
             .setConstraints(constraints)
             .setInputData(workDataOf("assetId" to asset.id, "url" to asset.downloadUrl, "localPath" to asset.localPath, "sha256" to asset.checksumSha256))
@@ -92,8 +118,25 @@ class AssetRepository @Inject constructor(
         // item must REPLACE so it re-enqueues with current constraints (and a live worker).
         val policy = if (existing?.status in setOf("CONNECTING", "DOWNLOADING")) ExistingWorkPolicy.KEEP else ExistingWorkPolicy.REPLACE
         val startedAt = existing?.startedAt?.takeIf { it > 0 && policy == ExistingWorkPolicy.KEEP } ?: now
-        dao.upsertDownload(DownloadEntity(asset.id, asset.id, "QUEUED", totalBytes = asset.sizeBytes, workId = request.id.toString(), startedAt = startedAt, updatedAt = now))
+        if (policy == ExistingWorkPolicy.REPLACE) {
+            dao.upsertDownload(DownloadEntity(asset.id, asset.id, "QUEUED", bytesDownloaded = existing?.bytesDownloaded ?: 0,
+                totalBytes = asset.sizeBytes, workId = request.id.toString(),
+                error = if (waitingForWifi) WAITING_FOR_WIFI else null, startedAt = startedAt, updatedAt = now))
+        }
         workManager.enqueueUniqueWork("asset-${asset.id}", policy, request)
+    }
+
+    private fun isOnUnmeteredNetwork(): Boolean = runCatching {
+        val connectivity = context.getSystemService(ConnectivityManager::class.java)
+        val caps = connectivity.getNetworkCapabilities(connectivity.activeNetwork) ?: return false
+        caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
+            (caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED) ||
+                (Build.VERSION.SDK_INT >= 30 && caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_TEMPORARILY_NOT_METERED)))
+    }.getOrDefault(false)
+
+    companion object {
+        /** Marker stored in [DownloadEntity.error] while a QUEUED download waits for Wi-Fi. */
+        const val WAITING_FOR_WIFI = "WAITING_FOR_WIFI"
     }
 
     /**

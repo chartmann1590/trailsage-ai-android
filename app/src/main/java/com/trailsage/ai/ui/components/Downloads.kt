@@ -16,6 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.charles.trailsage.data.local.DownloadEntity
 import com.charles.trailsage.data.local.RequiredAssetEntity
+import com.charles.trailsage.downloads.AssetRepository
 import com.charles.trailsage.ui.theme.RoadTripBlue
 import java.util.Locale
 
@@ -65,7 +66,8 @@ fun DownloadAssetCard(asset: RequiredAssetEntity, download: DownloadEntity?, onA
             if (!asset.verified && !transferring) {
                 TextButton(onAction) {
                     Text(
-                        when (download?.status) {
+                        if (download.isWaitingForWifi()) "Download now"
+                        else when (download?.status) {
                             "RETRYING", "QUEUED" -> "Resume"
                             "FAILED", "PAUSED" -> "Retry"
                             else -> "Get"
@@ -121,11 +123,15 @@ fun StorageUsageMeter(usedBytes: Long, freeBytes: Long, modifier: Modifier = Mod
 
 // --- formatting (ported from the previous monolith) ---
 
+private fun DownloadEntity?.isWaitingForWifi() =
+    this?.status == "QUEUED" && this.error == AssetRepository.WAITING_FOR_WIFI
+
 private fun downloadStatus(asset: RequiredAssetEntity, download: DownloadEntity?, downloaded: Long, total: Long): String {
     if (asset.verified) return "Verified and installed"
     return when (download?.status) {
         "FAILED" -> "Failed: ${download.error ?: "download error"}"
-        "QUEUED" -> "Queued - waiting for network constraints"
+        "QUEUED" -> if (download.isWaitingForWifi()) "Waiting for Wi-Fi (Wi-Fi-only downloads is on). Tap Download now to use your current connection."
+            else "Queued - starts as soon as a connection is available"
         "CONNECTING" -> "Connecting to download server"
         "RETRYING" -> "Retrying: ${download.error ?: "temporary download error"}"
         "PAUSED" -> "Paused at ${formatBytes(downloaded)} of ${formatBytes(total)}"
@@ -136,7 +142,7 @@ private fun downloadStatus(asset: RequiredAssetEntity, download: DownloadEntity?
 
 private fun downloadEta(download: DownloadEntity?, downloaded: Long, total: Long): String {
     when (download?.status) {
-        "QUEUED" -> return "ETA after start"
+        "QUEUED" -> return if (download.isWaitingForWifi()) "Waiting for Wi-Fi" else "ETA after start"
         "CONNECTING" -> return "ETA after connection"
         "RETRYING" -> return "Retry scheduled"
         "DOWNLOADING" -> {}

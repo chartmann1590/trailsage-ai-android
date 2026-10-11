@@ -4,6 +4,7 @@ import com.charles.trailsage.ai.SimpleKeywordRagRetriever
 import com.charles.trailsage.domain.*
 import com.charles.trailsage.downloads.AssetManifestParser
 import com.charles.trailsage.downloads.AssetVerificationManager
+import com.charles.trailsage.downloads.DownloadNetworkPolicy
 import com.charles.trailsage.gps.BearingCalculator
 import com.charles.trailsage.gps.StoryTriggerEngine
 import com.charles.trailsage.tts.*
@@ -46,5 +47,16 @@ class CoreLogicTest {
         val assets = listOf(AssetType.GEMMA_MODEL, AssetType.LITERT_ASSET, AssetType.TTS_ENGINE, AssetType.VOICE_PACK, AssetType.TOUR_PACK, AssetType.MAP_PACK, AssetType.RAG_PACK).map(::asset)
         val demoMap = assets.map { if (it.type == AssetType.MAP_PACK) it.copy(verified = false) else it }
         assertFalse(SetupGate.canComplete(demoMap, listOf(VoicePack("voice", "Natural", "sherpa-onnx", true, true))))
+    }
+
+    @Test fun wifiOnlyHoldsOnlyLargeDownloads() {
+        val model = 2_583_085_056L
+        val voice = 23_398_348L
+        // The ~22 MB voice must never wait for Wi-Fi, or setup stalls on mobile data.
+        assertFalse(DownloadNetworkPolicy.requiresUnmetered(wifiOnlySetting = true, sizeBytes = voice, userOverride = false))
+        assertTrue(DownloadNetworkPolicy.requiresUnmetered(wifiOnlySetting = true, sizeBytes = model, userOverride = false))
+        // "Download now" on the card, or the setting turned off, lets the model start now.
+        assertFalse(DownloadNetworkPolicy.requiresUnmetered(wifiOnlySetting = true, sizeBytes = model, userOverride = true))
+        assertFalse(DownloadNetworkPolicy.requiresUnmetered(wifiOnlySetting = false, sizeBytes = model, userOverride = false))
     }
 }

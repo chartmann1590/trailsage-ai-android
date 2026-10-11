@@ -20,6 +20,7 @@ import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
 import java.security.MessageDigest
+import kotlin.coroutines.cancellation.CancellationException
 
 object AssetVerificationManager {
     fun sha256(input: InputStream): String {
@@ -63,6 +64,11 @@ class DownloadWorker @AssistedInject constructor(
 ) : CoroutineWorker(context, params) {
     override suspend fun doWork(): Result = try {
         downloadAsset()
+    } catch (cancelled: CancellationException) {
+        // WorkManager stopped us (10-minute job limit, constraint lost, app update...). It
+        // reschedules the work itself and the next attempt resumes from the .partial file, so
+        // don't record that as a failure the user has to retry by hand.
+        throw cancelled
     } catch (error: Throwable) {
         val assetId = inputData.getString("assetId")
         if (assetId != null) {
@@ -114,15 +120,26 @@ class DownloadWorker @AssistedInject constructor(
         dao.upsertDownload(DownloadEntity(assetId, assetId, "DOWNLOADING", bytesDownloaded = offset, totalBytes = totalBytes, workId = id.toString(), startedAt = startedAt))
         FileOutputStream(partial, offset > 0 && connection.responseCode == 206).buffered().use { output ->
             connection.inputStream.use { input ->
-                val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+                val buffer = ByteArray(COPY_BUFFER_BYTES)
                 var total = offset
+                var lastReportedBytes = offset
+                var lastReportedAt = System.currentTimeMillis()
                 while (true) {
                     val count = input.read(buffer)
                     if (count < 0) break
                     output.write(buffer, 0, count)
                     total += count
-                    setProgress(workDataOf("bytesDownloaded" to total))
-                    dao.upsertDownload(DownloadEntity(assetId, assetId, "DOWNLOADING", bytesDownloaded = total, totalBytes = totalBytes, workId = id.toString(), startedAt = startedAt))
+                    // Report progress at most every 1 MB / 500 ms. Writing WorkManager progress and
+                    // a Room row for every 8 KB chunk (300k+ writes for the AI model) throttled the
+                    // transfer to a couple of MB/s and kept the download running past the 10-minute
+                    // job limit.
+                    val now = System.currentTimeMillis()
+                    if (total - lastReportedBytes >= PROGRESS_STEP_BYTES || now - lastReportedAt >= PROGRESS_INTERVAL_MS) {
+                        lastReportedBytes = total
+                        lastReportedAt = now
+                        setProgress(workDataOf("bytesDownloaded" to total))
+                        dao.upsertDownload(DownloadEntity(assetId, assetId, "DOWNLOADING", bytesDownloaded = total, totalBytes = totalBytes, workId = id.toString(), startedAt = startedAt))
+                    }
                 }
             }
         }
@@ -194,5 +211,8 @@ class DownloadWorker @AssistedInject constructor(
         private const val TAG = "TrailSageDownload"
         private const val HTTP_RANGE_NOT_SATISFIABLE = 416
         private const val MAX_REDIRECTS = 8
+        private const val COPY_BUFFER_BYTES = 64 * 1024
+        private const val PROGRESS_STEP_BYTES = 1024L * 1024
+        private const val PROGRESS_INTERVAL_MS = 500L
     }
 }

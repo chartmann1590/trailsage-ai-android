@@ -93,7 +93,7 @@ class VoiceSettingsViewModel @Inject constructor(
     fun preview(option: VoiceManager.VoiceOption) {
         _previewing.value = option.id
         if (option.kind == VoiceManager.Kind.SYSTEM) {
-            player.preview("This is a preview of the TrailSage AI narration voice. Welcome aboard, and enjoy the drive.", option)
+            player.preview("This is a preview of the TrailSage AI narration voice. Welcome, and enjoy your road trip.", option)
         } else {
             player.preview("This is a preview of the ${option.name} natural offline voice from TrailSage AI.", option)
         }

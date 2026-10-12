@@ -39,6 +39,8 @@ class StoryDetailViewModel @Inject constructor(
     private val _location = MutableStateFlow<Pair<Double, Double>?>(null)
     val location: StateFlow<Pair<Double, Double>?> = _location.asStateFlow()
     val playing: StateFlow<Boolean> = player.playing
+    val playerStatus: StateFlow<String> = player.status
+    val spoken: StateFlow<NarrationPlayer.Spoken?> = player.spoken
 
     init {
         viewModelScope.launch {
@@ -56,6 +58,8 @@ fun StoryDetailScreen(onBack: () -> Unit, vm: StoryDetailViewModel = hiltViewMod
     val story by vm.story.collectAsStateWithLifecycle()
     val playing by vm.playing.collectAsStateWithLifecycle()
     val location by vm.location.collectAsStateWithLifecycle()
+    val playerStatus by vm.playerStatus.collectAsStateWithLifecycle()
+    val spoken by vm.spoken.collectAsStateWithLifecycle()
 
     DetailScaffold(story?.title ?: "Story", onBack) {
         val current = story
@@ -74,6 +78,12 @@ fun StoryDetailScreen(onBack: () -> Unit, vm: StoryDetailViewModel = hiltViewMod
                 }
             }
             InfoCard("Narration", current.narrationText.ifBlank { "No narration text available for this stop." })
+            spoken?.takeIf { it.translated && it.text.isNotBlank() }?.let { translated ->
+                InfoCard("Spoken in ${translated.languageLabel}", translated.text)
+            }
+            if (playing && playerStatus.isNotBlank()) {
+                Text(playerStatus, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.primary)
+            }
             Button(
                 onClick = vm::togglePlay,
                 modifier = Modifier.fillMaxWidth().height(56.dp),

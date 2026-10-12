@@ -10,6 +10,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.Stop
+import androidx.compose.material.icons.filled.VolumeUp
+import com.charles.trailsage.tts.NarrationPlayer
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -27,6 +30,10 @@ import com.charles.trailsage.ui.components.SourceChip
 fun AiGuideChatScreen(vm: GuideChatViewModel = hiltViewModel()) {
     val messages by vm.messages.collectAsStateWithLifecycle()
     val thinking by vm.thinking.collectAsStateWithLifecycle()
+    val playing by vm.playing.collectAsStateWithLifecycle()
+    val speakingId by vm.speakingId.collectAsStateWithLifecycle()
+    val playerStatus by vm.playerStatus.collectAsStateWithLifecycle()
+    val spoken by vm.spoken.collectAsStateWithLifecycle()
     var input by remember { mutableStateOf("") }
     val listState = rememberLazyListState()
     val context = LocalContext.current
@@ -59,7 +66,16 @@ fun AiGuideChatScreen(vm: GuideChatViewModel = hiltViewModel()) {
                 contentPadding = PaddingValues(horizontal = 20.dp, vertical = 8.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
-                items(messages) { ChatBubble(it) }
+                items(messages) { message ->
+                    val isSpeaking = speakingId == message.id
+                    ChatBubble(
+                        message = message,
+                        speaking = isSpeaking && playing,
+                        statusLine = if (isSpeaking && playing && playerStatus.isNotBlank()) playerStatus else null,
+                        spokenTranslation = if (isSpeaking) spoken?.takeIf { it.translated } else null,
+                        onSpeak = { vm.speak(message) },
+                    )
+                }
                 if (thinking) item { ThinkingBubble() }
             }
         }
@@ -93,7 +109,13 @@ private fun ColumnScope.EmptyGuideState() {
 }
 
 @Composable
-private fun ChatBubble(message: ChatMessage) {
+private fun ChatBubble(
+    message: ChatMessage,
+    speaking: Boolean = false,
+    statusLine: String? = null,
+    spokenTranslation: NarrationPlayer.Spoken? = null,
+    onSpeak: () -> Unit = {},
+) {
     val isUser = message.role == "user"
     val bubbleColor = if (isUser) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceContainerHigh
     val textColor = if (isUser) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
@@ -118,6 +140,29 @@ private fun ChatBubble(message: ChatMessage) {
             Text(message.content, style = MaterialTheme.typography.bodyMedium, color = textColor)
             if (message.sources.isNotEmpty()) {
                 FlowRowSources(message.sources)
+            }
+            if (!isUser) {
+                spokenTranslation?.let { translated ->
+                    HorizontalDivider()
+                    Text(
+                        "Spoken in ${translated.languageLabel}",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.Bold,
+                    )
+                    Text(translated.text, style = MaterialTheme.typography.bodyMedium, color = textColor)
+                }
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    FilledTonalButton(onClick = onSpeak) {
+                        Icon(if (speaking) Icons.Default.Stop else Icons.Default.VolumeUp, null, Modifier.size(18.dp))
+                        Spacer(Modifier.width(6.dp))
+                        Text(if (speaking) "Stop" else "Listen")
+                    }
+                    statusLine?.let {
+                        Spacer(Modifier.width(10.dp))
+                        Text(it, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.primary)
+                    }
+                }
             }
         }
     }

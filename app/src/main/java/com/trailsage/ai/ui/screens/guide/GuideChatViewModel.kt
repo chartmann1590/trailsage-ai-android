@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.charles.trailsage.ai.AiGuideService
 import com.charles.trailsage.data.local.AiChatMessageEntity
 import com.charles.trailsage.data.local.TrailSageDao
+import com.charles.trailsage.tts.NarrationPlayer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,7 +26,25 @@ data class ChatMessage(
 class GuideChatViewModel @Inject constructor(
     private val guide: AiGuideService,
     private val dao: TrailSageDao,
+    private val player: NarrationPlayer,
 ) : ViewModel() {
+
+    /** Narration playback state so the chat can offer "listen" on every answer. */
+    val playing: StateFlow<Boolean> = player.playing
+    val playerStatus: StateFlow<String> = player.status
+    val spoken: StateFlow<NarrationPlayer.Spoken?> = player.spoken
+    private val _speakingId = MutableStateFlow<String?>(null)
+    val speakingId: StateFlow<String?> = _speakingId.asStateFlow()
+
+    fun speak(message: ChatMessage) {
+        if (_speakingId.value == message.id && player.playing.value) {
+            player.stop(); _speakingId.value = null; return
+        }
+        _speakingId.value = message.id
+        player.play(message.content)
+    }
+
+    override fun onCleared() { player.stop() }
 
     private val _messages = MutableStateFlow<List<ChatMessage>>(emptyList())
     val messages: StateFlow<List<ChatMessage>> = _messages.asStateFlow()

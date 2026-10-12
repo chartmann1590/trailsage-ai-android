@@ -28,6 +28,8 @@ class DrivingViewModel @Inject constructor(
 
     val playing: StateFlow<Boolean> = player.playing
     val usingFallback: StateFlow<Boolean> = player.usingFallback
+    val playerStatus: StateFlow<String> = player.status
+    val spoken: StateFlow<NarrationPlayer.Spoken?> = player.spoken
 
     private val tourId: StateFlow<String> = activeTourStore.tourId
         .stateIn(viewModelScope, SharingStarted.Eagerly, ActiveTourStore.DEFAULT_TOUR_ID)

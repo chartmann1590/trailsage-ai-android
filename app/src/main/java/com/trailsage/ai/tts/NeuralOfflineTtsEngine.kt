@@ -7,6 +7,7 @@ import com.k2fsa.sherpa.onnx.OfflineTts
 import com.k2fsa.sherpa.onnx.OfflineTtsConfig
 import com.k2fsa.sherpa.onnx.OfflineTtsModelConfig
 import com.k2fsa.sherpa.onnx.OfflineTtsVitsModelConfig
+import kotlinx.coroutines.delay
 import java.io.File
 
 class NeuralOfflineTtsEngine(private val voiceDirectory: File) : TtsEngine {
@@ -26,13 +27,28 @@ class NeuralOfflineTtsEngine(private val voiceDirectory: File) : TtsEngine {
         return modelFile()?.isFile == true && tokens?.isFile == true
     }
 
-    override fun speak(text: String): Boolean = runCatching {
-        val generated = engine().generate(text, 0, 1.0f)
-        val track = AudioTrack.Builder().setAudioAttributes(AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ASSISTANCE_NAVIGATION_GUIDANCE).build())
-            .setAudioFormat(AudioFormat.Builder().setSampleRate(generated.sampleRate).setEncoding(AudioFormat.ENCODING_PCM_FLOAT).setChannelMask(AudioFormat.CHANNEL_OUT_MONO).build())
-            .setBufferSizeInBytes(generated.samples.size * 4).setTransferMode(AudioTrack.MODE_STATIC).build()
-        track.write(generated.samples, 0, generated.samples.size, AudioTrack.WRITE_BLOCKING); track.play(); true
-    }.getOrDefault(false)
+    override suspend fun speak(text: String): Boolean {
+        val generated = runCatching { engine().generate(text, 0, 1.0f) }.getOrElse {
+            android.util.Log.w("NeuralOfflineTtsEngine", "generate failed", it); return false
+        }
+        if (generated.samples.isEmpty()) return false
+        val track = runCatching {
+            AudioTrack.Builder().setAudioAttributes(AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ASSISTANCE_NAVIGATION_GUIDANCE).build())
+                .setAudioFormat(AudioFormat.Builder().setSampleRate(generated.sampleRate).setEncoding(AudioFormat.ENCODING_PCM_FLOAT).setChannelMask(AudioFormat.CHANNEL_OUT_MONO).build())
+                .setBufferSizeInBytes(generated.samples.size * 4).setTransferMode(AudioTrack.MODE_STATIC).build()
+        }.getOrElse { android.util.Log.w("NeuralOfflineTtsEngine", "AudioTrack failed", it); return false }
+        try {
+            track.write(generated.samples, 0, generated.samples.size, AudioTrack.WRITE_BLOCKING)
+            track.play()
+            // Wait for playback to finish so callers (and the UI) know when narration ends.
+            val durationMs = generated.samples.size * 1000L / generated.sampleRate.coerceAtLeast(1)
+            delay(durationMs + 150)
+            return true
+        } finally {
+            runCatching { track.stop() }
+            runCatching { track.release() }
+        }
+    }
 
     fun release() { tts?.release(); tts = null }
 

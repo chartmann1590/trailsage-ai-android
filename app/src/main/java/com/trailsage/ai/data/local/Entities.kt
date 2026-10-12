@@ -43,6 +43,10 @@ data class UserSettingsEntity(
     val selectedVoicePackId: String? = null,
     val narrationStyle: String = "friendly",
     val allowAndroidTtsFallback: Boolean = false,
+    /** BCP-47 language tag for narration, or "auto" to follow the device language. */
+    val narrationLanguage: String = "auto",
+    /** Android system voice name chosen for narration ("" = pick automatically for the language). */
+    val selectedSystemVoice: String = "",
     val kidFriendlyMode: Boolean = false,
     val responseLength: String = "short",
     val notificationsEnabled: Boolean = false,

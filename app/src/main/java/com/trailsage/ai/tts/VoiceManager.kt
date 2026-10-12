@@ -161,8 +161,11 @@ class VoiceManager @Inject constructor(
             voice.quality >= Voice.QUALITY_HIGH -> "high quality"
             else -> "standard"
         }
-        val short = voice.name.substringAfterLast('-').take(12)
+        // Google voices are named like "de-de-x-dea-local": keep the distinguishing tail so
+        // several voices of one language stay apart in the list.
+        val parts = voice.name.split('-', '_')
+        val tail = parts.drop(2).filterNot { it.equals("x", ignoreCase = true) }.joinToString(" ").ifBlank { voice.name }.take(24)
         return listOf(locale.getDisplayLanguage(locale).replaceFirstChar { it.uppercase() }, region).filter { it.isNotBlank() }.joinToString(" ") +
-            " • $quality ($short)"
+            " • $quality • $tail"
     }
 }

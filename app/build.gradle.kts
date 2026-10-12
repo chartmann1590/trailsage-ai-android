@@ -115,6 +115,8 @@ dependencies {
     implementation("androidx.room:room-ktx:2.7.1")
     implementation("com.google.dagger:hilt-android:2.56.2")
     implementation("org.maplibre.gl:android-sdk:11.8.0")
+    implementation("com.google.mlkit:translate:17.0.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.9.0")
     implementation("io.coil-kt:coil-compose:2.7.0")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.google.ai.edge.litertlm:litertlm-android:0.12.0")

@@ -32,6 +32,8 @@ import com.charles.trailsage.ui.theme.TrailSageTheme
 fun DrivingModeScreen(vm: DrivingViewModel = hiltViewModel()) {
     val playing by vm.playing.collectAsStateWithLifecycle()
     val usingFallback by vm.usingFallback.collectAsStateWithLifecycle()
+    val playerStatus by vm.playerStatus.collectAsStateWithLifecycle()
+    val spoken by vm.spoken.collectAsStateWithLifecycle()
     val noVoice by vm.noVoiceAvailable.collectAsStateWithLifecycle()
     val story by vm.currentStory.collectAsStateWithLifecycle()
     val gps by vm.gps.collectAsStateWithLifecycle()
@@ -71,6 +73,18 @@ fun DrivingModeScreen(vm: DrivingViewModel = hiltViewModel()) {
                         color = MaterialTheme.colorScheme.primary,
                         textAlign = TextAlign.Center,
                     )
+                    spoken?.takeIf { it.translated }?.let { translated ->
+                        Spacer(Modifier.height(8.dp))
+                        Text(
+                            "Narrating in ${translated.languageLabel}",
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
+                    if (playing && playerStatus.isNotBlank()) {
+                        Spacer(Modifier.height(8.dp))
+                        Text(playerStatus, style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
+                    }
                     Spacer(Modifier.height(40.dp))
                     LargeNarrationButton(playing = playing, onToggle = vm::toggle)
                     Spacer(Modifier.height(40.dp))
@@ -81,11 +95,11 @@ fun DrivingModeScreen(vm: DrivingViewModel = hiltViewModel()) {
 
                     if (usingFallback) {
                         Spacer(Modifier.height(20.dp))
-                        FallbackWarning("Using the basic Android system voice because the natural offline voice is unavailable.")
+                        FallbackWarning("Narrating in English: this phone has no voice or translation pack for your narration language yet.")
                     }
                     if (noVoice) {
                         Spacer(Modifier.height(20.dp))
-                        FallbackWarning("No narration voice is ready. Download a natural voice, or enable the Android fallback in Settings.")
+                        FallbackWarning("No narration voice is ready. Download the natural voice in Downloads, or pick a device voice in Settings.")
                     }
                 }
 

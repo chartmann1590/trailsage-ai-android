@@ -9,7 +9,6 @@ import org.maplibre.android.offline.OfflineRegion
 import org.maplibre.android.offline.OfflineRegionError
 import org.maplibre.android.offline.OfflineRegionStatus
 import org.maplibre.android.offline.OfflineTilePyramidRegionDefinition
-import java.io.File
 import kotlin.coroutines.resume
 
 /**
@@ -17,6 +16,12 @@ import kotlin.coroutines.resume
  * database while the device is online, so the map renders for that route later WITHOUT a
  * network connection. The renderer ([TourMapView]) uses the exact same [OSM_RASTER_STYLE],
  * so the cached tile URLs are reused offline.
+ *
+ * The offline region definition must point at an http(s) style URL: MapLibre's offline
+ * downloader fetches every resource (the style included) through its HTTP client, and a
+ * `file://` or `asset://` style is dropped without a callback, which left tour generation
+ * waiting at "0%" forever. The style is therefore served from the project's GitHub Pages site
+ * ([STYLE_URL]) and its JSON mirrors [OSM_RASTER_STYLE] exactly.
  *
  * Note: this bulk-fetches from the public OpenStreetMap raster tiles. Keep the zoom range
  * modest and prefer a tile provider that permits bulk/offline use for production.
@@ -39,22 +44,18 @@ object OfflineMapCache {
 }
 """
 
-    // Zoom range cached for offline use: regional overview down to street level.
-    private const val MIN_ZOOM = 6.0
-    private const val MAX_ZOOM = 13.0
-    private const val TILE_LIMIT = 80_000L
+    /** Same style as [OSM_RASTER_STYLE], published over https (docs/map/osm-raster-style.json). */
+    const val STYLE_URL = "https://chartmann1590.github.io/trailsage-ai-android/map/osm-raster-style.json"
 
-    /** A file:// style URL referencing the same OSM tiles, used to define the offline region. */
-    private fun styleFileUrl(context: Context): String {
-        val file = File(context.filesDir, "map/osm-raster-style.json")
-        file.parentFile?.mkdirs()
-        if (!file.exists()) file.writeText(OSM_RASTER_STYLE)
-        return "file://${file.absolutePath}"
-    }
+    // Zoom range cached for offline use: regional overview down to town level.
+    private const val MIN_ZOOM = 6.0
+    private const val MAX_ZOOM = 12.0
+    private const val TILE_LIMIT = 30_000L
 
     /**
      * Downloads (or refreshes) an offline region covering [bounds]. Best-effort: resumes
      * with `true` when the download completes, `false` on any error or tile-limit overflow.
+     * Cancelling the coroutine (for example from a timeout) pauses the region download.
      * Safe to call from any coroutine context (MapLibre work is marshalled to the main looper).
      */
     suspend fun cacheRegion(
@@ -64,11 +65,15 @@ object OfflineMapCache {
         onProgress: (Int) -> Unit = {},
     ): Boolean = suspendCancellableCoroutine { cont ->
         var resumed = false
+        var activeRegion: OfflineRegion? = null
         fun finish(result: Boolean) {
             if (!resumed) {
                 resumed = true
                 if (cont.isActive) cont.resume(result)
             }
+        }
+        cont.invokeOnCancellation {
+            runCatching { activeRegion?.setDownloadState(OfflineRegion.STATE_INACTIVE) }
         }
         runCatching {
             MapLibre.getInstance(context)
@@ -76,13 +81,18 @@ object OfflineMapCache {
             manager.setOfflineMapboxTileCountLimit(TILE_LIMIT)
             val pixelRatio = context.resources.displayMetrics.density
             val definition = OfflineTilePyramidRegionDefinition(
-                styleFileUrl(context), bounds, MIN_ZOOM, MAX_ZOOM, pixelRatio
+                STYLE_URL, bounds, MIN_ZOOM, MAX_ZOOM, pixelRatio
             )
             manager.createOfflineRegion(
                 definition,
                 metadataName.toByteArray(),
                 object : OfflineManager.CreateOfflineRegionCallback {
                     override fun onCreate(region: OfflineRegion) {
+                        activeRegion = region
+                        if (!cont.isActive) {
+                            region.setDownloadState(OfflineRegion.STATE_INACTIVE)
+                            return
+                        }
                         region.setObserver(object : OfflineRegion.OfflineRegionObserver {
                             override fun onStatusChanged(status: OfflineRegionStatus) {
                                 val total = status.requiredResourceCount
@@ -93,12 +103,14 @@ object OfflineMapCache {
                                 }
                                 if (status.isComplete) {
                                     region.setDownloadState(OfflineRegion.STATE_INACTIVE)
+                                    onProgress(100)
                                     finish(true)
                                 }
                             }
 
                             override fun onError(error: OfflineRegionError) {
                                 android.util.Log.w("OfflineMapCache", "region error: ${error.reason} ${error.message}")
+                                region.setDownloadState(OfflineRegion.STATE_INACTIVE)
                                 finish(false)
                             }
 

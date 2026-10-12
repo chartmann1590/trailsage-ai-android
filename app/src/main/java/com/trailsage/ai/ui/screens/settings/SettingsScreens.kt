@@ -41,6 +41,8 @@ import com.charles.trailsage.ui.components.*
 import androidx.compose.ui.platform.LocalUriHandler
 import coil.compose.AsyncImage
 import com.charles.trailsage.data.github.SubmittedIssue
+import com.charles.trailsage.tts.TranslationManager
+import androidx.compose.runtime.rememberCoroutineScope
 
 @Composable
 fun StatusBadge(status: String) {
@@ -84,10 +86,6 @@ fun SettingsScreen(
         SurfaceCard {
             SettingSwitch("Wi-Fi-only downloads", settings?.wifiOnlyDownloads != false) {
                 vm.updateSettings { s -> s.copy(wifiOnlyDownloads = it) }
-            }
-            HorizontalDivider(Modifier.padding(vertical = 4.dp))
-            SettingSwitch("Allow Android TTS emergency fallback", settings?.allowAndroidTtsFallback == true) {
-                vm.updateSettings { s -> s.copy(allowAndroidTtsFallback = it) }
             }
             HorizontalDivider(Modifier.padding(vertical = 4.dp))
             SettingSwitch("Kid-friendly narration", settings?.kidFriendlyMode == true) {
@@ -134,7 +132,7 @@ fun SettingsScreen(
         SectionHeader("More")
         listOf(
             "rewards" to "Rewards & Ad-Free",
-            "voice" to "Voice settings",
+            "voice" to "Narration language & voice",
             "notifications" to "Notifications",
             "attribution" to "Sources & attribution",
             "privacy" to "Privacy",
@@ -574,17 +572,63 @@ fun SettingsScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VoiceSettingsScreen(onBack: () -> Unit, vm: VoiceSettingsViewModel = hiltViewModel()) {
-    val voices by vm.voices.collectAsStateWithLifecycle()
+    val voices by vm.languageVoices.collectAsStateWithLifecycle()
+    val languages by vm.languages.collectAsStateWithLifecycle()
+    val languageSetting by vm.languageSetting.collectAsStateWithLifecycle()
+    val effectiveLanguage by vm.effectiveLanguage.collectAsStateWithLifecycle()
+    val packStatus by vm.packStatus.collectAsStateWithLifecycle()
+    val playerStatus by vm.playerStatus.collectAsStateWithLifecycle()
+    val spoken by vm.spoken.collectAsStateWithLifecycle()
     val previewing by vm.previewing.collectAsStateWithLifecycle()
-    DetailScaffold("Voice settings", onBack) {
+    var languageMenu by remember { mutableStateOf(false) }
+
+    DetailScaffold("Narration language & voice", onBack) {
         InfoCard(
-            "Natural offline voice first",
-            "TrailSage always selects a verified neural voice before any fallback. The Android system voice is a last resort only.",
+            "Narration in your language",
+            "Stories are written in English by the on-device AI, translated on this phone, and spoken by the built-in voices: " +
+                "TrailSage's natural offline voice for English, and your device's own voices for other languages. Nothing leaves the phone.",
         )
-        if (voices.none { it.installed }) {
-            EmptyStateCard("No natural voice installed", "Download a neural voice pack during setup to enable natural narration.")
+
+        SectionHeader("Language")
+        SurfaceCard {
+            val currentLabel = languages.firstOrNull { it.tag == languageSetting }?.label
+                ?: if (languageSetting == "auto") "Automatic (device language)" else vm.languageLabel(languageSetting)
+            ExposedDropdownMenuBox(expanded = languageMenu, onExpandedChange = { languageMenu = it }) {
+                OutlinedTextField(
+                    value = currentLabel,
+                    onValueChange = {},
+                    readOnly = true,
+                    label = { Text("Narration language") },
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = languageMenu) },
+                    modifier = Modifier.fillMaxWidth().menuAnchor(MenuAnchorType.PrimaryNotEditable),
+                )
+                ExposedDropdownMenu(expanded = languageMenu, onDismissRequest = { languageMenu = false }) {
+                    languages.forEach { choice ->
+                        DropdownMenuItem(
+                            text = { Text(choice.label) },
+                            onClick = { languageMenu = false; vm.selectLanguage(choice.tag) },
+                        )
+                    }
+                }
+            }
+            Spacer(Modifier.height(8.dp))
+            Text(
+                "Narrating in ${vm.languageLabel(effectiveLanguage)}.",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            TranslationPackRow(packStatus, onDownload = vm::downloadPack)
+        }
+
+        SectionHeader("Voices for ${vm.languageLabel(effectiveLanguage)}")
+        if (voices.isEmpty()) {
+            EmptyStateCard(
+                "No voice for this language yet",
+                "This phone has no installed voice for ${vm.languageLabel(effectiveLanguage)}. Install one in the system Text-to-speech settings, or narration plays in English.",
+            )
         }
         voices.forEach { voice ->
             VoicePreviewCard(
@@ -596,10 +640,36 @@ fun VoiceSettingsScreen(onBack: () -> Unit, vm: VoiceSettingsViewModel = hiltVie
                 onSelect = { vm.select(voice.id) },
             )
         }
-        InfoCard(
-            "Emergency Android fallback",
-            "Disabled by default. When enabled and used, the UI shows a warning and records the android_tts_fallback_used event.",
-        )
+        if (playerStatus.isNotBlank()) {
+            Text(playerStatus, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.primary)
+        }
+        spoken?.let { last ->
+            if (last.translated) {
+                InfoCard("Spoken in ${last.languageLabel}", last.text)
+            }
+        }
+    }
+}
+
+@Composable
+private fun TranslationPackRow(status: TranslationManager.PackStatus, onDownload: () -> Unit) {
+    val (label, showButton, showProgress) = when (status.state) {
+        TranslationManager.PackState.NOT_NEEDED -> Triple("English narration needs no translation pack.", false, false)
+        TranslationManager.PackState.READY -> Triple("Offline translation pack installed (100%).", false, false)
+        TranslationManager.PackState.DOWNLOADING -> Triple("Downloading the offline translation pack (about 30 MB)…", false, true)
+        TranslationManager.PackState.NOT_DOWNLOADED -> Triple("Offline translation pack not downloaded yet.", true, false)
+        TranslationManager.PackState.FAILED -> Triple(status.detail.ifBlank { "The translation pack could not be downloaded." }, true, false)
+        TranslationManager.PackState.UNSUPPORTED -> Triple(status.detail.ifBlank { "No offline translation pack exists for this language." }, false, false)
+    }
+    Spacer(Modifier.height(8.dp))
+    Text(label, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+    if (showProgress) {
+        Spacer(Modifier.height(6.dp))
+        LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+    }
+    if (showButton) {
+        Spacer(Modifier.height(6.dp))
+        FilledTonalButton(onDownload) { Text("Download translation pack") }
     }
 }
 

@@ -9,6 +9,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeoutOrNull
 import org.maplibre.android.geometry.LatLng
 import org.maplibre.android.geometry.LatLngBounds
 import org.json.JSONArray
@@ -61,11 +62,13 @@ class RouteTourGenerator @Inject constructor(
                     stop.narration = ai.narrateStop(stop.title, stop.summary)
                 }
 
+                onStatus("Saving offline tour…")
+                val generated = persist(startQuery, endQuery, route, stops, aiReady)
+
+                // The tour is already saved; the map cache is a bonus that must never block it.
                 onStatus("Caching offline map for this route…")
                 cacheRouteTiles(route.coords) { onStatus(it) }
-
-                onStatus("Saving offline tour…")
-                persist(startQuery, endQuery, route, stops, aiReady)
+                generated
             }.onFailure {
                 android.util.Log.e("RouteTourGenerator", "Generation failed", it)
             }
@@ -194,10 +197,17 @@ class RouteTourGenerator @Inject constructor(
             val builder = LatLngBounds.Builder()
             coords.forEach { builder.include(LatLng(it[1], it[0])) }
             val bounds = builder.build()
-            withContext(Dispatchers.Main) {
-                OfflineMapCache.cacheRegion(context, bounds, "route-${System.currentTimeMillis()}") { pct ->
-                    onStatus("Caching offline map… $pct%")
+            val complete = withTimeoutOrNull(MAP_CACHE_TIMEOUT_MS) {
+                withContext(Dispatchers.Main) {
+                    OfflineMapCache.cacheRegion(context, bounds, "route-${System.currentTimeMillis()}") { pct ->
+                        onStatus("Caching offline map… $pct%")
+                    }
                 }
+            }
+            when (complete) {
+                true -> onStatus("Caching offline map… 100%")
+                false -> android.util.Log.w("RouteTourGenerator", "Offline map cache incomplete; tiles load on demand")
+                null -> android.util.Log.w("RouteTourGenerator", "Offline map caching timed out; tiles load on demand")
             }
         }.onFailure {
             android.util.Log.w("RouteTourGenerator", "Offline map caching skipped", it)
@@ -422,5 +432,7 @@ class RouteTourGenerator @Inject constructor(
         private const val MAX_STOPS = 30
         private const val SAMPLE_POINTS = 12
         private const val TRIGGER_RADIUS_M = 450.0
+        // Hard cap on the offline map pre-cache so a slow tile server never holds the tour hostage.
+        private const val MAP_CACHE_TIMEOUT_MS = 4 * 60 * 1000L
     }
 }

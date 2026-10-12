@@ -32,11 +32,10 @@ class CoreLogicTest {
         val chunks = listOf(RagChunk("a", "Cascade Lakes scenic corridor", listOf("s1")), RagChunk("b", "Keene Valley trailheads", listOf("s2")))
         assertEquals("a", SimpleKeywordRagRetriever(chunks).retrieve("Tell me about Cascade Lakes").first().id)
     }
-    @Test fun ttsUsesNeuralBeforeExplicitFallback() {
-        val android = object : TtsEngine { override val id = "android-system"; override val isNeural = false; override fun available() = true; override fun speak(text: String) = true }
-        assertNull(TtsManager(listOf(android), allowAndroidFallback = false).select())
-        assertEquals("android-system", TtsManager(listOf(android), allowAndroidFallback = true).select()?.id)
-        assertEquals("sherpa-onnx", TtsManager(listOf(android, SherpaOnnxTtsEngine(true)), allowAndroidFallback = true).select()?.id)
+    @Test fun neuralEngineReportsVerifiedState() {
+        assertTrue(SherpaOnnxTtsEngine(true).available())
+        assertFalse(SherpaOnnxTtsEngine(false).available())
+        assertTrue(SherpaOnnxTtsEngine(true).isNeural)
     }
     @Test fun tourPackValidatorFindsMissingFiles() {
         val dir = kotlin.io.path.createTempDirectory().toFile()

@@ -34,6 +34,12 @@ object AppModule {
                         db.execSQL("ALTER TABLE user_settings ADD COLUMN creditsSpentToday INTEGER NOT NULL DEFAULT 0")
                         db.execSQL("ALTER TABLE user_settings ADD COLUMN lastAdResetTimestamp INTEGER NOT NULL DEFAULT 0")
                     }
+                },
+                object : Migration(3, 4) {
+                    override fun migrate(db: SupportSQLiteDatabase) {
+                        db.execSQL("ALTER TABLE user_settings ADD COLUMN narrationLanguage TEXT NOT NULL DEFAULT 'auto'")
+                        db.execSQL("ALTER TABLE user_settings ADD COLUMN selectedSystemVoice TEXT NOT NULL DEFAULT ''")
+                    }
                 }
             ).build()
     @Provides fun dao(database: AppDatabase): TrailSageDao = database.dao()

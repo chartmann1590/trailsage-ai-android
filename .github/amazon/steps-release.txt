@@ -5,28 +5,58 @@ shot 01-launch
 tap (?i)^get started$
 wait 3
 taploop (?i)^(allow|while using the app|only this time|ok)$
-shot 02-setup-why
 tap (?i)^why are downloads required\?$
 wait 3
-shot 03-setup-2
 tap (?i)^check this device$
 wait 6
 taploop (?i)^(allow|while using the app|only this time|ok)$
-shot 04-device-check
-swipeup
-shot 05-device-check-bottom
+shot 02-device-check
 tap (?i)^(review required downloads|view setup issue)$
 wait 4
-shot 06-setup-next
+shot 03-required-downloads
 tap (?i)^(set up the ai model|continue)$
-wait 4
-shot 07-setup-model
-swipeup
-swipeup
-shot 08-setup-model-bottom
+wait 100
+shot 04-ai-model-done
 tap (?i)^continue$
+wait 20
+tap (?i)^(get|resume|retry|download now)$
+wait 20
+shot 05-tts
+tap (?i)^continue$
+wait 5
+tap (?i)^(get|resume|retry|download now)$
+wait 40
+shot 06-voice
+tap (?i)^continue$
+wait 5
+shot 07-next
+tap (?i)^continue$
+wait 5
+tap (?i)^install sample tour$
+wait 15
+shot 08-verify
+tap (?i)^verify required assets$
+wait 15
+adclose
+taploop (?i)^(allow|while using the app|only this time|ok|not now|got it)$
+shot 09-main
+tap (?i)^map$
+wait 6
+adclose
+shot 10-map
+tap (?i)^downloads$
 wait 4
-shot 09-downloads
-back
+shot 11-downloads
+tap (?i)^guide$
+wait 6
+adclose
+shot 12-guide
+tap (?i)^settings$
+wait 4
+shot 13-settings
+swipeup
+swipeup
+shot 14-settings-bottom
+tap (?i)^explore$
 wait 3
-shot 10-back
+shot 15-explore

@@ -2,6 +2,8 @@ name: Android Release Build
 
 on:
   push:
+    # The Amazon Appstore branch builds with its own amazon.yml (draft only).
+    branches-ignore: [amazon]
   workflow_dispatch:
 
 permissions:

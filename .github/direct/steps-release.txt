@@ -15,7 +15,9 @@ tap (?i)^(review required downloads|view setup issue)$
 wait 4
 shot 03-required-downloads
 tap (?i)^(set up the ai model|continue)$
-wait 100
+wait 150
+shot 04a-ai-model-progress
+wait 240
 shot 04-ai-model-done
 tap (?i)^continue$
 wait 20

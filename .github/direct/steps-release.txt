@@ -38,25 +38,72 @@ shot 08-verify
 tap (?i)^verify required assets$
 wait 15
 adclose
+wait 8
+tapxy 960 28
+wait 2
+tapxy 40 28
+wait 2
 taploop (?i)^(allow|while using the app|only this time|ok|not now|got it)$
 shot 09-main
+swipeup
+shot 10-main-scrolled
 tap (?i)^map$
 wait 6
 adclose
-shot 10-map
+wait 8
+tapxy 960 28
+wait 2
+tapxy 40 28
+wait 2
+shot 11-map
 tap (?i)^downloads$
 wait 4
-shot 11-downloads
+adclose
+wait 8
+tapxy 960 28
+wait 2
+tapxy 40 28
+wait 2
+shot 12-downloads
 tap (?i)^guide$
 wait 6
 adclose
-shot 12-guide
+wait 8
+tapxy 960 28
+wait 2
+tapxy 40 28
+wait 2
+shot 13-guide
 tap (?i)^settings$
 wait 4
-shot 13-settings
+adclose
+wait 8
+tapxy 960 28
+wait 2
+tapxy 40 28
+wait 2
+shot 14-settings
 swipeup
 swipeup
-shot 14-settings-bottom
+shot 15-settings-mid
+swipeup
+swipeup
+swipeup
+shot 16-settings-bottom
 tap (?i)^explore$
 wait 3
-shot 15-explore
+adclose
+wait 8
+tapxy 960 28
+wait 2
+tapxy 40 28
+wait 2
+tap (?i)^start planning
+wait 4
+adclose
+wait 8
+tapxy 960 28
+wait 2
+tapxy 40 28
+wait 2
+shot 17-plan

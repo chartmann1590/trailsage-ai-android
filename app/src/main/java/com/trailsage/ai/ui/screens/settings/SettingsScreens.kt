@@ -737,7 +737,7 @@ fun MoreAppsScreen(onBack: () -> Unit) = DetailScaffold("More from this develope
             supportingContent = { Text(app.tagline) },
             modifier = Modifier
                 .clip(MaterialTheme.shapes.small)
-                .clickable { uriHandler.openUri("https://play.google.com/store/apps/details?id=${app.packageName}") },
+                .clickable { uriHandler.openUri((if (com.charles.trailsage.BuildConfig.STORE == "direct") "https://charleshartmann.com/apps/" else "https://play.google.com/store/apps/details?id=${app.packageName}")) },
             colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
         )
     }

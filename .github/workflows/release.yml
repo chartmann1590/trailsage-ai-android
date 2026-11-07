@@ -2,6 +2,7 @@ name: Android Release Build
 
 on:
   push:
+    branches-ignore: [direct-stripe]
   workflow_dispatch:
 
 permissions:

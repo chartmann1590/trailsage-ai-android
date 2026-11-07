@@ -1,0 +1,32 @@
+launch
+wait 15
+adclose
+shot 01-launch
+tap (?i)^get started$
+wait 3
+taploop (?i)^(allow|while using the app|only this time|ok)$
+shot 02-setup-why
+tap (?i)^why are downloads required\?$
+wait 3
+shot 03-setup-2
+tap (?i)^check this device$
+wait 6
+taploop (?i)^(allow|while using the app|only this time|ok)$
+shot 04-device-check
+swipeup
+shot 05-device-check-bottom
+tap (?i)^(review required downloads|view setup issue)$
+wait 4
+shot 06-setup-next
+tap (?i)^(set up the ai model|continue)$
+wait 4
+shot 07-setup-model
+swipeup
+swipeup
+shot 08-setup-model-bottom
+tap (?i)^continue$
+wait 4
+shot 09-downloads
+back
+wait 3
+shot 10-back
